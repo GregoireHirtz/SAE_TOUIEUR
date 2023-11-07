@@ -5,6 +5,7 @@ namespace touiteur\auth;
 
 use touiteur\db\ConnectionFactory;
 use PDO;
+use touiteur\exception\SQLError;
 
 
 class Auth{
@@ -23,29 +24,21 @@ class Auth{
 
         $row = $st->fetch(PDO::FETCH_ASSOC);
         $nb_ligne = $row['NB_LIGNE'];
-        if ($nb_ligne == 1){
-            $hash = $row['emailUt'];
-            #return password_verify($password, $hash);
-            return true;
-        }
-        return false;
+        if ($nb_ligne != 1) {
+			return false;
+		}
+		$hash = $row['emailUt'];
+        #return password_verify($password, $hash);
+		return true;
     }
 
-    public static function register(string $email, string $password){
+    public static function register(string $email, string $username, string $password){
         $db = ConnectionFactory::makeConnection();
 
-        $query = 'SELECT COUNT(id) as NB FROM User WHERE email LIKE ?';
+		$query = "";
         $st = $db->prepare($query);
         $st->bindParam(1, $email, PDO::PARAM_STR);
         $st->execute();
-
-        $nb = $st->fetch(PDO::FETCH_ASSOC)['NB'];
-        if ($nb != 0){
-            return "Email déjà utilisé";
-        }
-        if (strlen($password) < 2){
-            return "Mot de passe trop court";
-        }
 
         $hash=password_hash($password, PASSWORD_DEFAULT, ['cost'=> 12] );
 
@@ -58,4 +51,16 @@ class Auth{
 
         return "Utilisateur ajouté";
     }
+
+	public static function usernameExists($username): bool{
+
+	}
+
+	public static function emailExists($email): bool{
+
+	}
+
+	public static function checkPassword($password): bool{
+
+	}
 }

@@ -32,7 +32,8 @@ ConnectionFactory::setConfig('db.config.ini');
 $url = $_SERVER['REQUEST_URI'];
 // Supprimer le "/" à la fin de la chaîne si elle existe
 $url = rtrim($url, '/');
-$parts = explode('/', $url);
+$parts = explode('?', $url)[0];
+$parts = explode('/', $parts);
 
 $type = TYPE_PAGE_NOTFOUND;
 
@@ -58,7 +59,7 @@ if (count($parts)==3) {
 $d = new Dispatcher();
 try{
     $d->run($type);
-}catch (InvalideTypePage $e){
+} catch (InvalideTypePage $e){
     $d->run(TYPE_PAGE_NOTFOUND);
 }
 
