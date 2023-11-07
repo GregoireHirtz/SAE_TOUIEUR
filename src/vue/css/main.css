@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
 :root {
-	--page-width: 80%;
+	--page-width: 70%;
 
 	/* === COULEUR === */
 	--texte: #2D3142;
@@ -27,7 +27,7 @@ main > form {
 	flex-grow: 1;
 	background-color: rgba(191, 192, 192, 0.05);
 	position: relative;
-	padding: 20px 20px 80px;
+	padding: 20px;
 	border-radius: 10px;
 	height: fit-content;
 

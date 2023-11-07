@@ -13,15 +13,21 @@ window.addEventListener('load', () => {
 			if (event.target.src.includes('slash')) {
 				el_input.setAttribute('type', 'text');
 				event.target.title = 'Cacher le mot de passe';
-				event.target.src = 'images/eye.svg';
+				event.target.src = 'src/vue/images/eye.svg';
 			} else {
 				el_input.setAttribute('type', 'password');
 				event.target.title = 'Afficher le mot de passe';
-				event.target.src = 'images/eye-slash.svg';
+				event.target.src = 'src/vue/images/eye-slash.svg';
 			}
 		});
 	});
-
-
-
 });
+
+
+function switchLogMethod(form, switchTo) {
+	form.style.display = 'none';
+	if (switchTo === 'connect')
+		form.previousElementSibling.style.display = 'flex';
+	else
+		form.nextElementSibling.style.display = 'flex';
+}

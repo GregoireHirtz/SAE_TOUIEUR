@@ -3,14 +3,14 @@
 <head>
 	<title>Touiteur - Login</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<link rel="stylesheet" href="css/main.css">
-	<link rel="stylesheet" href="css/component.css">
+	<link rel="stylesheet" href="src/vue/css/main.css">
+	<link rel="stylesheet" href="src/vue/css/component.css">
 </head>
 <body>
 <!-- oninvalid="this.setCustomValidity(' ')" -->
 <main>
 	<form class="login" action="" method="post">
-		<h3>Cr&eacute;er un compte Touiter</h3>
+		<h3>Se connecter &agrave; votre compte</h3>
 		<div class="input">
 			<input autocomplete="off" value="" id="login_username" type="text" name="username" required>
 			<label for="login_username">Identifiant</label>
@@ -19,18 +19,19 @@
 		<div class="input password">
 			<input autocomplete="off" value="" id="login_password" type="password" name="password" required>
 			<label for="login_password">Mot de passe</label>
-			<img src="images/eye-slash.svg" alt="Cacher" title="Afficher le mot de passe">
+			<img src="src/vue/images/eye-slash.svg" alt="Cacher" title="Afficher le mot de passe">
 		</div>
 
 		<div>
 			<?php echo $htmlLoginMessage ?>
 		</div>
 
-		<input class="bouton" type="submit" value="Cr&eacute;er un compte">
+		<input class="bouton" type="submit" value="Se connecter">
+		<input onclick="switchLogMethod(this.parentElement, 'creer')" class="bouton secondaire" type="button" value="Cr&eacute;er un compte">
 	</form>
 
-	<form class="signin" action="" method="post">
-		<h3>Se connecter &agrave; votre compte</h3>
+	<form style="display: none" class="signin" action="" method="post">
+		<h3>Cr&eacute;er un compte Touiter</h3>
 		<div class="input">
 			<input value="" autocomplete="off" id="signin_username" type="text" name="username" required>
 			<label for="signin_username">Identifiant</label>
@@ -44,34 +45,23 @@
 		<div class="input password">
 			<input value="" autocomplete="off" id="signin_password" type="password" name="password" required>
 			<label for="signin_password">Mot de passe</label>
-			<img src="images/eye-slash.svg" alt="Cacher" title="Afficher le mot de passe">
+			<img src="src/vue/images/eye-slash.svg" alt="Cacher" title="Afficher le mot de passe">
 		</div>
 
 		<div class="input password">
 			<input value="" autocomplete="off" id="signin_password_confirm" type="password" name="password2" required>
 			<label for="signin_password_confirm">Confirmer le mot de passe</label>
-			<img src="images/eye-slash.svg" alt="Cacher" title="Afficher le mot de passe">
+			<img src="src/vue/images/eye-slash.svg" alt="Cacher" title="Afficher le mot de passe">
 		</div>
 
 		<div class="verification" id="password_verif">
-			<ul>
-				<li>Les mots de passe sont differents</li>
-				<li>L'email existe deja</li>
-				<li class="green">Votre mot de passe doit poss&eacute;der :
-					<ul>
-						<li class="red">Un caract&egrave;re sp&eacute;cial</li>
-						<li class="red">Une majuscule</li>
-						<li class="green">Un nombre</li>
-						<li class="green">8 caract&egrave;res minimum</li>
-					</ul>
-				</li>
-			</ul>
 			<?php echo $htmlSigninMessage?>
 		</div>
 
-		<input class="bouton secondaire" type="submit" value="Se connecter">
+		<input class="bouton" type="submit" value="Creer un compte">
+		<input onclick="switchLogMethod(this.parentElement, 'connect')" class="bouton secondaire" type="button" value="Se connecter">
 	</form>
 </main>
-<script src="js/component.js"></script>
+<script src="src/vue/js/component.js"></script>
 </body>
 </html>

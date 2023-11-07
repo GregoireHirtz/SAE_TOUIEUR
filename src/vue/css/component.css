@@ -74,16 +74,13 @@
 	cursor: pointer;
 	font-size: calc(.5 * var(--hauteur));
 	font-weight: bold;
-	width: calc(100% - 40px);
+	width: 100%;
 	height: var(--hauteur);
 	color: var(--background);
 	background-color: var(--primaire);
 	border: none;
 	border-radius: 5px;
 	box-shadow: 0 0 5px var(--accent);
-
-	position: absolute;
-	bottom: 20px;
 
 	transition-duration: .1s;
 }
