@@ -66,11 +66,19 @@ class Auth{
 	/**
 	 * @param $username
 	 * @return bool
-	 * true = username deja dans table    false = sinon
+	 * true = username deja dans table false = sinon et si username = login car c'est une page défini
 	 */
 	public static function usernameExists($username): bool{
-		//TODO a faire
-		return false;
+        $db = ConnectionFactory::makeConnection();
+
+        // Utilisation de LIMIT dans la requête pour éviter de parcourir complètement la table si on a déjà trouvé le pseudo de l'utilisateur.
+        $query = "SELECT 1 as present from Utilisateur where username = ? LIMIT 1;";
+        $st = $db->prepare($query);
+        $st->bindParam(1, $username, PDO::PARAM_STR);
+        $st->execute();
+
+        $present = $st->fetch() == true; // Vérifie s'il y a au moins une ligne dans le résultat de la requête.
+		return $present;
 	}
 
 	/**
@@ -79,13 +87,21 @@ class Auth{
 	 * true = email deja dans table    false = sinon
 	 */
 	public static function emailExists($email): bool{
-		//TODO a faire
-		return false;
+        $db = ConnectionFactory::makeConnection();
+
+        // Utilisation de LIMIT dans la requête pour éviter de parcourir complètement la table si on a déjà trouvé le mail de l'utilisateur.
+        $query = "SELECT 1 as present from Utilisateur where emailUt = ? LIMIT 1;";
+        $st = $db->prepare($query);
+        $st->bindParam(1, $username, PDO::PARAM_STR);
+        $st->execute();
+
+        $present = $st->fetch() == true; // Vérifie s'il y a au moins une ligne dans le résultat de la requête.
+        return $present;
 	}
 
 	/**
 	 * @param $password
-	 * @return bool
+	 * @return array(bool) de 4 états (>8 caractères,>1 Maj, >1 caractère spécial, >1 chiffre)
 	 * true = password valide    false = sinon
 	 * password valide :
 	 * - au moins 8 caractères
@@ -93,8 +109,22 @@ class Auth{
 	 * - au moins 1 caractère spécial
 	 * - au moins 1 chiffre
 	 */
-	public static function checkPassword($password): bool{
-		//TODO a faire
-		return false;
+	public static function checkPassword($password): array{
+        $validationConditions = array(
+            "longueur" => false,
+            "majuscule" => false,
+            "caractereSpecial" => false,
+            "chiffre" => false
+        );
+
+        if(strlen($password)>=8) $validationConditions["longueur"] = true;
+
+        if(preg_match('/[A-Z]/', $password)) $validationConditions["majuscule"] = true;
+
+        if(preg_match('/[\W]/', $password)) $validationConditions["caractereSpecial"] = true;
+
+        if(preg_match('/[0-9]/', $password)) $validationConditions["chiffre"] = true;
+
+		return $validationConditions;
 	}
 }
