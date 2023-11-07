@@ -5,7 +5,6 @@
 	font-family: "Lato", sans-serif;
 
 	height: var(--hauteur);
-	width: var(--page-width);
 	position: relative;
 	padding-top: calc(var(--hauteur) * var(--proportion));
 	padding-bottom: 10px;
@@ -34,9 +33,11 @@
 
 
 .input > label {
+	font-weight: bold;
 	position: absolute;
 	margin: 0;
 	color: var(--texte);
+	translate: 0 -3px;
 	left: 0;
 	height: var(--hauteur);
 	transition-duration: .3s;
@@ -54,17 +55,79 @@
 	border-bottom: 2px solid var(--accent);
 }
 
+/* == INPUTS SPECIAUX == */
+.password > input {
+	width: calc(100% - 1.2 * var(--hauteur) - 20px);
+	padding-right: calc(1.2 * var(--hauteur) + 20px);
+}
+
+.password > img {
+	position: absolute;
+	right: 10px;
+	width: calc(1.2 * var(--hauteur));
+	cursor: pointer;
+}
 
 /* ===== BOUTON ===== */
 .bouton {
-	--hauteur: 30px;
+	--hauteur: 40px;
+	cursor: pointer;
 	font-size: calc(.5 * var(--hauteur));
 	font-weight: bold;
+	width: calc(100% - 40px);
 	height: var(--hauteur);
-	width: var(--page-width);
 	color: var(--background);
 	background-color: var(--primaire);
 	border: none;
 	border-radius: 5px;
-	box-shadow: 0 0 10px var(--accent);
+	box-shadow: 0 0 5px var(--accent);
+
+	position: absolute;
+	bottom: 20px;
+
+	transition-duration: .1s;
+}
+
+.bouton:hover {
+	box-shadow: 0 0 3px var(--accent);
+}
+
+.bouton:active {
+	box-shadow: 0 0 1px var(--accent);
+}
+
+.bouton.secondaire {
+	background-color: var(--secondaire);
+	color: var(--texte);
+}
+
+/* ===== VERIFICATION MOT DE PASSE ===== */
+.verification li {
+	list-style-type: none;
+	color: var(--texte);
+	height: fit-content;
+	padding: 5px;
+	margin: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.verification > ul > li:first-child {
+	margin-top: 0;
+}
+.verification > ul > li:last-child {
+	margin-bottom: 0;
+}
+
+.verification ul {
+	margin: 0;
+	padding-left: 0;
+}
+
+.verification .green {
+	border-left: 3px solid var(--texte);
+}
+.verification .red {
+	border-left: 3px solid var(--primaire);
 }

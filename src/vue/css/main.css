@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
 :root {
-	--page-width: 70%;
+	--page-width: 80%;
 
 	/* === COULEUR === */
 	--texte: #2D3142;
@@ -9,4 +9,34 @@
 	--secondaire: #ECD7CD;
 	--accent: #4F5D75;
 	--background: #FFF8F5;
+}
+
+body {
+	font-family: 'Lato', sans-serif;
+	background-color: var(--background);
+}
+
+main {
+	width: var(--page-width);
+	margin: 30px auto auto;
+	display: flex;
+	gap: 100px;
+}
+
+main > form {
+	flex-grow: 1;
+	background-color: rgba(191, 192, 192, 0.05);
+	position: relative;
+	padding: 20px 20px 80px;
+	border-radius: 10px;
+	height: fit-content;
+
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+
+main > form > h3 {
+	font-size: 25px;
+	margin: 0 auto;
 }
