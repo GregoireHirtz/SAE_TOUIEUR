@@ -34,6 +34,7 @@ var_dump($url);
 $url = rtrim($url, '/');
 $parts = explode('?', $url)[0];
 $parts = explode('/', $parts);
+var_dump($parts);
 
 
 $type = TYPE_PAGE_NOTFOUND;
