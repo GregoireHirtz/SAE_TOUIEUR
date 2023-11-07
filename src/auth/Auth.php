@@ -92,7 +92,7 @@ class Auth{
         // Utilisation de LIMIT dans la requête pour éviter de parcourir complètement la table si on a déjà trouvé le mail de l'utilisateur.
         $query = "SELECT 1 as present from Utilisateur where emailUt = ? LIMIT 1;";
         $st = $db->prepare($query);
-        $st->bindParam(1, $username, PDO::PARAM_STR);
+        $st->bindParam(1, $email, PDO::PARAM_STR);
         $st->execute();
 
         $present = $st->fetch() == true; // Vérifie s'il y a au moins une ligne dans le résultat de la requête.
