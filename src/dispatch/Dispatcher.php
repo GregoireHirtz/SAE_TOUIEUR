@@ -79,8 +79,7 @@ class Dispatcher{
 							$htmlSigninMessage = "<li class={$ETAT_INVALIDE}>Les mots de passe ne correspondent pas</li>";
 							$valide = false;
 						}else{
-							#$liste = Auth::checkPassword($password);
-							$liste = array(false, true, true, true);
+							$liste = Auth::checkPassword($password);
 							if (in_array(false, $liste)){
 								$htmlSigninMessage .= "<li class={$ETAT_INVALIDE}>Le mot de passe ne respecte au moins 1 champs suivant : </li><ul>";
 								$a = $liste[0]==true?$ETAT_VALIDE:$ETAT_INVALIDE;
