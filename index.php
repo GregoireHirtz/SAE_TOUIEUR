@@ -29,6 +29,7 @@ ConnectionFactory::setConfig('db.config.ini');
 // ---- ROUTAGE URL ---- //
 
 $url = $_SERVER['REQUEST_URI'];
+$url = str_replace("/www/hirtz44u/SAE_TOUITEUR", "", $url);
 var_dump($url);
 // Supprimer le "/" à la fin de la chaîne si elle existe
 $url = rtrim($url, '/');
