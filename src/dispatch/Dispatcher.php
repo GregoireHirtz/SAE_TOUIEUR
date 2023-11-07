@@ -14,6 +14,9 @@ class Dispatcher{
 		#echo $page;
 		switch ($page){
 			case TYPE_PAGE_ACCUEIL:
+				$htmlHeader = '';
+				$htmlMain = '';
+				$htmlFooter = '';
 				break;
 
 			case TYPE_PAGE_PROFILE:
@@ -29,22 +32,17 @@ class Dispatcher{
 				// si validation formulaire
 				if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-					$ETAT_VALIDE = 'green';
-					$ETAT_INVALIDE = 'red';
-
 					// -- FORMULAIRE LOGIN -- //
 					if ($_GET["action"]=="login"){
 						// filtrage saisie user
 						$username = htmlspecialchars($_POST['username']);
 						$password = htmlspecialchars($_POST['password']);
 
-
 						$valide = Auth::authenticate($username, $password);
 						// si connexion valide
 						if ($valide){
 							// redirection vers accueil
 							header("Location: /");
-							$this->run(TYPE_PAGE_ACCUEIL);
 							break;
 						}
 						// sinon message erreur dans $htmlLoginMessage
@@ -61,10 +59,10 @@ class Dispatcher{
 						$password = htmlspecialchars($_POST['password']);
 						$password2 = htmlspecialchars($_POST['password2']);
 
-
-
 						$htmlSigninMessage = '<ul>';
 						$valide = true;
+						$ETAT_VALIDE = 'green';
+						$ETAT_INVALIDE = 'red';
 
 						// si username déjà utilisé
 						if (Auth::usernameExists($username)){
@@ -81,16 +79,25 @@ class Dispatcher{
 							$htmlSigninMessage = "<li class={$ETAT_INVALIDE}>Les mots de passe ne correspondent pas</li>";
 							$valide = false;
 						}else{
-							if (!Auth::checkPassword($password)){
-								$htmlSigninMessage = "<li class={$ETAT_INVALIDE}>Le mot de passe ne respecte champs</li>";
+							$liste = Auth::checkPassword($password);
+							if (in_array(false, $liste)){
+								$htmlSigninMessage .= "<li class={$ETAT_INVALIDE}>Le mot de passe ne respecte au moins 1 champs suivant : </li><ul>";
+								$a = $liste[0]==true?$ETAT_VALIDE:$ETAT_INVALIDE;
+								$htmlSigninMessage .= "<li class={$a}> minimum 8 caractère</li>";
+								$a = $liste[1]==true?$ETAT_VALIDE:$ETAT_INVALIDE;
+								$htmlSigninMessage .= "<li class={$a}> au moins 1 majuscule</li>";
+								$a = $liste[2]==true?$ETAT_VALIDE:$ETAT_INVALIDE;
+								$htmlSigninMessage .= "<li class={$a}> au moins 1 chiffre</li>";
+								$a = $liste[3]==true?$ETAT_VALIDE:$ETAT_INVALIDE;
+								$htmlSigninMessage .= "<li class={$a}> au moins 1 caractère spéciale</li></ul>";
 								$valide = false;
 							}
 						}
 
+						echo "INSCRIPTION";
+
 					}
 				}
-
-
 				include 'src/vue/login.html';
 				break;
 
