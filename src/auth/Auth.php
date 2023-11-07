@@ -10,6 +10,12 @@ use touiteur\exception\SQLError;
 
 class Auth{
 
+	/**
+	 * @param string $email
+	 * @param string $password
+	 * @return bool
+	 * true = email et password valide selon la donne bd    false = sinon
+	 */
     public static function authenticate(string $email, string $password): bool{
         $db = ConnectionFactory::makeConnection();
 
@@ -32,6 +38,13 @@ class Auth{
 		return true;
     }
 
+	/**
+	 * @param string $email
+	 * @param string $username
+	 * @param string $password
+	 * methode d'ajout d'un utilsiateur par defaut dans la bd
+	 * !!! VERIFICATION DEJA PRESENCE DANS BD A FAIRE AVANT !!!
+	 */
     public static function register(string $email, string $username, string $password){
         $db = ConnectionFactory::makeConnection();
 
@@ -48,19 +61,40 @@ class Auth{
         $st->bindParam(2, $hash, PDO::PARAM_STR);
         $st->execute();
         $db = null;
-
-        return "Utilisateur ajouté";
     }
 
+	/**
+	 * @param $username
+	 * @return bool
+	 * true = username deja dans table    false = sinon
+	 */
 	public static function usernameExists($username): bool{
-
+		//TODO a faire
+		return false;
 	}
 
+	/**
+	 * @param $email
+	 * @return bool
+	 * true = email deja dans table    false = sinon
+	 */
 	public static function emailExists($email): bool{
-
+		//TODO a faire
+		return false;
 	}
 
+	/**
+	 * @param $password
+	 * @return bool
+	 * true = password valide    false = sinon
+	 * password valide :
+	 * - au moins 8 caractères
+	 * - au moins 1 lettre majuscule
+	 * - au moins 1 caractère spécial
+	 * - au moins 1 chiffre
+	 */
 	public static function checkPassword($password): bool{
-
+		//TODO a faire
+		return false;
 	}
 }
