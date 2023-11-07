@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+:root {
+	--page-width: 70%;
+
+	/* === COULEUR === */
+	--texte: #2D3142;
+	--primaire: #EF8354;
+	--secondaire: #ECD7CD;
+	--accent: #4F5D75;
+	--background: #FFF8F5;
+}

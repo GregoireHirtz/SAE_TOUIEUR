@@ -1,0 +1,70 @@
+/* ===== INPUT ===== */
+.input {
+	--hauteur: 20px;
+	--proportion: calc(7 / 10 * .8);
+	font-family: "Lato", sans-serif;
+
+	height: var(--hauteur);
+	width: var(--page-width);
+	position: relative;
+	padding-top: calc(var(--hauteur) * var(--proportion));
+	padding-bottom: 10px;
+	font-size: var(--hauteur);
+}
+
+.input > input {
+	height: var(--hauteur);
+}
+
+.input > input {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	background-color: transparent;
+	outline: none;
+	border: none;
+	font-size: inherit;
+	font-family: inherit;
+	margin: 0;
+	padding: 0;
+	border-bottom: 2px solid var(--texte);
+	transition-duration: .3s;
+	color: var(--texte);
+}
+
+
+.input > label {
+	position: absolute;
+	margin: 0;
+	color: var(--texte);
+	left: 0;
+	height: var(--hauteur);
+	transition-duration: .3s;
+	pointer-events: none;
+	user-select: none;
+	white-space: nowrap;
+}
+
+.input > input:focus ~ label, .input > :not(input[value=""]) ~ label {
+	font-size: calc(var(--hauteur) * var(--proportion));
+	translate: 0 calc(var(--hauteur) * -1 * var(--proportion));
+	color: var(--accent);
+}
+.input > input:focus {
+	border-bottom: 2px solid var(--accent);
+}
+
+
+/* ===== BOUTON ===== */
+.bouton {
+	--hauteur: 30px;
+	font-size: calc(.5 * var(--hauteur));
+	font-weight: bold;
+	height: var(--hauteur);
+	width: var(--page-width);
+	color: var(--background);
+	background-color: var(--primaire);
+	border: none;
+	border-radius: 5px;
+	box-shadow: 0 0 10px var(--accent);
+}
