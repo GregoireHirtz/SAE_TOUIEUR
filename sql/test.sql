@@ -1,1 +1,1 @@
-SELECT emailUt FROM Utilisateur WHERE emailUt LIKE 'alice.johnson@example.com';
+SELECT COUNT(mdp) as NB_LIGNE, mdp FROM Utilisateur WHERE username LIKE 'AlJ';

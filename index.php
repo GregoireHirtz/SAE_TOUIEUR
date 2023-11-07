@@ -16,7 +16,6 @@ define("TYPE_PAGE_TOUIT", "touit");
 define("TYPE_PAGE_LOGIN", "login");
 define("TYPE_PAGE_NOTFOUND", "notfound");
 
-
 // ---- AUTO-LOADER ---- //
 
 require_once 'vendor/autoload.php';
