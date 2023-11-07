@@ -14,6 +14,7 @@ define("TYPE_PAGE_ACCUEIL", "accueil");
 define("TYPE_PAGE_PROFILE", "profile");
 define("TYPE_PAGE_TOUIT", "touit");
 define("TYPE_PAGE_LOGIN", "login");
+define("TYPE_PAGE_UNLOGIN", "unlogin");
 define("TYPE_PAGE_NOTFOUND", "notfound");
 
 // ---- AUTO-LOADER ---- //
@@ -24,12 +25,12 @@ require_once 'vendor/autoload.php';
 // ---- BD ---- //
 
 ConnectionFactory::setConfig('db.config.ini');
-
+session_start();
 
 // ---- ROUTAGE URL ---- //
 
 $url = $_SERVER['REQUEST_URI'];
-$url = str_replace("localhost", "", $url);
+$url = str_replace("", "", $url);
 // Supprimer le "/" à la fin de la chaîne si elle existe
 $url = rtrim($url, '/');
 $parts = explode('?', $url)[0];
@@ -44,7 +45,11 @@ if (count($parts)==1) {
 if (count($parts)==2) {
     if ($parts[1] == 'login'){
         $type = TYPE_PAGE_LOGIN;
-    } else{
+    }
+	elseif ($parts[1] == 'unlogin'){
+		$type = TYPE_PAGE_UNLOGIN;
+	}
+	else{
         $type = TYPE_PAGE_PROFILE;
     }
 }

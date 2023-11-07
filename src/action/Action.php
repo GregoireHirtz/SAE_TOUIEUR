@@ -2,11 +2,8 @@
 declare(strict_types=1);
 namespace touiteur\action;
 
-class Action{
+abstract class Action {
 
+	abstract static public function execute();
 
-
-	public function genererHeader(): string{
-		return "";
-	}
 }
