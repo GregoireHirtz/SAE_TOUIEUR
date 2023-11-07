@@ -16,26 +16,23 @@ class Auth{
 	 * @return bool
 	 * true = email et password valide selon la donne bd    false = sinon
 	 */
-    public static function authenticate(string $email, string $password): bool{
+    public static function authenticate(string $username, string $password): bool{
         $db = ConnectionFactory::makeConnection();
 
-        $query = 'SELECT COUNT(emailUt) as NB_LIGNE, emailUt FROM Utilisateur WHERE emailUt LIKE ?';
+        $query = 'SELECT COUNT(mdp) as NB_LIGNE, mdp FROM Utilisateur WHERE username LIKE ?';
         $st = $db->prepare($query);
-        $st->bindParam(1, $email, PDO::PARAM_STR);
+        $st->bindParam(1, $username, PDO::PARAM_STR);
         $st->execute();
         $db=null;
-
-        #$nb_ligne = $st->fetch(PDO::FETCH_ASSOC)['emailUt'];
-
 
         $row = $st->fetch(PDO::FETCH_ASSOC);
         $nb_ligne = $row['NB_LIGNE'];
         if ($nb_ligne != 1) {
 			return false;
 		}
-		$hash = $row['emailUt'];
-        #return password_verify($password, $hash);
-		return true;
+		$hash = $row['mdp'];
+		$a = password_verify($password, $hash);
+		return $a;
     }
 
 	/**
