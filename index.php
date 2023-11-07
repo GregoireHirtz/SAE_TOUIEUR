@@ -29,10 +29,12 @@ ConnectionFactory::setConfig('db.config.ini');
 // ---- ROUTAGE URL ---- //
 
 $url = $_SERVER['REQUEST_URI'];
+var_dump($url);
 // Supprimer le "/" à la fin de la chaîne si elle existe
 $url = rtrim($url, '/');
 $parts = explode('?', $url)[0];
 $parts = explode('/', $parts);
+
 
 $type = TYPE_PAGE_NOTFOUND;
 

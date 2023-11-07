@@ -17,12 +17,15 @@ class Dispatcher{
 				$htmlHeader = '';
 				$htmlMain = '';
 				$htmlFooter = '';
+				echo "ACCUEIL";
 				break;
 
 			case TYPE_PAGE_PROFILE:
+				echo "PROFILE";
 				break;
 
 			case TYPE_PAGE_TOUIT:
+				echo "TOUIT";
 				break;
 
 			case TYPE_PAGE_LOGIN:
@@ -106,6 +109,7 @@ class Dispatcher{
 				break;
 
 			case TYPE_PAGE_NOTFOUND:
+				echo "NOTFOUND";
 				break;
 
 			default:
