@@ -71,7 +71,8 @@ class Auth{
         $st->execute();
 
         $present = $st->fetch() == true; // Vérifie s'il y a au moins une ligne dans le résultat de la requête.
-		return $present;
+		$db = null;
+        return $present;
 	}
 
 	/**
@@ -89,6 +90,7 @@ class Auth{
         $st->execute();
 
         $present = $st->fetch() == true; // Vérifie s'il y a au moins une ligne dans le résultat de la requête.
+        $db = null;
         return $present;
 	}
 
@@ -118,6 +120,7 @@ class Auth{
 
         if(preg_match('/[0-9]/', $password)) $validationConditions["chiffre"] = true;
 
+        $db = null;
 		return $validationConditions;
 	}
 }
