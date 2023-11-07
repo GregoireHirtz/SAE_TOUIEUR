@@ -9,8 +9,8 @@
     <form class="login" action="" method="post">
         <h3>Login</h3>
         <div id="login-email">
-            <label for="email">email    : </label>
-            <input type="email" name="email" required>
+            <label for="username">username    : </label>
+            <input type="text" name="username" required>
         </div>
 
         <div id="login-password">
@@ -27,18 +27,28 @@
 
     <form class="signin" action="" method="post">
         <h3>Signin</h3>
+        <div id="signin-username">
+            <label for="username">username    : </label>
+            <input type="text" name="username" required>
+        </div>
+
         <div id="signin-email">
             <label for="email">email    : </label>
             <input type="email" name="email" required>
         </div>
 
-        <div id="signin-password">
+        <div id="signin-password1">
             <label for="password">password : </label>
             <input type="text" name="password" required>
         </div>
 
+        <div id="signin-password2">
+            <label for="password2">Confirmer password : </label>
+            <input type="text" name="password2" required>
+        </div>
+
         <div id="signin-message">
-            <?php echo $htmlLoginMessage ?>
+            <?php echo $htmlSigninMessage ?>
         </div>
 
         <input type="submit" value="Confirmation">

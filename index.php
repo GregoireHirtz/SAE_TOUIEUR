@@ -14,7 +14,6 @@ define("TYPE_PAGE_ACCUEIL", "accueil");
 define("TYPE_PAGE_PROFILE", "profile");
 define("TYPE_PAGE_TOUIT", "touit");
 define("TYPE_PAGE_LOGIN", "login");
-define("TYPE_PAGE_SIGNIN", "signin");
 define("TYPE_PAGE_NOTFOUND", "notfound");
 
 
@@ -44,8 +43,6 @@ if (count($parts)==1) {
 if (count($parts)==2) {
     if ($parts[1] == 'login'){
         $type = TYPE_PAGE_LOGIN;
-    } elseif ($parts[1] == 'signin'){
-        $type = TYPE_PAGE_SIGNIN;
     } else{
         $type = TYPE_PAGE_PROFILE;
     }

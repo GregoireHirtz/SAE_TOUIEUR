@@ -12,14 +12,23 @@ class Auth{
     public static function authenticate(string $email, string $password): bool{
         $db = ConnectionFactory::makeConnection();
 
-        $query = 'SELECT passwd FROM User WHERE email LIKE ?';
+        $query = 'SELECT COUNT(emailUt) as NB_LIGNE, emailUt FROM Utilisateur WHERE emailUt LIKE ?';
         $st = $db->prepare($query);
         $st->bindParam(1, $email, PDO::PARAM_STR);
         $st->execute();
         $db=null;
 
-        $hash = $st->fetch(PDO::FETCH_ASSOC)['passwd'];
-        return password_verify($password, $hash);
+        #$nb_ligne = $st->fetch(PDO::FETCH_ASSOC)['emailUt'];
+
+
+        $row = $st->fetch(PDO::FETCH_ASSOC);
+        $nb_ligne = $row['NB_LIGNE'];
+        if ($nb_ligne == 1){
+            $hash = $row['emailUt'];
+            #return password_verify($password, $hash);
+            return true;
+        }
+        return false;
     }
 
     public static function register(string $email, string $password){

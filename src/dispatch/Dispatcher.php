@@ -23,6 +23,7 @@ class Dispatcher{
 
             case TYPE_PAGE_LOGIN:
                 $htmlLoginMessage = '';
+                $htmlSigninMessage = '';
 
                 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     // filtrage entré user
@@ -30,13 +31,17 @@ class Dispatcher{
                     $password = htmlspecialchars($_POST['password']);
 
                     $valide = Auth::authenticate($login, $password);
+                    if ($valide){
+                        header("Location: /");
+                        $this->run(TYPE_PAGE_ACCUEIL);
+                        break;
+                    }else{
+                        $htmlLoginMessage = 'Login ou mot de passe incorrect';
+                    }
                 }
 
 
                 include 'src/vue/login.html';
-                break;
-
-            case TYPE_PAGE_SIGNIN:
                 break;
 
             case TYPE_PAGE_NOTFOUND:
