@@ -3,7 +3,7 @@ RewriteEngine On
 #
 # RewriteBase indispensable sur webetu :
 # pour un projet sur webetu dans ~/www/repertoire-projet
-# RewriteBase /www/votre login/repertoire-projet
+RewriteBase /www/hirtz44u/SAE_TOUITEUR
 
 #
 # RewriteBase indispensable sur webetu :
