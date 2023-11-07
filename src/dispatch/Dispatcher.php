@@ -76,25 +76,29 @@ class Dispatcher{
 						}
 						// si password1 != password2
 						if ($password != $password2){
-							$htmlSigninMessage = "<li class={$ETAT_INVALIDE}>Les mots de passe ne correspondent pas</li>";
+							$htmlSigninMessage .= "<li class={$ETAT_INVALIDE}>Les mots de passe ne correspondent pas</li>";
 							$valide = false;
-						}else{
+						}else {
 							$liste = Auth::checkPassword($password);
-							if (in_array(false, $liste)){
-								$htmlSigninMessage .= "<li class={$ETAT_INVALIDE}>Le mot de passe ne respecte au moins 1 champs suivant : </li><ul>";
-								$a = $liste[0]==true?$ETAT_VALIDE:$ETAT_INVALIDE;
+							if (in_array(false, $liste)) {
+								$htmlSigninMessage .= "<li class={$ETAT_INVALIDE}>Le mot de passe ne respecte au moins 1 champs suivant : <ul>";
+								$a = $liste["longueur"] == true ? $ETAT_VALIDE : $ETAT_INVALIDE;
 								$htmlSigninMessage .= "<li class={$a}> minimum 8 caractère</li>";
-								$a = $liste[1]==true?$ETAT_VALIDE:$ETAT_INVALIDE;
+								$a = $liste["majuscule"] == true ? $ETAT_VALIDE : $ETAT_INVALIDE;
 								$htmlSigninMessage .= "<li class={$a}> au moins 1 majuscule</li>";
-								$a = $liste[2]==true?$ETAT_VALIDE:$ETAT_INVALIDE;
+								$a = $liste["caractereSpecial"] == true ? $ETAT_VALIDE : $ETAT_INVALIDE;
 								$htmlSigninMessage .= "<li class={$a}> au moins 1 chiffre</li>";
-								$a = $liste[3]==true?$ETAT_VALIDE:$ETAT_INVALIDE;
-								$htmlSigninMessage .= "<li class={$a}> au moins 1 caractère spéciale</li></ul>";
+								$a = $liste["chiffre"] == true ? $ETAT_VALIDE : $ETAT_INVALIDE;
+								$htmlSigninMessage .= "<li class={$a}> au moins 1 caractère spéciale</li></ul></li></ul>";
 								$valide = false;
 							}
 						}
 
-						echo "INSCRIPTION";
+						echo "VALIDE => ".$valide;
+						if ($valide){
+							Auth::register($email, $username, $password);
+						}
+
 
 					}
 				}

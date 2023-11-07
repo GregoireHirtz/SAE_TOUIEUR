@@ -45,17 +45,13 @@ class Auth{
     public static function register(string $email, string $username, string $password){
         $db = ConnectionFactory::makeConnection();
 
-		$query = "";
-        $st = $db->prepare($query);
-        $st->bindParam(1, $email, PDO::PARAM_STR);
-        $st->execute();
-
         $hash=password_hash($password, PASSWORD_DEFAULT, ['cost'=> 12] );
 
-        $query = 'INSERT INTO User (email, passwd) VALUES (?, ?)';
+        $query = 'INSERT INTO Utilisateur (emailUt, username, mdp) VALUES (?, ?, ?)';
         $st = $db->prepare($query);
         $st->bindParam(1, $email, PDO::PARAM_STR);
-        $st->bindParam(2, $hash, PDO::PARAM_STR);
+        $st->bindParam(2, $username, PDO::PARAM_STR);
+		$st->bindParam(3, $hash, PDO::PARAM_STR);
         $st->execute();
         $db = null;
     }
