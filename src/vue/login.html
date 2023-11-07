@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Touiteur - Login</title>
+</head>
+
+<body>
+
+    <form class="login" action="" method="post">
+        <h3>Login</h3>
+        <div id="login-email">
+            <label for="email">email    : </label>
+            <input type="email" name="email" required>
+        </div>
+
+        <div id="login-password">
+            <label for="password">password : </label>
+            <input type="text" name="password" required>
+        </div>
+
+        <div id="login-message">
+            <?php echo $htmlLoginMessage ?>
+        </div>
+
+        <input type="submit" value="Confirmation">
+    </form>
+
+    <form class="signin" action="" method="post">
+        <h3>Signin</h3>
+        <div id="signin-email">
+            <label for="email">email    : </label>
+            <input type="email" name="email" required>
+        </div>
+
+        <div id="signin-password">
+            <label for="password">password : </label>
+            <input type="text" name="password" required>
+        </div>
+
+        <div id="signin-message">
+            <?php echo $htmlLoginMessage ?>
+        </div>
+
+        <input type="submit" value="Confirmation">
+    </form>
+</body>
+
+</html>
