@@ -1,58 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Touiteur - Login</title>
+	<title>Touiteur - Login</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/component.css">
 </head>
-
 <body>
 
-    <form class="login" action="" method="post">
-        <h3>Login</h3>
-        <div id="login-email">
-            <label for="username">username    : </label>
-            <input type="text" name="username" required>
-        </div>
+<form class="login" action="" method="post">
+	<h3>Login</h3>
+	<div class="input">
+		<input autocomplete="off" value="" id="login_username" type="text" name="username" required>
+		<label for="login_username">Identifiant</label>
+	</div>
 
-        <div id="login-password">
-            <label for="password">password : </label>
-            <input type="text" name="password" required>
-        </div>
+	<div class="input">
+		<input autocomplete="off" value="" id="login_password" type="text" name="password" required>
+		<label for="login_password">Mot de passe</label>
+	</div>
 
-        <div id="login-message">
-            <?php echo $htmlLoginMessage ?>
-        </div>
+	<div>
+		<?php echo $htmlLoginMessage ?>
+	</div>
 
-        <input type="submit" value="Confirmation">
-    </form>
+	<input class="bouton principal" type="submit" value="Confirmation">
+</form>
 
-    <form class="signin" action="" method="post">
-        <h3>Signin</h3>
-        <div id="signin-username">
-            <label for="username">username    : </label>
-            <input type="text" name="username" required>
-        </div>
+<form class="signin" action="" method="post">
+	<h3>Signin</h3>
+	<div>
+		<input id="signin_username" type="text" name="username" required>
+		<label for="signin_username">Identifiant</label>
+	</div>
 
-        <div id="signin-email">
-            <label for="email">email    : </label>
-            <input type="email" name="email" required>
-        </div>
+	<div>
+		<input id="signin_email" type="email" name="email" required>
+		<label for="signin_email">Email</label>
+	</div>
 
-        <div id="signin-password1">
-            <label for="password">password : </label>
-            <input type="text" name="password" required>
-        </div>
+	<div>
+		<input id="signin_password" type="text" name="password" required>
+		<label for="signin_password">Mot de passe</label>
+	</div>
 
-        <div id="signin-password2">
-            <label for="password2">Confirmer password : </label>
-            <input type="text" name="password2" required>
-        </div>
+	<div>
+		<input id="signin_password_confirm" type="text" name="password2" required>
+		<label for="signin_password_confirm">Confirmer le mot de passe</label>
+	</div>
 
-        <div id="signin-message">
-            <?php echo $htmlSigninMessage ?>
-        </div>
+	<div>
+		<?php echo $htmlSigninMessage ?>
+	</div>
 
-        <input type="submit" value="Confirmation">
-    </form>
+	<input type="submit" value="Confirmation">
+</form>
+
+<script src="js/component.js"></script>
 </body>
-
 </html>
