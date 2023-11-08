@@ -15,8 +15,8 @@ RewriteEngine On
 # -> ~/www/repertoire-projet/src
 # -> ~/www/repertoire-projet/sql
 # -> etc...
-RewriteRule ^sql(/.*|)$ - [NC,F]
-RewriteRule ^src(/.*|)$ - [NC,F]
+# RewriteRule ^sql(/.*|)$ - [NC,F]
+# RewriteRule ^src(/.*|)$ - [NC,F]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
