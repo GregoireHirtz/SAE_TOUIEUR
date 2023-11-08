@@ -6,7 +6,7 @@ use touiteur\action\Action;
 
 class GenererHeader extends Action{
 
-	static public function execute(){
+	static public function execute(?string $username = null){
 
 		// si pas de session alors afficher "Se connecter" et action du bouton => login
 		$username = "Se connecter";

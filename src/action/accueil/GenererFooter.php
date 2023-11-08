@@ -6,7 +6,7 @@ use touiteur\action\Action;
 
 class GenererFooter extends Action{
 
-	static public function execute(){
+	static public function execute(?string $username = null){
 		return "";
 	}
 }

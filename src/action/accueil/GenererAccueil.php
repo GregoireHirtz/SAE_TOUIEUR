@@ -12,7 +12,7 @@ use touiteur\render\RenderTouite;
 
 class GenererAccueil extends Action{
 
-	static public function execute(): String{
+	static public function execute(?string $username = null): String{
 		$html = "";
 
 		$db = ConnectionFactory::makeConnection();
