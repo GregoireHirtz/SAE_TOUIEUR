@@ -1,7 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Touiteur - Main</title>
+    <meta charset="UTF-8">
+    <title>Touiteur</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/component.css">
 </head>
 
 <body>
@@ -9,7 +13,14 @@
         <?php echo $htmlHeader; ?>
     </header>
 
-    <main>
+    <main id="main">
+        <nav class="navigation">
+            <ul>
+                <li><a href="?data=tag">Mes tags</a></li>
+                <li class="selected"><a href="?data=explorer">Explorer</a></li>
+                <li><a href="?data=abonnement">Mes abonnements</a></li>
+            </ul>
+        </nav>
         <?php echo $htmlMain; ?>
     </main>
 
@@ -18,4 +29,5 @@
     </footer>
 </body>
 
+<script src="js/component.js"></script>
 </html>

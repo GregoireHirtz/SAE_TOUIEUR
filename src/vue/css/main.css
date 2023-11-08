@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
 :root {
-	--page-width: 60%;
+	--page-width: 50%;
+	--default-size: 30px;
 
 	/* === COULEUR === */
 	--texte: #2D3142;
@@ -38,39 +39,39 @@ body {
 /* ===== DEFAULT ===== */
 #login {
 	display: flex;
-	gap: 100px;
+	gap: calc(var(--default-size) * 2.5);
 }
 
-#login, #profil {
+body > main {
 	width: var(--page-width);
-	margin: 30px auto auto;
+	margin: calc(var(--default-size) * 0.75) auto auto;
 }
 
 #login > form {
 	flex-grow: 1;
 	background-color: rgba(191, 192, 192, 0.05);
-	padding: 20px;
+	padding: calc(var(--default-size) * 0.5);
 	border-radius: 10px;
 	height: fit-content;
 
 	display: flex;
 	flex-direction: column;
-	gap: 15px;
+	gap: calc(var(--default-size) * 0.37);
 }
 
 #login > form > h3 {
-	font-size: 25px;
+	font-size: calc(var(--default-size) * 0.65);
 	margin: 0 auto;
 	color: var(--texte);
 }
 
 #profil > h3 {
-	font-size: 25px;
+	font-size: calc(var(--default-size) * 0.65);
 	margin: auto;
 	width: fit-content;
 }
 #profil {
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
+	gap: calc(var(--default-size) * 0.5);
 }
