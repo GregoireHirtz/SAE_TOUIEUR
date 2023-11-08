@@ -43,11 +43,14 @@ if (count($parts)==1) {
 }
 
 if (count($parts)==2) {
-    if ($parts[1] == 'login'){
+    if ($parts[1] == TYPE_PAGE_LOGIN){
         $type = TYPE_PAGE_LOGIN;
     }
-	elseif ($parts[1] == 'unlogin'){
+	elseif ($parts[1] == TYPE_PAGE_UNLOGIN){
 		$type = TYPE_PAGE_UNLOGIN;
+	}
+	elseif ($parts[1] == TYPE_PAGE_NOTFOUND){
+		$type = TYPE_PAGE_NOTFOUND;
 	}
 	else{
         $type = TYPE_PAGE_PROFILE;

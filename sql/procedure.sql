@@ -37,7 +37,7 @@ DROP PROCEDURE IF EXISTS annulerAbonnementTag;
 
 -- Liste des abonnements (utilisateurs)
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenirAbonnementUtilisateur`(IN `emailUtilisateur` VARCHAR(150))
+CREATE PROCEDURE `obtenirAbonnementUtilisateur`(IN `emailUtilisateur` VARCHAR(150))
 select u.nomUt, u.prenomUt, u.username, u.dateInscription
 from EtreAboUtilisateur aUt inner join Utilisateur u on aUt.emailUtAbo=u.emailUt
 where aUt.emailUt = emailUtilisateur
@@ -47,7 +47,7 @@ DELIMITER ;
 
 -- Liste des abonnements (tags)
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenirAbonnementTag`(IN `emailUtilisateur` VARCHAR(150))
+CREATE PROCEDURE `obtenirAbonnementTag`(IN `emailUtilisateur` VARCHAR(150))
 select t.libelle, t.descriptionTag, t.dateCreation, count(t.idTag)
 from Tag t inner join EtreAboTag aTa on t.idTag=aTa.idTag
            inner join UtiliserTag ut on aTa.idTag=ut.idTag
@@ -58,7 +58,7 @@ DELIMITER ;
 
 -- Liste des abonnés (utilisateurs)
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenirUtilisateurAbo`(IN `emailUtilisateur` VARCHAR(150))
+CREATE PROCEDURE `obtenirUtilisateurAbo`(IN `emailUtilisateur` VARCHAR(150))
 select u.nomUt, u.prenomUt, u.username, u.dateInscription
 from EtreAboUtilisateur aUt inner join Utilisateur u on aUt.emailUt=u.emailUt
 where aUt.emailUtAbo = emailUtilisateur
@@ -68,7 +68,7 @@ DELIMITER ;
 
 -- Liste des touites qu’un utilisateur a publié :
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenirTouitesUtilisateur`(IN `emailUtilisateur` VARCHAR(150))
+CREATE PROCEDURE `obtenirTouitesUtilisateur`(IN `emailUtilisateur` VARCHAR(150))
 select t.texte, t.date, t.notePertinence, t.nbLike, t.nbDislike, t.nbRetouite, t.nbVue
 from Utilisateur u inner join PublierPar p on u.emailUt=p.emailUt
                    inner join Touite t on p.idTouite=t.idTouite
@@ -78,7 +78,7 @@ DELIMITER ;
 
 -- Liste des meilleurs touites d'aujourd'hui (HOME PAGE)
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenirMeilleursTouites`()
+CREATE PROCEDURE `obtenirMeilleursTouites`()
 select t.idTouite, t.texte, t.date, t.notePertinence, t.nbLike, t.nbDislike, t.nbRetouite, t.nbVue
 from Touite t
 ORDER BY t.notePertinence DESC, t.date DESC$$
@@ -177,8 +177,7 @@ END;
 
 
 -- Voter
-create
-definer = root@`%` procedure voter(IN v_email text, IN v_idTouite int, IN v_vote int)
+create procedure voter(IN v_email text, IN v_idTouite int, IN v_vote int)
 BEGIN
 INSERT INTO AvoirVote VALUES (v_email, v_idTouite, v_vote);
 IF v_vote=1 THEN
@@ -256,7 +255,7 @@ END;
 
 -- Liste des touites des utilisateurs suivis :
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenirTouitesUtilisateursSuivis`(IN `emailUtilisateur` VARCHAR(150))
+CREATE PROCEDURE `obtenirTouitesUtilisateursSuivis`(IN `emailUtilisateur` VARCHAR(150))
 NOT DETERMINISTIC CONTAINS SQL SQL SECURITY DEFINER
 select t.texte, t.date, t.notePertinence, t.nbLike, t.nbDislike, t.nbRetouite, t.nbVue
 from EtreAboUtilisateur aUt inner join PublierPar pp on aUt.emailUtAbo=pp.emailUt
@@ -267,7 +266,7 @@ DELIMITER ;
 
 -- Liste des touites par tag donné :
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenirTouitesTagChoisi`(IN `tagChoisi` INT)
+CREATE PROCEDURE `obtenirTouitesTagChoisi`(IN `tagChoisi` INT)
 select t.texte, t.date, t.notePertinence, t.nbLike, t.nbDislike, t.nbRetouite, t.nbVue
 from Touite t inner join UtiliserTag ut on t.idTouite=ut.idTouite
               inner join Tag ta on ut.idTag=ta.idTag
@@ -313,8 +312,7 @@ end;
 
 
 -- ajoutRecherche;
-create
-definer = root@`%` function ajoutRecherche(r text) returns int
+create function ajoutRecherche(r text) returns int
 BEGIN
     DECLARE v_idRecherche INT;
 select COALESCE(max(idRecherche), 0) + 1 into v_idRecherche from Recherche;
@@ -323,8 +321,7 @@ return v_idRecherche;
 end;
 
 -- ajoutHistorique
-create
-definer = root@`%` procedure ajoutHistorique(v_idRecherche INT, v_email TEXT)
+create procedure ajoutHistorique(v_idRecherche INT, v_email TEXT)
 BEGIN
 INSERT INTO Historique VALUES (v_email, v_idRecherche);
 end;
@@ -344,7 +341,6 @@ WHERE emailUt = v_mail and idTag=v_idTag;
 end;
 
 -- afficher liste des touites abonnements utilisateurs (mail)
-
 
 
 -- afficher liste des touites abonnements tags (mail)

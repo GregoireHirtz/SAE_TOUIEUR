@@ -44,10 +44,10 @@ HTML;
 		$html = <<<HTML
 		<header>
 			<a href="#" class="photo_profil"><img src="src/vue/images/user.svg" alt="PP"></a>
-			<a href="#" class="pseudo">{$username}</a>
+			<a href="{$username}" class="pseudo">{$username}</a>
 			<p>{$dateJ} à {$dateH}</p>
 			<div>
-				<button class="sabonner">S'abonner</button>
+				<button onclick="passVal()" class="sabonner">S'abonner</button>
 			</div>
 		</header>
 HTML;
@@ -87,7 +87,7 @@ HTML;
 				<img src="src/vue/images/heart-crack_empty.svg" alt="Dislike">
 			</div>
 			<div>
-				<p>0</p>
+				<p>{$vue}</p>
 				<img src="src/vue/images/view.svg" alt="Vue">
 			</div>
 			<p>{$tags}</p>

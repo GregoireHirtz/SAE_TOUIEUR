@@ -9,6 +9,7 @@ use touiteur\action\accueil\GenererFooter;
 use touiteur\action\login\ActionLogin;
 use touiteur\action\login\ActionSignin;
 
+use touiteur\auth\Auth;
 use touiteur\auth\Session;
 use touiteur\exception\InvalideTypePage;
 
@@ -30,12 +31,20 @@ class Dispatcher{
 				break;
 
 			case TYPE_PAGE_PROFILE:
+				global $parts;
+				$username = $parts[1];
+				if (!Auth::usernameExists($username)){
+					header("Location: /notfound");
+				}
 				break;
 
 			case TYPE_PAGE_TOUIT:
 				break;
 
 			case TYPE_PAGE_LOGIN:
+				$htmlHeader = GenererHeader::execute();
+
+
 				// si déjà connecté ==> accueil
 				if (!empty($_SESSION)){
 					// redirection vers accueil
@@ -65,6 +74,7 @@ class Dispatcher{
 				break;
 
 			case TYPE_PAGE_NOTFOUND:
+				var_dump("404");
 				break;
 
 			default:
