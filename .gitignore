@@ -4,4 +4,4 @@ composer.lock
 
 vendor
 
-db.config.ini
+db.config*

@@ -17,12 +17,14 @@ class Touite{
 	private int $nbRetouite;
 	private int $nbVue;
 	private array $listeTag;
+	private String $user;
 
 
-	public function __construct($i, $t, $d, $nP=0, $nL=0, $nDL=0, $nR=0, $nV=0, $lT=array()){
+	public function __construct(int $i, String $t, DateTime $d, String $u, int $nP=0, int $nL=0, int $nDL=0, int $nR=0, int $nV=0, array $lT=array()){
 		$this->id = $i;
 		$this->texte = $t;
 		$this->date = $d;
+		$this->user = $u;
 		$this->notePertinence = $nP;
 		$this->nbLike = $nL;
 		$this->nbDislike = $nDL;
@@ -30,45 +32,6 @@ class Touite{
 		$this->nbVue = $nV;
 		$this->listeTag = $lT;
 	}
-
-	/*
-	 * recuperer le touit en bd selon son id
-	 */
-	public static function loadTouite(int $idTouite): Touite{
-		$db = ConnectionFactory::makeConnection();
-
-
-		$query = "SELECT * from Touite WHERE idTouite = ?";
-		$st = $db->prepare($query);
-		$st->bindParam(1, $idTouite, PDO::PARAM_STR);
-		$st->execute();
-
-		$row = $st->fetch();
-		$i =  $row['idTouite'];
-		$t = $row['texte'];
-		$d = new DateTime($row['date']);
-		$nP = $row['notePertinence'];
-		$nL = $row['nbLike'];
-		$nDL = $row['nbDislike'];
-		$nR = $row['nbRetouite'];
-		$nV = $row['nbVue'];
-
-		$query = "SELECT * from UtiliserTag WHERE idTouite = ?";
-		$st = $db->prepare($query);
-		$st->bindParam(1, $idTouite, PDO::PARAM_STR);
-		$st->execute();
-		$db = null;
-		$lT = [];
-		while ($row = $st->fetch()){
-			$tag = $row['idTag'];
-			$lT[] = $tag;
-		}
-
-
-		$touite = new Touite($i, $t, $d, $nP, $nL, $nDL, $nR, $nV, $lT);
-		return $touite;
-	}
-
 
 	/**
 	 * @return bool true si le touite a été ajouté, false sinon
@@ -94,5 +57,21 @@ class Touite{
 
 	public function getListeTag(): array{
 		return $this->listeTag;
+	}
+
+	public function getUsername(): String{
+		return $this->user;
+	}
+
+	public function getDate(): DateTime{
+		return $this->date;
+	}
+
+	public function getPertinence(): int{
+		return $this->notePertinence;
+	}
+
+	public function getNbVue(): int{
+		return $this->nbVue;
 	}
 }
