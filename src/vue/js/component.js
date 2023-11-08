@@ -21,6 +21,34 @@ window.addEventListener('load', () => {
 			}
 		});
 	});
+
+	let abonne_button = document.querySelectorAll('.sabonner');
+	abonne_button.forEach(button => {
+		button.addEventListener('click', () => {
+			if (button.classList.contains('de')) {
+				button.classList.remove('de');
+				button.innerText = 'S\'abonner';
+			} else {
+				button.classList.add('de');
+				button.innerText = "Se désabonner";
+			}
+		});
+	});
+
+	let vote_buttons = document.querySelectorAll('article > footer > :first-child > img');
+	vote_buttons.forEach(button => {
+		button.addEventListener('click', () => {
+			if (button.src.includes('full')) {
+				button.src = button.src.replace('full', 'empty');
+			} else {
+				button.src = button.src.replace('empty', 'full');
+				if (button.parentElement.firstElementChild === button)
+					button.parentElement.lastElementChild.src = button.parentElement.lastElementChild.src.replace('full', 'empty');
+				else
+					button.parentElement.firstElementChild.src = button.parentElement.firstElementChild.src.replace('full', 'empty');
+			}
+		});
+	});
 });
 
 

@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
 :root {
-	--page-width: 70%;
+	--page-width: 60%;
 
 	/* === COULEUR === */
 	--texte: #2D3142;
@@ -16,17 +16,39 @@ body {
 	background-color: var(--background);
 }
 
-main {
-	width: var(--page-width);
-	margin: 30px auto auto;
+/* ===== SCROLLBAR ===== */
+* {
+	scrollbar-width: thin;
+	scrollbar-color: var(--texte) transparent;
+}
+*::-webkit-scrollbar {
+	height: 8px;
+	width: 8px;
+}
+*::-webkit-scrollbar-thumb {
+	background-color: var(--accent);
+}
+*::-webkit-scrollbar-thumb:hover {
+	background-color: var(--texte);
+}
+*::-webkit-scrollbar-thumb:active {
+	background-color: var(--accent);
+}
+
+/* ===== DEFAULT ===== */
+#login {
 	display: flex;
 	gap: 100px;
 }
 
-main > form {
+#login, #profil {
+	width: var(--page-width);
+	margin: 30px auto auto;
+}
+
+#login > form {
 	flex-grow: 1;
 	background-color: rgba(191, 192, 192, 0.05);
-	position: relative;
 	padding: 20px;
 	border-radius: 10px;
 	height: fit-content;
@@ -36,7 +58,19 @@ main > form {
 	gap: 15px;
 }
 
-main > form > h3 {
+#login > form > h3 {
 	font-size: 25px;
 	margin: 0 auto;
+	color: var(--texte);
+}
+
+#profil > h3 {
+	font-size: 25px;
+	margin: auto;
+	width: fit-content;
+}
+#profil {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
 }
