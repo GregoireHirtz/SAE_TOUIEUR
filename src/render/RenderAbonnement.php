@@ -8,9 +8,19 @@ use DateTime;
 
 class RenderAbonnement{
 
+    /**
+     * @var User l'utilisateur à afficher
+     */
     private User $u;
+    /**
+     * @var DateTime la date d'abonnement
+     */
     private DateTime $d;
 
+    /**
+     * @param User $user l'utilisateur à afficher
+     * @param DateTime $date la date d'abonnement
+     */
     public function __construct(User $user, DateTime $date){
         $this->u = $user;
         $this->d = $date;
@@ -18,11 +28,14 @@ class RenderAbonnement{
 
     /**
      * @return String l'user sous forme html pour la page profil
-     *
+     * Méthode qui génère l'affichage d'un utilisateur sous forme html pour la page profil dans un article
      */
     public function genererAffichageUser(): String{
+        // On génère le header html pour chaque abonnement
         $header = $this->genererUserHeader();
+        // On génère le main html pour chaque abonnement
         $main = $this->genererUserMain();
+        // On génère le footer html pour chaque abonnement
         $footer = $this->genererUserFooter();
 
         $html = <<<HTML
@@ -36,6 +49,7 @@ HTML;
     }
     /**
      * @return String le header de la box user
+     * Méthode qui génère le header html de la box user
      */
     private function genererUserHeader(): String{
         $dateAbonnement = date_format($this->d, "d/m/y");
@@ -54,11 +68,18 @@ HTML;
     }
 
 
-
+    /**
+     * @return String le main de la box user
+     * Méthode qui génère le main html de la box user
+     */
     private function genererUserMain(): String{
         return "";
     }
 
+    /**
+     * @return String le footer de la box user
+     *  Méthode qui génère le footer html de la box user
+     */
     private function genererUserFooter(): String{
         return "";
     }

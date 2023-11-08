@@ -18,15 +18,22 @@ use touiteur\db\ConnectionFactory;
 use touiteur\classe\User;
 use touiteur\exception\InvalideTypePage;
 
+/**
+ * Classe qui permet de dispatcher les requêtes
+ */
 class Dispatcher{
 
-		
+    /**
+     * @param string $page le type de page à afficher
+     * @return void affiche la page demandée
+     * @throws InvalideTypePage si le type de page n'est pas valide
+     * Méthode qui permet de dispatcher les requêtes
+     */
 	public function run(string $page): void{
 		switch ($page){
 
 			// afficher les touite decroissant
 			case TYPE_PAGE_ACCUEIL:
-
 				if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 					var_dump($_GET);
 				}
