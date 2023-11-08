@@ -47,7 +47,7 @@ class User{
      * @param DateTime $dateInscription date d'inscription
      * @param int $permissions 0 = utilisateur normal, 1 = admin
      */
-    public function __construct(string $email, string $nom, string $prenom,  string $username, DateTime $dateInscription, int $permissions)
+    public function __construct(string $email, string $nom, string $prenom,  string $username, DateTime $dateInscription, int $permissions=0)
     {
         $this->email = $email;
         $this->nom = $nom;

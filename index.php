@@ -11,7 +11,7 @@ use \touiteur\auth\Session;
 // ---- CONSTANTES ---- //
 
 define("TYPE_PAGE_ACCUEIL", "accueil");
-define("TYPE_PAGE_PROFILE", "profile");
+define("TYPE_PAGE_PROFIL", "profil");
 define("TYPE_PAGE_TOUIT", "touit");
 define("TYPE_PAGE_LOGIN", "login");
 define("TYPE_PAGE_UNLOGIN", "unlogin");
@@ -50,7 +50,7 @@ if (count($parts)==2) {
 		$type = TYPE_PAGE_UNLOGIN;
 	}
 	else{
-        $type = TYPE_PAGE_PROFILE;
+        $type = TYPE_PAGE_PROFIL;
     }
 }
 
