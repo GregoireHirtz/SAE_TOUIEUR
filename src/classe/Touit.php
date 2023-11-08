@@ -59,6 +59,30 @@ class Touit{
 	 * 2. touit detaille (avec boutona abonnement/desabonnement ou si touit perso supprimer)
 	 */
 	public function genererTouitSimple(int $type): String{
+		$header = $this->genererTouitSimpleHeader();
+		$main = $this->genererTouitSimpleMain();
+		$footer = $this->genererTouitSimpleFooter();
 
+		$html = <<<HTML
+	<article>
+		{$header}
+		{$main}
+		{$footer}
+	</article>
+HTML;
+		return $html;
 	}
+
+		private function genererTouitSimpleHeader(): String{
+
+		}
+
+		private function genererTouitSimpleMain(): String{
+
+		}
+
+		private function genererTouitSimpleFooter(): String{
+
+		}
+
 }

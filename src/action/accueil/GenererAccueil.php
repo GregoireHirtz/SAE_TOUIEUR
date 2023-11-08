@@ -7,7 +7,7 @@ use touiteur\action\Action;
 
 class GenererAccueil extends Action{
 
-	static public function execute(){
-		// TODO: Implement execute() method.
+	static public function execute(): String{
+
 	}
 }

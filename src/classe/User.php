@@ -39,8 +39,7 @@ class User{
         </div>
     </header>
 HTML;
-
-
+		return $html;
 	}
 	
 	public function getUsername(): String{
