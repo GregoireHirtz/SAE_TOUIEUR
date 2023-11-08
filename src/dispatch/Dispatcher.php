@@ -12,7 +12,10 @@ use touiteur\action\login\ActionSignin;
 
 use touiteur\auth\Auth;
 use touiteur\auth\Session;
+
+
 use touiteur\db\ConnectionFactory;
+use touiteur\classe\User;
 use touiteur\exception\InvalideTypePage;
 
 class Dispatcher{
@@ -45,7 +48,14 @@ class Dispatcher{
 
                 $htmlHeader = GenererHeader::execute();
 
-                $htmlMain = GenererProfil::execute();
+                $url = $_SERVER['REQUEST_URI'];
+                // Supprimer le "/" à la fin de la chaîne si elle existe
+                $url = rtrim($url, '/');
+                $parts = explode('?', $url)[0];
+                $parts = explode('/', $parts);
+                $username = $parts[1];
+
+                $htmlMain = GenererProfil::execute($username);
 
                 $htmlFooter = GenererFooter::execute();
 
