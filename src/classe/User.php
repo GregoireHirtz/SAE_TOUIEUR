@@ -62,9 +62,9 @@ class User{
      * @param string $email
      * @return User
      * @throws SQLError
-     * méthode de chargement d'un utilisateur depuis la bd
+     * méthode de chargement d'un utilisateur depuis la bd avec son email
      */
-	public static function loadUser(string $email): User{
+	public static function loadUserFromEmail(string $email): User{
         $db = ConnectionFactory::makeConnection();
 
         $query = "SELECT * from Utilisateur where emailUt = ?";
@@ -81,30 +81,30 @@ class User{
         return $user;
 	}
 
-
-	/**
-     * @param string $email
-     * @param string $nom
-     * @param string $prenom
+    /**
      * @param string $username
-     * @param DateTime $dateInscription
-     * @param int $permissions
-     * @throws SQLError
-     * méthode d'ajout d'un utilisateur dans la bd
+     * @return User
+     * @throws \Exception
+     * méthode de chargement d'un utilisateur depuis la bd avec son username
      */
-	public function genererUser(): String{
-		$html = <<<HTML
-	 <header>
-        <a href="#" class="photo_profil"><img src="images/user.svg" alt="PP"></a>
-        <a href="#" class="pseudo">!________!</a>
-        <p>JJ-MM-AAAA à hh:mm</p>
-        <div>
-            <button class="sabonner">S'abonner</button>
-        </div>
-    </header>
-HTML;
-		return $html;
-	}
+    public static function loadUserFromUsername(string $username): User{
+        $db = ConnectionFactory::makeConnection();
+
+        $query = "SELECT * from Utilisateur where username = ?";
+        $st = $db->prepare($query);
+        $st->bindParam(1, $username, PDO::PARAM_STR);
+        $st->execute();
+
+        $tRes = $st->fetch(PDO::FETCH_ASSOC);
+
+        // Utilisation de datetime pour remettre un string en date
+        $user = new User($tRes['emailUt'], $tRes['nomUt'], $tRes["prenomUt"], $tRes["username"], new DateTime($tRes["dateInscription"]), $tRes["permissions"]);
+
+        $db = null;
+        return $user;
+    }
+
+
 
     /**
      * @param string $attr

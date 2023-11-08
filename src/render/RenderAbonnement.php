@@ -4,13 +4,16 @@ namespace touiteur\render;
 
 use touiteur\classe\Tag;
 use touiteur\classe\User;
+use DateTime;
 
-class RenderUser{
+class RenderAbonnement{
 
     private User $u;
+    private DateTime $d;
 
-    public function __construct(User $user){
+    public function __construct(User $user, DateTime $date){
         $this->u = $user;
+        $this->d = $date;
     }
 
     /**
@@ -31,15 +34,17 @@ class RenderUser{
 HTML;
         return $html;
     }
-
-    private function genererUserHeader(): String{;
-        $username = $this->u->username;
-
+    /**
+     * @return String le header de la box user
+     */
+    private function genererUserHeader(): String{
+        $dateAbonnement = date_format($this->d, "d/m/y");
+        $heureAbonnement = date_format($this->d, "H:i");
         $html = <<<HTML
 		<header>
-			<a href="#" class="photo_profil"><img src="src/vue/images/user.svg" alt="PP"></a>
-			<a href="#" class="pseudo">{$username}</a>
-			<p>JJ-MM-AAAA à hh:mm</p>
+			<a href="#" class="photo_profil"><img src="src/vue/images/user.svg" alt="Photo Profil"></a>
+			<a href="#" class="pseudo">{$this->u->username}</a>
+			<p>Abonné le $dateAbonnement à $heureAbonnement </p>
 			<div>
 				<button class="sabonner">S'abonner</button>
 			</div>

@@ -4,6 +4,6 @@ namespace touiteur\action;
 
 abstract class Action {
 
-	abstract static public function execute();
+	abstract static public function execute(?string $username = null);
 
 }
