@@ -1,4 +1,8 @@
 window.addEventListener('load', () => {
+	if (document.title === 'Touiteur - Login' && localStorage.getItem('shown_form') === 'signin')
+		switchLogMethod(document.querySelector('form.login'), 'signin');
+
+
 	let inputs = document.querySelectorAll('.input > input');
 	inputs.forEach(input => {
 		input.addEventListener('input', () => {
@@ -54,8 +58,11 @@ window.addEventListener('load', () => {
 
 function switchLogMethod(form, switchTo) {
 	form.style.display = 'none';
-	if (switchTo === 'connect')
+	if (switchTo === 'connect') {
 		form.previousElementSibling.style.display = 'flex';
-	else
+		localStorage.setItem('shown_form', 'login');
+	} else {
 		form.nextElementSibling.style.display = 'flex';
+		localStorage.setItem('shown_form', 'signin');
+	}
 }
