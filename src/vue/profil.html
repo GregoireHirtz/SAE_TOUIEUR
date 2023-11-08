@@ -4,8 +4,8 @@
 	<meta charset="UTF-8">
 	<title>Touiteur - Profile</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<link rel="stylesheet" href="src/vue/css/main.css">
-	<link rel="stylesheet" href="src/vue/css/component.css">
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/component.css">
 </head>
 <body>
 
@@ -17,10 +17,35 @@
 			<li class="selected"><a href="?data=publication">Publications</a></li>
 			<li><a href="?data=abonnes">Abonn&eacute;s</a></li>
 		</ul>
-	</nav>
+	</nav><article>
+	<header>
+		<a href="#" class="photo_profil"><img src="images/user.svg" alt="PP"></a>
+		<a href="#" class="pseudo">Pseudo</a>
+		<p>JJ-MM-AAAA à hh:mm</p>
+		<div>
+			<button class="sabonner">S'abonner</button>
+		</div>
+	</header>
+	<main>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, asperiores, at aut consequatur deleniti dicta dolorem doloribus dolorum ducimus earum enim eveniet facilis ipsa labore obcaecati quos ratione repudiandae sint.</p>
+	</main>
+	<footer>
+		<div>
+			<img src="images/heart_empty.svg" alt="Like">
+			<p>320</p>
+			<img src="images/heart-crack_empty.svg" alt="Dislike">
+		</div>
+		<div>
+			<p>120</p>
+			<img src="images/view.svg" alt="Vue">
+		</div>
+		<p><a href="#">tagg</a> <a href="#">tagg</a></p>
+	</footer>
+</article>
+
 	<?php echo $htmlMain; ?>
 </main>
 
-<script src="src/vue/js/component.js"></script>
+<script src="js/component.js"></script>
 </body>
 </html>

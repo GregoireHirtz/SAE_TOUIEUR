@@ -80,17 +80,17 @@
 	background-color: var(--primaire);
 	border: none;
 	border-radius: 5px;
-	box-shadow: 0 0 5px var(--accent);
+	box-shadow: 0 0 5px var(--secondaire);
 
 	transition-duration: .1s;
 }
 
 .bouton:hover {
-	box-shadow: 0 0 3px var(--accent);
+	box-shadow: 0 0 3px var(--secondaire);
 }
 
 .bouton:active {
-	box-shadow: 0 0 1px var(--accent);
+	box-shadow: 0 0 1px var(--secondaire);
 }
 
 .bouton.secondaire {
@@ -182,9 +182,12 @@
 	background-color: transparent;
 	cursor: pointer;
 }
+
+/*
 .delete {
 	color: var(--secondaire);
 }
+*/
 
 .sabonner::after, .delete::after {
 	content: "";
