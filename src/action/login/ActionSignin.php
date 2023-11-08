@@ -1,7 +1,9 @@
 <?php
 
-namespace touiteur\action;
+namespace touiteur\action\login;
 
+use touiteur\action\Action;
+use touiteur\auth\Auth;
 use touiteur\auth\Session;
 
 class ActionSignin extends Action{

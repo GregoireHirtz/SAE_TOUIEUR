@@ -2,10 +2,13 @@
 declare(strict_types=1);
 namespace touiteur\dispatch;
 
-use Exception;
-use touiteur\action\ActionLogin;
-use touiteur\action\ActionSignin;
-use touiteur\auth\Auth;
+use touiteur\action\accueil\GenererHeader;
+use touiteur\action\accueil\GenererAccueil;
+use touiteur\action\accueil\GenererFooter;
+
+use touiteur\action\login\ActionLogin;
+use touiteur\action\login\ActionSignin;
+
 use touiteur\auth\Session;
 use touiteur\exception\InvalideTypePage;
 

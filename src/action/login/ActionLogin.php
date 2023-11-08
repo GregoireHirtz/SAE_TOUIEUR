@@ -1,7 +1,8 @@
 <?php
+declare(strict_types=1);
+namespace touiteur\action\login;
 
-namespace touiteur\action;
-
+use touiteur\action\Action;
 use touiteur\auth\Auth;
 use touiteur\auth\Session;
 
@@ -23,7 +24,7 @@ class ActionLogin extends Action{
 		}
 		// sinon message erreur dans $message
 		else{
-			$message = 'Login ou mot de passe incorrect';
+			$message = '<p>Login ou mot de passe incorrect</p>';
 		}
 
 		return $message;

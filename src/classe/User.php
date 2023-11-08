@@ -29,6 +29,17 @@ class User{
 	 * @return String code html pour afficher case user
 	 */
 	public function genererUser(): String{
+		$html = <<<HTML
+	 <header>
+        <a href="#" class="photo_profil"><img src="images/user.svg" alt="PP"></a>
+        <a href="#" class="pseudo">!________!</a>
+        <p>JJ-MM-AAAA à hh:mm</p>
+        <div>
+            <button class="sabonner">S'abonner</button>
+        </div>
+    </header>
+HTML;
+
 
 	}
 	
