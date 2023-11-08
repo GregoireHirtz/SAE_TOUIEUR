@@ -35,5 +35,4 @@ class ConnectionFactory{
         $db->prepare('SET NAMES \'UTF8\'')->execute();
         return $db;
     }
-
 }

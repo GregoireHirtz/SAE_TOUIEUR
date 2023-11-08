@@ -14,11 +14,16 @@ class Dispatcher{
 		
 	public function run(string $page): void{
 		switch ($page){
+
+			// afficher les touite decroissant
 			case TYPE_PAGE_ACCUEIL:
-				$htmlHeader = '';
-				$htmlMain = '';
-				$htmlFooter = '';
-				echo "ACCUEIL";
+				$htmlHeader = GenererHeader::execute();
+
+				$htmlMain = GenererAccueil::execute();
+
+				$htmlFooter = GenererFooter::execute();
+
+				include 'src/vue/accueil.html';
 				break;
 
 			case TYPE_PAGE_PROFILE:
