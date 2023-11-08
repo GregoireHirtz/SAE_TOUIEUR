@@ -5,26 +5,26 @@
 	--default-size: 30px;
 
 	/* === COULEUR === */
-
+/*
 	--texte: #BCC0D2;
 	--accent: #8C99B1;
 	--primaire: #5A28C8;
 	--secondaire: #221434;
 	--background: #01000A;
+*/
 
-/*
 	--texte: #2D3142;
 	--accent: #4F5D75;
 /*
 	--primaire: #EF8354;
 	--secondaire: #ECD7CD;
 	--background: #FFF8F5;
+*/
 
 
 	--primaire: #6B37D8;
 	--secondaire: #DBCDEC;
 	--background: #F6F5FF;
-*/
 }
 
 body {
