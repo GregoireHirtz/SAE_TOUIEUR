@@ -17,7 +17,9 @@ class Session{
 		$db = null;
 
 		$_SESSION['username'] = $username;
-		$_SESSION['permissions'] = $st->fetch()['permissions'];
+        $tRes = $st->fetch(PDO::FETCH_ASSOC);
+		$_SESSION['permissions'] = $tRes['permissions'];
+        $_SESSION['email'] = $tRes['emailUt'];
 	}
 
 	public static function unloadSession(): void{

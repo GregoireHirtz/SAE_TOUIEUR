@@ -6,6 +6,7 @@ use touiteur\action\accueil\GenererHeader;
 use touiteur\action\accueil\GenererAccueil;
 use touiteur\action\accueil\GenererFooter;
 
+use touiteur\action\accueil\GenererProfil;
 use touiteur\action\login\ActionLogin;
 use touiteur\action\login\ActionSignin;
 
@@ -30,12 +31,21 @@ class Dispatcher{
 				include 'src/vue/accueil.html';
 				break;
 
-			case TYPE_PAGE_PROFILE:
+			case TYPE_PAGE_PROFIL:
+
 				global $parts;
 				$username = $parts[1];
 				if (!Auth::usernameExists($username)){
 					header("Location: /notfound");
 				}
+
+                $htmlHeader = GenererHeader::execute();
+
+                $htmlMain = GenererProfil::execute();
+
+                $htmlFooter = GenererFooter::execute();
+
+                include 'src/vue/profil.html';
 				break;
 
 			case TYPE_PAGE_TOUIT:
