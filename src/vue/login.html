@@ -3,8 +3,8 @@
 <head>
 	<title>Touiteur - Login</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<link rel="stylesheet" href="css/main.css">
-	<link rel="stylesheet" href="css/component.css">
+	<link rel="stylesheet" href="src/vue/css/main.css">
+	<link rel="stylesheet" href="src/vue/css/component.css">
 </head>
 <body>
 <!-- oninvalid="this.setCustomValidity(' ')" -->
@@ -19,7 +19,7 @@
 		<div class="input password">
 			<input autocomplete="off" value="" id="login_password" type="password" name="password" required>
 			<label for="login_password">Mot de passe</label>
-			<img src="images/eye-slash.svg" alt="Cacher" title="Afficher le mot de passe">
+			<img src="src/vue/images/eye-slash.svg" alt="Cacher" title="Afficher le mot de passe">
 		</div>
 
 		<div>
@@ -45,13 +45,13 @@
 		<div class="input password">
 			<input value="" autocomplete="off" id="signin_password" type="password" name="password" required>
 			<label for="signin_password">Mot de passe</label>
-			<img src="images/eye-slash.svg" alt="Cacher" title="Afficher le mot de passe">
+			<img src="src/vue/images/eye-slash.svg" alt="Cacher" title="Afficher le mot de passe">
 		</div>
 
 		<div class="input password">
 			<input value="" autocomplete="off" id="signin_password_confirm" type="password" name="password2" required>
 			<label for="signin_password_confirm">Confirmer le mot de passe</label>
-			<img src="images/eye-slash.svg" alt="Cacher" title="Afficher le mot de passe">
+			<img src="src/vue/images/eye-slash.svg" alt="Cacher" title="Afficher le mot de passe">
 		</div>
 
 		<div class="verification" id="password_verif">
@@ -62,6 +62,6 @@
 		<input onclick="switchLogMethod(this.parentElement, 'connect')" class="bouton secondaire" type="button" value="Se connecter">
 	</form>
 </main>
-<script src="js/component.js"></script>
+<script src="src/vue/js/component.js"></script>
 </body>
 </html>
