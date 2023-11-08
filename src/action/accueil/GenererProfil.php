@@ -12,20 +12,22 @@ use touiteur\render\RenderAbonnement;
 use touiteur\classe\User;
 use touiteur\render\RenderTouite;
 
-class GenererProfile extends Action{
+class GenererProfil extends Action{
 
     // Constante avec le nom de la procédure qui liste les abonnements d'un utilisateur
     const PROCEDURE_ABONNEMENTS = "obtenirAbonnementUtilisateur";
     // Constante avec le nom de la procédure qui liste les abonnés d'un utilisateur
     const PROCEDURE_ABONNES = "obtenirUtilisateurAbo";
     static public function execute(?string $username = null): String{
-        $emailAssocie = User::loadUserFromUsername($username)->email;
+        // On récupère l'email de l'utilisateur connecté si on ne lui en a pas donné un spécifique
+        if(!is_null($username)) $emailAssocie = User::loadUserFromUsername($username)->email;
+        else $emailAssocie = $_SESSION["email"];
 
         $html = "";
         if(!isset($_GET["data"])) $_GET["data"] = "publication";
         switch($_GET["data"]){
             case "abonnement":
-                    $liste = self::listerAbos(self::PROCEDURE_ABONNEMENTS);
+                    $liste = self::listerAbos(self::PROCEDURE_ABONNEMENTS, $emailAssocie);
 
                     foreach ($liste as $userAbo){
                         $user = $userAbo[0];
@@ -35,7 +37,7 @@ class GenererProfile extends Action{
                     }
                 break;
             case "abonnes":
-                $liste = self::listerAbos(self::PROCEDURE_ABONNES);
+                $liste = self::listerAbos(self::PROCEDURE_ABONNES, $emailAssocie);
 
                 foreach ($liste as $userAbo){
                     $user = $userAbo[0];
@@ -46,7 +48,7 @@ class GenererProfile extends Action{
                 break;
             default:
                 // Si pas d'argument dans listerPublications, on liste les publications de l'utilisateur connecté
-                $liste = self::listerPublications();
+                $liste = self::listerPublications($emailAssocie);
 
                 foreach ($liste as $touite){
                     $rT = new RenderTouite($touite);
@@ -58,11 +60,8 @@ class GenererProfile extends Action{
     }
 
 
-    static private function listerAbos($choixProcedure, ?string $email=null){
+    static private function listerAbos($choixProcedure, string $email){
         $liste = [];
-
-        // On récupère l'email de l'utilisateur connecté
-        $email = $_SESSION["email"];
 
         $db = ConnectionFactory::makeConnection();
         $st = $db->prepare("CALL $choixProcedure(\"$email\")");
@@ -77,11 +76,8 @@ class GenererProfile extends Action{
         return $liste;
     }
 
-    static private function listerPublications(?string $email=null){
+    static private function listerPublications(string $email){
         $liste = [];
-
-        // On récupère l'email de l'utilisateur connecté
-        if($email == null) $email = $_SESSION["email"];
 
         $db = ConnectionFactory::makeConnection();
         $st = $db->prepare("CALL obtenirTouitesUtilisateur(\"$email\")");

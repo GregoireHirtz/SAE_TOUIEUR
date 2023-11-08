@@ -42,24 +42,20 @@ class Dispatcher{
 
 				global $parts;
 				$username = $parts[1];
+                // On vérifie bien que l'utilisateur existe dans la bd
 				if (!Auth::usernameExists($username)){
 					//header("Location: /notfound");
 				}
+                else {
+                    $htmlHeader = GenererHeader::execute();
 
-                $htmlHeader = GenererHeader::execute();
+                    // On a bien vérifié que l'username est bon donc on peut afficher le profil de l'utilisateur demandé
+                    $htmlMain = GenererProfil::execute($username);
 
-                $url = $_SERVER['REQUEST_URI'];
-                // Supprimer le "/" à la fin de la chaîne si elle existe
-                $url = rtrim($url, '/');
-                $parts = explode('?', $url)[0];
-                $parts = explode('/', $parts);
-                $username = $parts[1];
+                    $htmlFooter = GenererFooter::execute();
 
-                $htmlMain = GenererProfil::execute($username);
-
-                $htmlFooter = GenererFooter::execute();
-
-                include 'src/vue/profil.html';
+                    include 'src/vue/profil.html';
+                }
 				break;
 
 			case TYPE_PAGE_TOUIT:

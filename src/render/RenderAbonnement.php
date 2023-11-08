@@ -43,7 +43,7 @@ HTML;
         $html = <<<HTML
 		<header>
 			<a href="#" class="photo_profil"><img src="src/vue/images/user.svg" alt="Photo Profil"></a>
-			<a href="#" class="pseudo">{$this->u->username}</a>
+			<a href="{$this->u->username}" class="pseudo">{$this->u->username}</a>
 			<p>Abonné le $dateAbonnement à $heureAbonnement </p>
 			<div>
 				<button class="sabonner">S'abonner</button>
