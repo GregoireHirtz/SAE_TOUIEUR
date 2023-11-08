@@ -103,6 +103,10 @@ class Dispatcher{
 
 			case TYPE_PAGE_ABONNEMENT:
 
+				if (!in_array("username", array_keys($_GET))) {
+					header("Location: /");
+				}
+
 				// SI SESSION VIDE, RENVOYER VERS LOGIN
 				if (empty($_SESSION)){
 					header("Location: /login");
