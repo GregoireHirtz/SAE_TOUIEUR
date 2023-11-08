@@ -55,7 +55,7 @@ HTML;
 		if ($etreAbonne){
 			$bouton = "<input class=\"bouton\" type=\"submit\" value=\"Se désabonner\">";
 		}else{
-			$bouton = "<input class=\"bouton\" type=\"submit\" value=\"S\'abonner\">";
+			$bouton = "<input class=\"bouton\" type=\"submit\" value=\"S'abonner\">";
 		}
 
 		$html = <<<HTML
