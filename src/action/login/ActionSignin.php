@@ -8,7 +8,7 @@ use touiteur\auth\Session;
 
 class ActionSignin extends Action{
 
-	static public function execute(): string{
+	static public function execute(?string $username = null): string{
 		$message = '';
 
 		// filtrage saisie user

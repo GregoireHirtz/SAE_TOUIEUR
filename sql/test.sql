@@ -44,3 +44,13 @@ CREATE PROCEDURE verifierUsernameInAbonnement(IN username VARCHAR(150), IN usern
     end;
 
 CALL verifierUsernameInAbonnement('a', 'JohnDoeee');
+
+
+DROP PROCEDURE IF EXISTS desabonnerUser;
+CREATE PROCEDURE desabonnerUser(IN username VARCHAR(150), IN usernameCible VARCHAR(150))
+    BEGIN
+        DELETE ea FROM EtreAboUtilisateur ea
+            INNER JOIN Utilisateur u ON u.emailUt=ea.emailUt
+            INNER JOIN Utilisateur uC ON uC.emailUt=ea.emailUtAbo
+        WHERE u.username=username AND uC.username=usernameCible;
+    end;

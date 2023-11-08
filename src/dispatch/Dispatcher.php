@@ -112,14 +112,21 @@ class Dispatcher{
 				$username = $_SESSION["username"];
 
 				$db = ConnectionFactory::makeConnection();
-				$st = $db->prepare("CALL verifierUsernameInAbonnement({$username}, {$cible})");
+				$st = $db->prepare("CALL verifierUsernameInAbonnement(\"{$username}\", \"{$cible}\")");
 				$st->execute();
-
 				$nb_ligne = $st->fetch()["nb_ligne"];
 				// SI DEJA ABONNER
 				if ($nb_ligne != 0){
 					$db = ConnectionFactory::makeConnection();
-					$db->prepare("CALL annulerAbonnementUtilisateur({$username}, {$cible})")->execute();
+					$db->prepare("CALL desabonnerUser(\"{$username}\", \"{$cible}\")")->execute();
+				}
+				// SI PAS ABONNER
+				else{
+					$email = User::loadUserFromUsername($username)->email;
+					$emailCible = User::loadUserFromUsername($cible)->email;
+
+					$db = ConnectionFactory::makeConnection();
+					$db->prepare("CALL sabonnerUtilisateur(\"{$email}\", \"{$emailCible}\")")->execute();
 				}
 
 				header("Location: /");
