@@ -4,6 +4,7 @@ namespace touiteur\render;
 
 use touiteur\classe\Tag;
 use touiteur\classe\Touite;
+use touiteur\db\ConnectionFactory;
 
 class RenderTouite{
 
@@ -15,10 +16,6 @@ class RenderTouite{
 
 	/**
 	 * @return String le touit sous forme html pour accueil
-	 *
-	 * $type =
-	 * 1. touit simple (avec boutona abonnement/desabonnement ou si touit perso supprimer)
-	 * 2. touit detaille (avec boutona abonnement/desabonnement ou si touit perso supprimer)
 	 */
 	public function genererTouitSimple(): String{
 		$header = $this->genererTouitSimpleHeader();
@@ -41,14 +38,34 @@ HTML;
 		$date = $this->t->getDate();
 		$dateJ = $date->format('d-m-Y');
 		$dateH = $date->format('H:i');
+
+		$etreAbonne = false;
+		// SI UTILISATEUR LOGGER
+		if (!empty($_SESSION)){
+			// VERIFICATION SI ABONNE A L'AUTEUR DU TOUITE
+			$db = ConnectionFactory::makeConnection();
+			$nb_ligne = 0;
+			$st = $db->prepare("CALL verifierUsernameInAbonnement(\"{$_SESSION["username"]}\", \"{$username}\")");
+			$st->execute();
+			if ($st->fetch()['nb_ligne'] != 0){
+				$etreAbonne = true;
+			}
+		}
+
+		if ($etreAbonne){
+			$bouton = "<input class=\"bouton\" type=\"submit\" value=\"Se désabonner\">";
+		}else{
+			$bouton = "<input class=\"bouton\" type=\"submit\" value=\"S\'abonner\">";
+		}
+
 		$html = <<<HTML
 		<header>
 			<a href="#" class="photo_profil"><img src="src/vue/images/user.svg" alt="PP"></a>
 			<a href="{$username}" class="pseudo">{$username}</a>
 			<p>{$dateJ} à {$dateH}</p>
-			<div>
-				<button onclick="passVal()" class="sabonner">S'abonner</button>
-			</div>
+			<form action="abonnement?username={$username}" method="post">
+				{$bouton}
+			</form>
 		</header>
 HTML;
 		return $html;

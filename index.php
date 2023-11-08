@@ -16,6 +16,7 @@ define("TYPE_PAGE_TOUIT", "touit");
 define("TYPE_PAGE_LOGIN", "login");
 define("TYPE_PAGE_UNLOGIN", "unlogin");
 define("TYPE_PAGE_NOTFOUND", "notfound");
+define("TYPE_PAGE_ABONNEMENT", "abonnement");
 
 // ---- AUTO-LOADER ---- //
 
@@ -51,6 +52,9 @@ if (count($parts)==2) {
 	}
 	elseif ($parts[1] == TYPE_PAGE_NOTFOUND){
 		$type = TYPE_PAGE_NOTFOUND;
+	}
+	elseif ($parts[1] == TYPE_PAGE_ABONNEMENT){
+		$type = TYPE_PAGE_ABONNEMENT;
 	}
 	else{
         $type = TYPE_PAGE_PROFIL;

@@ -14,56 +14,17 @@ class GenererAccueil extends Action{
 
 	static public function execute(): String{
 		$html = "";
-		$liste = self::listeTouitAll();
 
-		foreach ($liste as $touite){
+		$db = ConnectionFactory::makeConnection();
+		$st = $db->prepare("CALL obtenirTouiteGénérale(1, 20)");
+		$st->execute();
+
+		foreach ($st->fetchAll() as $touite){
+			$touite = new Touite($touite['idTouite'], $touite['texte'], new DateTime($touite['date']), $touite['username'], $touite['notePertinence'], $touite['nbLike'], $touite['nbDislike'], $touite['nbRetouite'], $touite['nbVue'], array());
 			$rT = new RenderTouite($touite);
 			$html .= $rT->genererTouitSimple();
 		}
+
 		return $html;
-	}
-
-
-
-	static private function listeTouitAll(): array{
-		$liste = [];
-
-		$db = ConnectionFactory::makeConnection();
-		$st = $db->prepare('CALL obtenirMeilleursTouites()');
-		$st->execute();
-
-		$row = $st->fetchAll();
-		foreach ($row as $r){
-			$i = $r['idTouite'];
-			$t = $r['texte'];
-			$d = new DateTime($r['date']);
-			$nP = $r['notePertinence'];
-			$nL = $r['nbLike'];
-			$nDL = $r['nbDislike'];
-			$nR = $r['nbRetouite'];
-			$nV = $r['nbVue'];
-
-			$db = ConnectionFactory::makeConnection();
-			$st = $db->prepare("CALL afficherTouiteTags({$i})");
-			$st->execute();
-
-			$lT = [];
-			$row2 = $st->fetchAll();
-			foreach ($row2 as $r2) {
-				$lT[] = $r2['libelle'];
-			}
-
-			$db = ConnectionFactory::makeConnection();
-			$st = $db->prepare("CALL obtenirUsername({$i})");
-			$st->execute();
-
-			$row = $st->fetch();
-			$u = $row['username'];
-
-			$liste[] = new Touite($i, $t, $d, $u, $nP, $nL, $nDL, $nR, $nV, $lT);
-		}
-
-
-		return $liste;
 	}
 }

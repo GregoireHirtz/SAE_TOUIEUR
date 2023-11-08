@@ -12,6 +12,7 @@ use touiteur\action\login\ActionSignin;
 
 use touiteur\auth\Auth;
 use touiteur\auth\Session;
+use touiteur\db\ConnectionFactory;
 use touiteur\exception\InvalideTypePage;
 
 class Dispatcher{
@@ -22,10 +23,13 @@ class Dispatcher{
 
 			// afficher les touite decroissant
 			case TYPE_PAGE_ACCUEIL:
+
+				if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+					var_dump($_GET);
+				}
+
 				$htmlHeader = GenererHeader::execute();
-
 				$htmlMain = GenererAccueil::execute();
-
 				$htmlFooter = GenererFooter::execute();
 
 				include 'src/vue/accueil.html';
@@ -36,7 +40,7 @@ class Dispatcher{
 				global $parts;
 				$username = $parts[1];
 				if (!Auth::usernameExists($username)){
-					header("Location: /notfound");
+					//header("Location: /notfound");
 				}
 
                 $htmlHeader = GenererHeader::execute();
@@ -85,6 +89,30 @@ class Dispatcher{
 
 			case TYPE_PAGE_NOTFOUND:
 				var_dump("404");
+				break;
+
+			case TYPE_PAGE_ABONNEMENT:
+
+				// SI SESSION VIDE, RENVOYER VERS LOGIN
+				if (empty($_SESSION)){
+					header("Location: /login");
+				}
+
+				$cible = $_GET["username"];
+				$username = $_SESSION["username"];
+
+				$db = ConnectionFactory::makeConnection();
+				$st = $db->prepare("CALL verifierUsernameInAbonnement({$username}, {$cible})");
+				$st->execute();
+
+				$nb_ligne = $st->fetch()["nb_ligne"];
+				// SI DEJA ABONNER
+				if ($nb_ligne != 0){
+					$db = ConnectionFactory::makeConnection();
+					$db->prepare("CALL annulerAbonnementUtilisateur({$username}, {$cible})")->execute();
+				}
+
+				header("Location: /");
 				break;
 
 			default:
