@@ -20,7 +20,7 @@ CREATE TABLE Utilisateur (
                              username VARCHAR(50) UNIQUE NOT NULL,
                              mdp VARCHAR(100) NOT NULL,
                              dateInscription DATETIME NOT NULL,
-                             permissions VARCHAR(20) DEFAULT 'registered' -- admin, registered
+                             permissions INT DEFAULT 0 -- registered 0, admin 1
 );
 
 CREATE TABLE Tag (
@@ -79,6 +79,14 @@ CREATE TABLE UtiliserImage (
                                FOREIGN KEY (idImage) REFERENCES Image(idImage)
 );
 
+CREATE TABLE UtiliserPP(
+                           emailUt VARCHAR(150),
+                           idImage INT,
+                           PRIMARY KEY (emailUt, idImage),
+                           FOREIGN KEY (emailUt) REFERENCES Utilisateur(emailUt),
+                           FOREIGN KEY (idImage) REFERENCES Image(idImage)
+);
+
 CREATE TABLE UtiliserTag (
                              idTouite INT,
                              idTag INT,
@@ -115,15 +123,15 @@ CREATE TABLE AvoirVote (
 
 
 -- Data
-INSERT INTO Utilisateur (emailUt, nomUt, prenomUt, username, mdp, dateInscription, permissions) VALUES ('jane.doe@example.com', 'Doe', 'Jane', 'Jany', '$2y$12$0IdkqBJBR6pDDSpsVxdFN.91rZ//1ZT9qEG.r/CZIg1', '2023-01-01', 'admin'); # password1
-INSERT INTO Utilisateur (emailUt, nomUt, prenomUt, username, mdp, dateInscription, permissions) VALUES ('bob.smith@example.com', 'Smith', 'Bob', 'Bobby', '$2y$12$2aYwGKJVWe7jEDFzyelZX.K.czD3uVtlaqOC4iFCqdY', '2023-01-02', 'registered'); # test12
-INSERT INTO Utilisateur (emailUt, nomUt, prenomUt, username, mdp, dateInscription, permissions) VALUES ('alice.johnson@example.com', 'Johnson', 'Alice', 'AlJ', '$2y$12$H0.OCachy7TztWReyC26oOkKWHDIVL0FEV/N9FyUSp9', '2023-01-03', 'registered'); # Alice123!
-INSERT INTO Utilisateur (emailUt, nomUt, prenomUt, username, mdp, dateInscription, permissions) VALUES ('charlie.brown@example.com', 'Brown', 'Charlie','Charliette', '$2y$12$.qUMjSN4uitSOISSlqKe7.xhXAspEpRuui.SZ3OMGR3TlkrH5sZ0K', '2023-01-04', 'registered'); # MonMotDePasse
-INSERT INTO Utilisateur (emailUt, nomUt, prenomUt, username, mdp, dateInscription, permissions) VALUES ('john.doe@example.com', 'Doe', 'John', 'JohnDoeee', '$2y$12$URpt9yu6CNbA6m4k4.MwF.ZNnuBnv0DK6sGl67WJDUh', '2023-01-05', 'admin'); # password
+INSERT INTO Utilisateur (emailUt, nomUt, prenomUt, username, mdp, dateInscription, permissions) VALUES ('jane.doe@example.com', 'Doe', 'Jane', 'Jany', '$2y$12$0IdkqBJBR6pDDSpsVxdFN.91rZ//1ZT9qEG.r/CZIg1', '2023-01-01', 1); # password1
+INSERT INTO Utilisateur (emailUt, nomUt, prenomUt, username, mdp, dateInscription, permissions) VALUES ('bob.smith@example.com', 'Smith', 'Bob', 'Bobby', '$2y$12$2aYwGKJVWe7jEDFzyelZX.K.czD3uVtlaqOC4iFCqdY', '2023-01-02', 0); # test12
+INSERT INTO Utilisateur (emailUt, nomUt, prenomUt, username, mdp, dateInscription, permissions) VALUES ('alice.johnson@example.com', 'Johnson', 'Alice', 'AlJ', '$2y$12$H0.OCachy7TztWReyC26oOkKWHDIVL0FEV/N9FyUSp9', '2023-01-03', 0); # Alice123!
+INSERT INTO Utilisateur (emailUt, nomUt, prenomUt, username, mdp, dateInscription, permissions) VALUES ('charlie.brown@example.com', 'Brown', 'Charlie','Charliette', '$2y$12$.qUMjSN4uitSOISSlqKe7.xhXAspEpRuui.SZ3OMGR3TlkrH5sZ0K', '2023-01-04', 0); # MonMotDePasse
+INSERT INTO Utilisateur (emailUt, nomUt, prenomUt, username, mdp, dateInscription, permissions) VALUES ('john.doe@example.com', 'Doe', 'John', 'JohnDoeee', '$2y$12$URpt9yu6CNbA6m4k4.MwF.ZNnuBnv0DK6sGl67WJDUh', '2023-01-05', 1); # password
 
-INSERT INTO Tag (idTag, libelle, descriptionTag, dateCreation) VALUES (1, '#Touiteur', 'Un tag pour les touites sur Touiteur', '2023-03-01');
-INSERT INTO Tag (idTag, libelle, descriptionTag, dateCreation) VALUES (2, '#Nouveau', 'Un tag pour les nouveaux touites', '2023-03-02');
-INSERT INTO Tag (idTag, libelle, descriptionTag, dateCreation) VALUES (3, '#Ancien', 'Un tag pour les anciens touites', '2023-03-03');
+INSERT INTO Tag (idTag, libelle, descriptionTag, dateCreation) VALUES (1, 'Touiteur', 'Un tag pour les touites sur Touiteur', '2023-03-01');
+INSERT INTO Tag (idTag, libelle, descriptionTag, dateCreation) VALUES (2, 'Nouveau', 'Un tag pour les nouveaux touites', '2023-03-02');
+INSERT INTO Tag (idTag, libelle, descriptionTag, dateCreation) VALUES (3, 'Ancien', 'Un tag pour les anciens touites', '2023-03-03');
 
 INSERT INTO Image (idImage, descriptionImg, cheminSrc) VALUES (1, 'Une image de profil', '/chemin/vers/image.jpg');
 INSERT INTO Image (idImage, descriptionImg, cheminSrc) VALUES (2, 'Une autre image de profil', '/chemin/vers/autre_image.jpg');

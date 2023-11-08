@@ -58,12 +58,13 @@ class Touite{
 		$st->bindParam(1, $idTouite, PDO::PARAM_STR);
 		$st->execute();
 		$db = null;
-
 		$lT = [];
 		while ($row = $st->fetch()){
 			$tag = $row['idTag'];
 			$lT[] = $tag;
 		}
+
+
 		$touite = new Touite($i, $t, $d, $nP, $nL, $nDL, $nR, $nV, $lT);
 		return $touite;
 	}

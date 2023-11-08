@@ -36,10 +36,12 @@ HTML;
 	}
 
 	private function genererTouitSimpleHeader(): String{
+		$username = "";
+
 		$html = <<<HTML
 		<header>
 			<a href="#" class="photo_profil"><img src="images/user.svg" alt="PP"></a>
-			<a href="#" class="pseudo">!________!</a>
+			<a href="#" class="pseudo">{$username}</a>
 			<p>JJ-MM-AAAA à hh:mm</p>
 			<div>
 				<button class="sabonner">S'abonner</button>

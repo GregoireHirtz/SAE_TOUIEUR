@@ -51,14 +51,12 @@ class ActionSignin extends Action{
 				$valide = false;
 			}
 		}
-		$message = '</ul>';
-
+		$message .= '</ul>';
 		if ($valide){
 			Auth::register($email, $username, $password);
 			Session::loadSession($username);
 			header("Location: /");
 		}
-
 		return $message;
 	}
 }
