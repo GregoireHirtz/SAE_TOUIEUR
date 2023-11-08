@@ -3,7 +3,9 @@
 namespace touiteur\action\accueil;
 
 use Cassandra\Function_;
+use DateTime;
 use touiteur\action\Action;
+use touiteur\classe\Tag;
 use touiteur\classe\Touite;
 use touiteur\db\ConnectionFactory;
 use touiteur\render\RenderTouite;
@@ -27,18 +29,41 @@ class GenererAccueil extends Action{
 		$liste = [];
 
 		$db = ConnectionFactory::makeConnection();
-
-		// Utilisation de LIMIT dans la requête pour éviter de parcourir complètement la table si on a déjà trouvé le mail de l'utilisateur.
-		$query = "SELECT idTouite from Touite ORDER BY notePertinence DESC LIMIT 20";
-		$st = $db->prepare($query);
+		$st = $db->prepare('CALL obtenirMeilleursTouites()');
 		$st->execute();
-		$db = null;
 
-		while ($row = $st->fetch()){
-			$id =  $row['idTouite'];
-			$t = Touite::loadTouite($id);
-			$liste[] = $t;
+		$row = $st->fetchAll();
+		foreach ($row as $r){
+			$i = $r['idTouite'];
+			$t = $r['texte'];
+			$d = new DateTime($r['date']);
+			$nP = $r['notePertinence'];
+			$nL = $r['nbLike'];
+			$nDL = $r['nbDislike'];
+			$nR = $r['nbRetouite'];
+			$nV = $r['nbVue'];
+
+			$db = ConnectionFactory::makeConnection();
+			$st = $db->prepare("CALL afficherTouiteTags({$i})");
+			$st->execute();
+
+			$lT = [];
+			$row2 = $st->fetchAll();
+			foreach ($row2 as $r2) {
+				$lT[] = $r2['libelle'];
+			}
+
+			$db = ConnectionFactory::makeConnection();
+			$st = $db->prepare("CALL obtenirUsername({$i})");
+			$st->execute();
+
+			$row = $st->fetch();
+			$u = $row['username'];
+
+			$liste[] = new Touite($i, $t, $d, $u, $nP, $nL, $nDL, $nR, $nV, $lT);
 		}
+
+
 		return $liste;
 	}
 }

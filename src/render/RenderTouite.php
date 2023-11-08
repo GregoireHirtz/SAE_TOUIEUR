@@ -36,13 +36,16 @@ HTML;
 	}
 
 	private function genererTouitSimpleHeader(): String{
-		$username = "aaa";
+		$username = $this->t->getUsername();
 
+		$date = $this->t->getDate();
+		$dateJ = $date->format('d-m-Y');
+		$dateH = $date->format('H:i');
 		$html = <<<HTML
 		<header>
 			<a href="#" class="photo_profil"><img src="src/vue/images/user.svg" alt="PP"></a>
 			<a href="#" class="pseudo">{$username}</a>
-			<p>JJ-MM-AAAA à hh:mm</p>
+			<p>{$dateJ} à {$dateH}</p>
 			<div>
 				<button class="sabonner">S'abonner</button>
 			</div>
@@ -68,17 +71,19 @@ HTML;
 
 		$lT = $this->t->getListeTag();
 		$tags = "";
-		foreach ($lT as $idTag){
-			$libelle = Tag::loadTag($idTag)->getLibelle();
-			$tags .= "<a href=\"#\">#{$libelle}</a> ";
+		foreach ($lT as $tag){
+			$tags .= "<a href=\"#\">#{$tag} </a>";
 		}
 
+		$pertinence = $this->t->getPertinence();
+
+		$vue = $this->t->getNbVue();
 
 		$html = <<<HTML
 		 <footer>
 			<div>
 				<img src="src/vue/images/heart_empty.svg" alt="Like">
-				<p>84</p>
+				<p>{$pertinence}</p>
 				<img src="src/vue/images/heart-crack_empty.svg" alt="Dislike">
 			</div>
 			<div>
