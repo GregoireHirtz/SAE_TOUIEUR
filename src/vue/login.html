@@ -9,7 +9,7 @@
 <body>
 <!-- oninvalid="this.setCustomValidity(' ')" -->
 <main id="login">
-	<form class="login" action="" method="post">
+	<form class="login" action="/login?action=login" method="post">
 		<h3>Se connecter &agrave; votre compte</h3>
 		<div class="input">
 			<input autocomplete="off" value="" id="login_username" type="text" name="username" required>
@@ -30,7 +30,7 @@
 		<input onclick="switchLogMethod(this.parentElement, 'creer')" class="bouton secondaire" type="button" value="Cr&eacute;er un compte">
 	</form>
 
-	<form style="display: none" class="signin" action="" method="post">
+	<form style="display: none" class="signin" action="/login?action=signin" method="post">
 		<h3>Cr&eacute;er un compte Touiteur</h3>
 		<div class="input">
 			<input value="" autocomplete="off" id="signin_username" type="text" name="username" required>
