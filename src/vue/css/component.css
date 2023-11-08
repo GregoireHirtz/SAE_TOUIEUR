@@ -1,3 +1,42 @@
+/* ===== BARRE DE NAVIGATION ===== */
+.barreNav {
+	position: sticky;
+	top: 0;
+	left: 0;
+	height: calc(2 * var(--default-size));
+	background-color: var(--background_transparent);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	z-index: 100;
+	backdrop-filter: blur(2px);
+	border-bottom: 3px solid var(--primaire);
+	margin-left: 8px;
+}
+
+.barreNav > .logo {
+	font-size: calc(var(--default-size) * 0.75);
+	font-weight: bold;
+	color: var(--primaire);
+	text-decoration: none;
+	margin-left: calc(var(--default-size) * 0.5);
+}
+
+.barreNav > .compte {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--default-size) * 0.75);
+	margin-right: calc(var(--default-size) * 0.5);
+	font-size: calc(var(--default-size) * 0.6);
+	color: var(--texte);
+	text-decoration: none;
+}
+.barreNav > .compte > img {
+	width: calc(var(--default-size) * 1);
+	border-radius: 5px;
+}
+
+
 /* ===== INPUT ===== */
 .input {
 	--hauteur: calc(var(--default-size) * 0.5);
@@ -130,10 +169,22 @@
 }
 
 /* ===== NAVIGATION PROFILE ===== */
+.navigation {
+	width: 106%;
+	translate: -3%;
+	position: sticky;
+	top: calc(2 * var(--default-size) + 3px);
+	background-color: var(--background_transparent);
+	z-index: 100;
+	backdrop-filter: blur(2px);
+}
+
 .navigation > ul {
+	height: calc(1.5 * var(--default-size));
 	display: flex;
 	gap: calc(var(--default-size) * 0.75);
 	padding-left: 0;
+	margin: 0;
 }
 
 .navigation > ul > li {

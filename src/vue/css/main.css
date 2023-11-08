@@ -25,6 +25,11 @@
 	--primaire: #6B37D8;
 	--secondaire: #DBCDEC;
 	--background: #F6F5FF;
+	--background_transparent: #F6F5FF33;
+}
+
+html, body {
+	margin: 0;
 }
 
 body {
@@ -36,6 +41,8 @@ body {
 * {
 	scrollbar-width: thin;
 	scrollbar-color: var(--texte) transparent;
+
+	scrollbar-gutter: stable;
 }
 *::-webkit-scrollbar {
 	height: 8px;
@@ -81,7 +88,8 @@ body > main {
 }
 
 #profil > h3 {
-	font-size: calc(var(--default-size) * 0.65);
+	font-size: calc(var(--default-size) * .9);
+	color: var(--texte);
 	margin: auto;
 	width: fit-content;
 }
