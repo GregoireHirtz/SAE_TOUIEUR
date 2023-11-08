@@ -36,11 +36,11 @@ HTML;
 	}
 
 	private function genererTouitSimpleHeader(): String{
-		$username = "";
+		$username = "aaa";
 
 		$html = <<<HTML
 		<header>
-			<a href="#" class="photo_profil"><img src="images/user.svg" alt="PP"></a>
+			<a href="#" class="photo_profil"><img src="src/vue/images/user.svg" alt="PP"></a>
 			<a href="#" class="pseudo">{$username}</a>
 			<p>JJ-MM-AAAA à hh:mm</p>
 			<div>
@@ -77,13 +77,13 @@ HTML;
 		$html = <<<HTML
 		 <footer>
 			<div>
-				<img src="images/heart_empty.svg" alt="Like">
+				<img src="src/vue/images/heart_empty.svg" alt="Like">
 				<p>84</p>
-				<img src="images/heart-crack_empty.svg" alt="Dislike">
+				<img src="src/vue/images/heart-crack_empty.svg" alt="Dislike">
 			</div>
 			<div>
 				<p>0</p>
-				<img src="images/view.svg" alt="Vue">
+				<img src="src/vue/images/view.svg" alt="Vue">
 			</div>
 			<p>{$tags}</p>
     </footer>
