@@ -28,20 +28,16 @@ class Dispatcher{
 				break;
 
 			case TYPE_PAGE_LOGIN:
-
 				// si déjà connecté ==> accueil
 				if (!empty($_SESSION)){
 					// redirection vers accueil
 					header("Location: /");
 				}
-
 				$htmlLoginMessage = '';
 				$htmlSigninMessage = '';
 				// si validation formulaire
 				if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
 					// -- FORMULAIRE LOGIN -- //
-
 					if ($_GET["action"]=="login"){
 						$htmlLoginMessage = ActionLogin::execute();
 					}
