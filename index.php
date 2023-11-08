@@ -30,7 +30,7 @@ session_start();
 // ---- ROUTAGE URL ---- //
 
 $url = $_SERVER['REQUEST_URI'];
-$url = str_replace("", "", $url);
+$url = str_replace("SAE_TOUITEUR/", "", $url);
 // Supprimer le "/" à la fin de la chaîne si elle existe
 $url = rtrim($url, '/');
 $parts = explode('?', $url)[0];
