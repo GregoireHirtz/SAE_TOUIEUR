@@ -2,10 +2,14 @@
 
 namespace touiteur\classe;
 
+use DateTime;
+use PDO;
+use touiteur\db\ConnectionFactory;
+
 class Tag{
-	private $id;
-	private $libelle;
-	private $description;
+	private int $id;
+	private String $libelle;
+	private String $description;
 
 	public function __construct($i, $l, $d){
 		$this->id = $i;
@@ -18,8 +22,23 @@ class Tag{
 	 * @return Tag
 	 * load un tag depusi la bd selon id
 	 */
-	public function loadTag($id): Tag{
-		// TODO
+	public static function loadTag($id): Tag{
+		$db = ConnectionFactory::makeConnection();
+
+
+		$query = "SELECT * from Tag WHERE idTag = ?";
+		$st = $db->prepare($query);
+		$st->bindParam(1, $id, PDO::PARAM_STR);
+		$st->execute();
+
+		$row = $st->fetch();
+		$i =  $row['idTag'];
+		$l = $row['libelle'];
+		$d = $row['descriptionTag'];
+		$dC = new DateTime($row['dateCreation']);
+
+		$tag = new Tag($i, $l, $d, $dC);
+		return $tag;
 	}
 
 	public function getLibelle(): String{

@@ -7,6 +7,6 @@ use touiteur\action\Action;
 class GenererHeader extends Action{
 
 	static public function execute(){
-		// TODO: Implement execute() method.
+		return "";
 	}
 }
