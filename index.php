@@ -17,6 +17,9 @@ define("TYPE_PAGE_LOGIN", "login");
 define("TYPE_PAGE_UNLOGIN", "unlogin");
 define("TYPE_PAGE_NOTFOUND", "notfound");
 define("TYPE_PAGE_ABONNEMENT", "abonnement");
+define("TYPE_PAGE_LIKE", "like");
+define("TYPE_PAGE_TAG", "tag");
+
 
 // ---- AUTO-LOADER ---- //
 
@@ -30,8 +33,11 @@ session_start();
 
 // ---- ROUTAGE URL ---- //
 
+
+define("PREFIXE", "SAE_TOUITEUR/");
+
 $url = $_SERVER['REQUEST_URI'];
-$url = str_replace("SAE_TOUITEUR/", "", $url);
+$url = str_replace(PREFIXE, "", $url);
 // Supprimer le "/" à la fin de la chaîne si elle existe
 $url = rtrim($url, '/');
 $parts = explode('?', $url)[0];
@@ -55,6 +61,12 @@ if (count($parts)==2) {
 	}
 	elseif ($parts[1] == TYPE_PAGE_ABONNEMENT){
 		$type = TYPE_PAGE_ABONNEMENT;
+	}
+	elseif ($parts[1] == TYPE_PAGE_LIKE){
+		$type = TYPE_PAGE_LIKE;
+	}
+	elseif ($parts[1] == TYPE_PAGE_TAG){
+		$type = TYPE_PAGE_TAG;
 	}
 	else{
         $type = TYPE_PAGE_PROFIL;
