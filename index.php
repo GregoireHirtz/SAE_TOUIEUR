@@ -19,7 +19,7 @@ define("TYPE_PAGE_NOTFOUND", "notfound");
 define("TYPE_PAGE_ABONNEMENT", "abonnement");
 define("TYPE_PAGE_LIKE", "like");
 define("TYPE_PAGE_TAG", "tag");
-
+define("TYPE_PAGE_PUBLIER", "publier");
 
 // ---- AUTO-LOADER ---- //
 
@@ -68,6 +68,10 @@ if (count($parts)==2) {
 	elseif ($parts[1] == TYPE_PAGE_TAG){
 		$type = TYPE_PAGE_TAG;
 	}
+    elseif ($parts[1] == TYPE_PAGE_PUBLIER){
+        $type = TYPE_PAGE_PUBLIER;
+    }
+
 	else{
         $type = TYPE_PAGE_PROFIL;
     }
