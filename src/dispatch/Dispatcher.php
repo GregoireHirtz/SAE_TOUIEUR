@@ -148,8 +148,8 @@ class Dispatcher{
 					Dispatcher::redirection("login");
 					break;
 				}
-
 				GestionLike::execute();
+				Dispatcher::redirection("");
 				break;
 
 			case TYPE_PAGE_ABONNEMENT:

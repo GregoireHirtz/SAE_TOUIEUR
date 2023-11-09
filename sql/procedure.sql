@@ -40,6 +40,7 @@ DROP PROCEDURE IF EXISTS etreAboUtilisateur;
 DROP PROCEDURE IF EXISTS etreAboTag;
 
 
+
 DROP FUNCTION IF EXISTS ajoutRecherche;
 
 
@@ -498,8 +499,6 @@ BEGIN
     WHERE u.username=username AND uC.username=usernameCible;
 end;
 
-CALL verifierUsernameInAbonnement('a', 'JohnDoeee');
-
 
 DROP PROCEDURE IF EXISTS desabonnerUser;
 CREATE PROCEDURE desabonnerUser(IN username VARCHAR(150), IN usernameCible VARCHAR(150))
@@ -564,7 +563,6 @@ BEGIN
     SELECT vote from AvoirVote where emailUt=v_mail and idTouite=v_idTouite;
 end;
 
-call etreVote(1, 'bob.smith@example.com');
 
 
 
