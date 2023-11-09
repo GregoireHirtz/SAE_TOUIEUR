@@ -41,8 +41,6 @@ body {
 * {
 	scrollbar-width: thin;
 	scrollbar-color: var(--texte) transparent;
-
-	scrollbar-gutter: stable;
 }
 *::-webkit-scrollbar {
 	height: 8px;
@@ -59,7 +57,7 @@ body {
 }
 
 /* ===== DEFAULT ===== */
-.logo {
+.login-logo {
 	height: calc(1.5 * var(--page-width));
 	position: fixed;
 	top: 50%;
@@ -76,6 +74,9 @@ body {
 body > main {
 	width: var(--page-width);
 	margin: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 25px;
 }
 
 #login > form {

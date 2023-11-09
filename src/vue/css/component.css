@@ -11,7 +11,6 @@
 	z-index: 100;
 	backdrop-filter: blur(2px);
 	border-bottom: 3px solid var(--primaire);
-	margin-left: 8px;
 }
 
 .barreNav > .logo {
@@ -173,9 +172,9 @@
 	width: 106%;
 	translate: -3%;
 	position: sticky;
-	top: calc(2 * var(--default-size) + 3px);
+	top: calc(2 * var(--default-size));
 	background-color: var(--background_transparent);
-	z-index: 100;
+	z-index: 99;
 	backdrop-filter: blur(2px);
 }
 
