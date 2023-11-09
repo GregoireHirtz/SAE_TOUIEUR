@@ -188,6 +188,10 @@ class Dispatcher{
 				//header("Location: ./");
 				break;
 
+            case TYPE_PAGE_PUBLIER:
+                // TODO Reprendre le chemin de l'utilisateur pour le renvoyer là où il était déjà (actualisation)
+                // header("Location: /");
+                break;
 
 			default:
 				throw new InvalideTypePage($page);
