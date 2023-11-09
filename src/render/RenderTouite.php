@@ -18,12 +18,15 @@ class RenderTouite{
 	 * @return String le touit sous forme html pour accueil
 	 */
 	public function genererTouitSimple(): String{
+
+		$idTouite = $this->t->getId();
+
 		$header = $this->genererTouitSimpleHeader();
 		$main = $this->genererTouitSimpleMain();
 		$footer = $this->genererTouitSimpleFooter();
 
 		$html = <<<HTML
-	<article>
+	<article id="{$idTouite}">
 		{$header}
 		{$main}
 		{$footer}
@@ -58,12 +61,13 @@ HTML;
 			$bouton = "<input class=\"bouton\" type=\"submit\" value=\"S'abonner\">";
 		}
 
+		$p = PREFIXE;
 		$html = <<<HTML
 		<header>
 			<a href="#" class="photo_profil"><img src="src/vue/images/user.svg" alt="PP"></a>
 			<a href="{$username}" class="pseudo">{$username}</a>
 			<p>{$dateJ} à {$dateH}</p>
-			<form action="/abonnement?username={$username}" method="post">
+			<form action="{$p}abonnement?username={$username}" method="post">
 				{$bouton}
 			</form>
 		</header>
@@ -85,24 +89,31 @@ HTML;
 
 	private function genererTouitSimpleFooter(): String{
 		$m = $this->t->getTexte();
-
 		$lT = $this->t->getListeTag();
-		$tags = "";
+
+		$tags="";
 		foreach ($lT as $tag){
 			$tags .= "<a href=\"#\">#{$tag} </a>";
 		}
 
 		$pertinence = $this->t->getPertinence();
-
 		$vue = $this->t->getNbVue();
 
+
+		$like = <<<HTML
+				<input type="image" src="src/vue/images/heart_empty.svg" alt="Like">
+				<p>{$pertinence}</p>
+				<input type="image" src="src/vue/images/heart-crack_empty.svg" alt="Dislike">
+HTML;
+
+
+
+		$p = PREFIXE;
 		$html = <<<HTML
 		 <footer>
-			<div>
-				<img src="src/vue/images/heart_empty.svg" alt="Like">
-				<p>{$pertinence}</p>
-				<img src="src/vue/images/heart-crack_empty.svg" alt="Dislike">
-			</div>
+			<form action="{$p}like?a=1" method="post">
+				{$like}
+			</form>
 			<div>
 				<p>{$vue}</p>
 				<img src="src/vue/images/view.svg" alt="Vue">

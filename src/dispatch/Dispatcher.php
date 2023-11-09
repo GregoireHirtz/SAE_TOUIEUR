@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace touiteur\dispatch;
 
+use touiteur\action\accueil\GenererAccueilTag;
 use touiteur\action\accueil\GenererHeader;
 use touiteur\action\accueil\GenererAccueil;
 use touiteur\action\accueil\GenererFooter;
@@ -34,12 +35,18 @@ class Dispatcher{
 
 			// afficher les touite decroissant
 			case TYPE_PAGE_ACCUEIL:
-				if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-					var_dump($_GET);
-				}
 
 				$htmlHeader = GenererHeader::execute();
 				$htmlMain = GenererAccueil::execute();
+				$htmlFooter = GenererFooter::execute();
+
+				include 'src/vue/accueil.html';
+				break;
+
+
+			case TYPE_PAGE_TAG:
+				$htmlHeader = GenererHeader::execute();
+				$htmlMain = GenererAccueilTag::execute($_SESSION["username"]);
 				$htmlFooter = GenererFooter::execute();
 
 				include 'src/vue/accueil.html';
@@ -75,7 +82,8 @@ class Dispatcher{
 				// si déjà connecté ==> accueil
 				if (!empty($_SESSION)){
 					// redirection vers accueil
-					header("Location: /");
+					//header("Location: /");
+					Dispatcher::redirection("");
 				}
 				$htmlLoginMessage = '';
 				$htmlSigninMessage = '';
@@ -97,23 +105,39 @@ class Dispatcher{
 
 			case TYPE_PAGE_UNLOGIN:
 				Session::unloadSession();
-				header("Location: /");
+				//header("Location: /");
+				Dispatcher::redirection("");
 				break;
 
 			case TYPE_PAGE_NOTFOUND:
 				var_dump("404");
 				break;
 
+			case TYPE_PAGE_LIKE:
+				// SI SESSION VIDE, RENVOYER VERS LOGIN
+				if (empty($_SESSION)){
+					Dispatcher::redirection("login");
+					break;
+				}
+
+
+
+
+				Dispatcher::redirection("");
+				break;
+
 			case TYPE_PAGE_ABONNEMENT:
 
 				// verification URL valide
 				if (!in_array("username", array_keys($_GET))) {
-					header("Location: /");
+					Dispatcher::redirection("");
+					//header("Location: /");
 				}
 
 				// SI SESSION VIDE, RENVOYER VERS LOGIN
 				if (empty($_SESSION)){
-					header("Location: /login");
+					Dispatcher::redirection("login");
+					//header("Location: /login");
 				}
 
 				$cible = $_GET["username"];
@@ -127,11 +151,10 @@ class Dispatcher{
 
 				$cibleValide = $row["nb_ligne"];
 				if ($cibleValide==0){
-					header("Location: /");
+					Dispatcher::redirection("");
+					//header("Location: /");
 					break;
 				}
-
-
 				$db = ConnectionFactory::makeConnection();
 				$st = $db->prepare("CALL verifierUsernameInAbonnement(\"{$username}\", \"{$cible}\")");
 				$st->execute();
@@ -150,17 +173,18 @@ class Dispatcher{
 					$db->prepare("CALL sabonnerUtilisateur(\"{$email}\", \"{$emailCible}\")")->execute();
 				}
 
-				header("Location: ./");
+				Dispatcher::redirection("");
+				//header("Location: ./");
 				break;
+
 
 			default:
 				throw new InvalideTypePage($page);
 		}
 	}
 
-	private function redirection(String $url){
-		global $parts;
-		var_dump($parts);
-		header("Location {$url}");
+	public static function redirection(String $url){
+		$p = PREFIXE;
+		header("Location: /{$p}{$url}");
 	}
 }

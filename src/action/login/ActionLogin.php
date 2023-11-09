@@ -5,6 +5,7 @@ namespace touiteur\action\login;
 use touiteur\action\Action;
 use touiteur\auth\Auth;
 use touiteur\auth\Session;
+use touiteur\dispatch\Dispatcher;
 
 class ActionLogin extends Action{
 
@@ -20,7 +21,8 @@ class ActionLogin extends Action{
 		if ($valide){
 			Session::loadSession($username);
 			// redirection vers accueil
-			header("Location: /");
+			//header("Location: /");
+			Dispatcher::redirection("");
 		}
 		// sinon message erreur dans $message
 		else{

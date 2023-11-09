@@ -16,10 +16,11 @@ class GenererHeader extends Action{
 			$url = $username;
 		}
 
+		$p = PREFIXE;
 		$html = <<<HTML
 	<nav class="barreNav">
-		<a href="/" class="logo">Touiter</a>
-		<a href="/{$url}" class="compte">
+		<a href="/{$p}" class="logo">Touiter</a>
+		<a href="/{$p}{$url}" class="compte">
 			{$username}
 			<img src="src/vue/images/user.svg" alt="PP">
 		</a>

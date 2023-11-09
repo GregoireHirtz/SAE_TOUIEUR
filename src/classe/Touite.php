@@ -74,4 +74,8 @@ class Touite{
 	public function getNbVue(): int{
 		return $this->nbVue;
 	}
+
+	public function getId(): int{
+		return $this->id;
+	}
 }

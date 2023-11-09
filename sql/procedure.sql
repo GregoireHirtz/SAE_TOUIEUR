@@ -431,9 +431,9 @@ CALL `obtenirTouitesTagChoisi`(1);
 
 
 
--------------------------
-PROCEDURE GREGOIRE
----------------------------
+
+
+
 DROP PROCEDURE IF EXISTS obtenirTouiteGénérale;
 /**
     * @param page : la page de touites à retourner
@@ -454,7 +454,7 @@ BEGIN
     LIMIT nbTouiteParPage OFFSET inf;
 end;
 
-CALL obtenirTouiteGénérale(2, 10);
+CALL obtenirTouiteGénérale(1, 10);
 
 
 DROP PROCEDURE IF EXISTS obtenirNbPagesTouiteGénérale;
@@ -467,6 +467,27 @@ end;
 
 CALL obtenirNbPagesTouiteGénérale(10, @result);
 SELECT @result;
+
+
+
+
+DROP PROCEDURE IF EXISTS obtenirTouiteTag;
+CREATE PROCEDURE obtenirTouiteTag(IN username VARCHAR(50), IN page INT, IN nbTouiteParPage INT)
+BEGIN
+    DECLARE inf INT;
+    SET inf = nbTouiteParPage*(page-1);
+
+    SELECT DISTINCT ut.idTag, t.*, u.emailUt, u.username FROM Touite t
+        INNER JOIN PublierPar pp ON t.idTouite=pp.idTouite
+        INNER JOIN Utilisateur u ON pp.emailUt=u.emailUt
+        INNER JOIN UtiliserTag ut ON ut.idTouite=t.idTouite
+    WHERE ut.idTag IN
+        (SELECT idTag FROM EtreAboTag eat INNER JOIN Utilisateur u ON u.emailUt= eat.emailUt WHERE u.username LIKE 'a')
+    ORDER BY t.notePertinence DESC
+    LIMIT nbTouiteParPage OFFSET inf;
+end;
+CALL obtenirTouiteTag('a', 1, 10);
+
 
 
 DROP PROCEDURE IF EXISTS verifierUsernameInAbonnement;
@@ -495,3 +516,14 @@ CREATE PROCEDURE EtreUserValide(IN username VARCHAR(50))
 BEGIN
     SELECT COUNT(*) AS nb_ligne FROM Utilisateur u WHERE u.username LIKE username;
 end;
+
+
+
+DROP PROCEDURE IF EXISTS obtenirTagTouite;
+CREATE PROCEDURE obtenirTagTouite(IN idTouite INT)
+BEGIN
+    SELECT t.idTag, t.libelle FROM UtiliserTag ut
+        INNER JOIN Tag t ON t.idTag=ut.idTag
+    WHERE ut.idTouite LIKE idTouite;
+end;
+
