@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace touiteur\dispatch;
 
+use touiteur\action\accueil\GenererAccueilAbonne;
 use touiteur\action\accueil\GenererAccueilTag;
 use touiteur\action\accueil\GenererHeader;
 use touiteur\action\accueil\GenererAccueil;
@@ -61,6 +62,19 @@ class Dispatcher{
 						$htmlFooter = GenererFooter::execute();
 						include 'src/vue/accueil.html';
 						break;
+
+
+					case "abonne":
+						if (empty($_SESSION)){
+							Dispatcher::redirection("login");
+							break;
+						}
+						$htmlHeader = GenererHeader::execute();
+						$htmlMain = GenererAccueilAbonne::execute();
+						$htmlFooter = GenererFooter::execute();
+						include 'src/vue/accueil.html';
+						break;
+
 
 					default:
 						Dispatcher::redirection("accueil");
