@@ -5,23 +5,20 @@
 	--default-size: 30px;
 
 	/* === COULEUR === */
+
+	/* Theme sombre */
 /*
 	--texte: #BCC0D2;
 	--accent: #8C99B1;
 	--primaire: #5A28C8;
 	--secondaire: #221434;
 	--background: #01000A;
+	--background_transparent: #01000A33;
 */
 
+	/* Theme clair */
 	--texte: #2D3142;
 	--accent: #4F5D75;
-/*
-	--primaire: #EF8354;
-	--secondaire: #ECD7CD;
-	--background: #FFF8F5;
-*/
-
-
 	--primaire: #6B37D8;
 	--secondaire: #DBCDEC;
 	--background: #F6F5FF;
@@ -41,8 +38,6 @@ body {
 * {
 	scrollbar-width: thin;
 	scrollbar-color: var(--texte) transparent;
-
-	scrollbar-gutter: stable;
 }
 *::-webkit-scrollbar {
 	height: 8px;
@@ -59,7 +54,7 @@ body {
 }
 
 /* ===== DEFAULT ===== */
-.logo {
+.login-logo {
 	height: calc(1.5 * var(--page-width));
 	position: fixed;
 	top: 50%;
@@ -76,6 +71,9 @@ body {
 body > main {
 	width: var(--page-width);
 	margin: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 25px;
 }
 
 #login > form {
