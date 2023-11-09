@@ -36,20 +36,31 @@ class Dispatcher{
 			// afficher les touite decroissant
 			case TYPE_PAGE_ACCUEIL:
 
+				if (!in_array("data", array_keys($_GET))) {
+					$_GET["data"] = "accueil";
+				}
+
 				$htmlHeader = GenererHeader::execute();
-				$htmlMain = GenererAccueil::execute();
 				$htmlFooter = GenererFooter::execute();
+				switch ($_GET["data"]){
+					case "accueil":
+						$htmlHeader = GenererHeader::execute();
+						$htmlMain = GenererAccueil::execute();
+						$htmlFooter = GenererFooter::execute();
+						include 'src/vue/accueil.html';
+						break;
 
-				include 'src/vue/accueil.html';
-				break;
+					case "tag":
+						$htmlHeader = GenererHeader::execute();
+						$htmlMain = GenererAccueilTag::execute();
+						$htmlFooter = GenererFooter::execute();
+						include 'src/vue/accueil.html';
+						break;
 
-
-			case TYPE_PAGE_TAG:
-				$htmlHeader = GenererHeader::execute();
-				$htmlMain = GenererAccueilTag::execute($_SESSION["username"]);
-				$htmlFooter = GenererFooter::execute();
-
-				include 'src/vue/accueil.html';
+					default:
+						Dispatcher::redirection("accueil");
+						break;
+				}
 				break;
 
 			case TYPE_PAGE_PROFIL:

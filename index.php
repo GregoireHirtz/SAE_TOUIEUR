@@ -18,7 +18,6 @@ define("TYPE_PAGE_UNLOGIN", "unlogin");
 define("TYPE_PAGE_NOTFOUND", "notfound");
 define("TYPE_PAGE_ABONNEMENT", "abonnement");
 define("TYPE_PAGE_LIKE", "like");
-define("TYPE_PAGE_TAG", "tag");
 
 
 // ---- AUTO-LOADER ---- //
@@ -46,6 +45,7 @@ $parts = explode('/', $parts);
 $type = TYPE_PAGE_NOTFOUND;
 
 if (count($parts)==1) {
+	Dispatcher::redirection("accueil");
     $type = TYPE_PAGE_ACCUEIL;
 }
 
@@ -65,8 +65,8 @@ if (count($parts)==2) {
 	elseif ($parts[1] == TYPE_PAGE_LIKE){
 		$type = TYPE_PAGE_LIKE;
 	}
-	elseif ($parts[1] == TYPE_PAGE_TAG){
-		$type = TYPE_PAGE_TAG;
+	elseif ($parts[1] == TYPE_PAGE_ACCUEIL){
+		$type = TYPE_PAGE_ACCUEIL;
 	}
 	else{
         $type = TYPE_PAGE_PROFIL;
