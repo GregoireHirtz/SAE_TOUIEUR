@@ -20,11 +20,7 @@ class GenererAccueilTag extends Action{
 		$st->execute();
 
 		foreach ($st->fetchAll() as $touite){
-			$lT = array();
-			$db = ConnectionFactory::makeConnection();
-			$st = $db->prepare("CALL obtenirTagTouite({$touite["idTouite"]})");
-
-			$touite = new Touite($touite['idTouite'], $touite['texte'], new DateTime($touite['date']), $touite['username'], $touite['notePertinence'], $touite['nbLike'], $touite['nbDislike'], $touite['nbRetouite'], $touite['nbVue'], $lT);
+			$touite = new Touite($touite['idTouite'], $touite['texte'], new DateTime($touite['date']), $touite['username'], $touite['notePertinence'], $touite['nbLike'], $touite['nbDislike'], $touite['nbRetouite'], $touite['nbVue'], array());
 			$rT = new RenderTouite($touite);
 			$html .= $rT->genererTouitSimple();
 		}

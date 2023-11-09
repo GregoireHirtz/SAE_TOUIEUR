@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace touiteur\dispatch;
 
+use touiteur\action\accueil\GenererAccueilAbonne;
 use touiteur\action\accueil\GenererAccueilTag;
 use touiteur\action\accueil\GenererHeader;
 use touiteur\action\accueil\GenererAccueil;
@@ -51,11 +52,29 @@ class Dispatcher{
 						break;
 
 					case "tag":
+
+						if (empty($_SESSION)){
+							Dispatcher::redirection("login");
+							break;
+						}
 						$htmlHeader = GenererHeader::execute();
 						$htmlMain = GenererAccueilTag::execute();
 						$htmlFooter = GenererFooter::execute();
 						include 'src/vue/accueil.html';
 						break;
+
+
+					case "abonne":
+						if (empty($_SESSION)){
+							Dispatcher::redirection("login");
+							break;
+						}
+						$htmlHeader = GenererHeader::execute();
+						$htmlMain = GenererAccueilAbonne::execute();
+						$htmlFooter = GenererFooter::execute();
+						include 'src/vue/accueil.html';
+						break;
+
 
 					default:
 						Dispatcher::redirection("accueil");
@@ -191,6 +210,20 @@ class Dispatcher{
             case TYPE_PAGE_PUBLIER:
                 // TODO Reprendre le chemin de l'utilisateur pour le renvoyer là où il était déjà (actualisation)
                 // header("Location: /");
+                break;
+
+            case TYPE_PAGE_INFLUENCEURS:
+
+                if (!empty($_SESSION)){
+                    // redirection vers accueil
+                    Dispatcher::redirection("login");
+                }
+                else {
+                    $htmlHeader = GenererHeader::execute();
+                    $htmlMain = GenererInfluenceurs::execute();
+                    $htmlFooter = GenererFooter::execute();
+                    include("src/vue/influenceurs.html");
+                }
                 break;
 
 			default:
