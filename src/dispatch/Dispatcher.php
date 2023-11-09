@@ -2,23 +2,22 @@
 declare(strict_types=1);
 namespace touiteur\dispatch;
 
+use touiteur\action\accueil\GenererAccueil;
 use touiteur\action\accueil\GenererAccueilAbonne;
 use touiteur\action\accueil\GenererAccueilTag;
-use touiteur\action\accueil\GenererHeader;
-use touiteur\action\accueil\GenererAccueil;
 use touiteur\action\accueil\GenererFooter;
-
+use touiteur\action\accueil\GenererHeader;
+use touiteur\action\accueil\GenererInfluenceurs;
 use touiteur\action\accueil\GenererProfil;
+use touiteur\action\GestionLike;
 use touiteur\action\login\ActionLogin;
 use touiteur\action\login\ActionSignin;
-
 use touiteur\auth\Auth;
 use touiteur\auth\Session;
-
-
-use touiteur\db\ConnectionFactory;
 use touiteur\classe\User;
+use touiteur\db\ConnectionFactory;
 use touiteur\exception\InvalideTypePage;
+
 
 /**
  * Classe qui permet de dispatcher les requêtes
@@ -146,36 +145,11 @@ class Dispatcher{
 			case TYPE_PAGE_LIKE:
 				// SI SESSION VIDE, RENVOYER VERS LOGIN
 				if (empty($_SESSION)){
-					//Dispatcher::redirection("login");
+					Dispatcher::redirection("login");
 					break;
 				}
 
-				// si GET data pas définie
-				if (!in_array("data", array_keys($_GET)) || ($_GET["data"]!="l" && $_GET["data"]!="dl")){
-					Dispatcher::redirection("");
-				}
-
-				switch ($_GET["data"]){
-					// appuie sur like
-					case "l":
-						//$db = ConnectionFactory::makeConnection();
-						//$email = User::loadUserFromUsername($_SESSION["username"])->email;
-						//$idT = $_GET["id"];
-						//$db->prepare("CALL voter(\"$email\", $idT, 1)")->execute();
-						break;
-
-						// appuie sur dislike
-					case "dl":
-						break;
-				}
-
-				Dispatcher::redirection("accueil");
-
-
-
-
-
-				//Dispatcher::redirection("");
+				GestionLike::execute();
 				break;
 
 			case TYPE_PAGE_ABONNEMENT:

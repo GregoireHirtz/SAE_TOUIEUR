@@ -9,13 +9,13 @@ DROP FUNCTION IF EXISTS ajoutImage;
 DROP FUNCTION IF EXISTS `ajoutTag`;
 DROP PROCEDURE IF EXISTS ajoutUtilisateur;
 DROP PROCEDURE IF EXISTS `ajoutUtiliserTag`;
-DROP PROCEDURE IF EXISTS ajoutUtiliserImage
+DROP PROCEDURE IF EXISTS ajoutUtiliserImage;
 DROP PROCEDURE IF EXISTS `obtenirUtilisateurAbo`;
 DROP PROCEDURE IF EXISTS `obtenirTouitesUtilisateursSuivis`;
 DROP PROCEDURE IF EXISTS `obtenirTouitesTagChoisi`;
 DROP PROCEDURE IF EXISTS `voter`;
-DROP PROCEDURE IF EXISTS `compterLikes`;
-DROP PROCEDURE IF EXISTS `compterDislikes`;
+DROP FUNCTION IF EXISTS `compterLikes`;
+DROP FUNCTION IF EXISTS `compterDislikes`;
 DROP FUNCTION IF EXISTS `calculerNote`;
 DROP PROCEDURE IF EXISTS afficherTouite;
 DROP PROCEDURE IF EXISTS afficherTouiteImages;
@@ -31,58 +31,65 @@ DROP FUNCTION IF EXISTS ajoutHistorique;
 DROP PROCEDURE IF EXISTS ajoutRecherche;
 DROP PROCEDURE IF EXISTS annulerAbonnementUtilisateur;
 DROP PROCEDURE IF EXISTS annulerAbonnementTag;
+DROP PROCEDURE IF EXISTS ajoutHistorique;
+DROP PROCEDURE IF EXISTS afficherTouitesAboUtilisateur;
+DROP PROCEDURE IF EXISTS afficherTouitesAboTag;
+DROP PROCEDURE IF EXISTS etreAboTag;
+DROP PROCEDURE IF EXISTS obtenirUsername;
+DROP PROCEDURE IF EXISTS etreAboUtilisateur;
+DROP PROCEDURE IF EXISTS etreAboTag;
+
+
+DROP FUNCTION IF EXISTS ajoutRecherche;
 
 
 -- Créations des PROCEDURES
 
 -- Liste des abonnements (utilisateurs)
-DELIMITER $$
+
 CREATE PROCEDURE `obtenirAbonnementUtilisateur`(IN `emailUtilisateur` VARCHAR(150))
 select u.emailUt, u.nomUt, u.prenomUt, u.username, u.dateInscription
 from EtreAboUtilisateur aUt inner join Utilisateur u on aUt.emailUtAbo=u.emailUt
 where aUt.emailUt = emailUtilisateur
-ORDER BY u.username
-$$
-DELIMITER ;
+ORDER BY u.username;
+
 
 -- Liste des abonnements (tags)
-DELIMITER $$
+
 CREATE PROCEDURE `obtenirAbonnementTag`(IN `emailUtilisateur` VARCHAR(150))
 select t.libelle, t.descriptionTag, t.dateCreation, count(t.idTag)
 from Tag t inner join EtreAboTag aTa on t.idTag=aTa.idTag
            inner join UtiliserTag ut on aTa.idTag=ut.idTag
 where aTa.emailUt = emailUtilisateur
-ORDER BY t.libelle
-$$
-DELIMITER ;
+ORDER BY t.libelle;
+
 
 -- Liste des abonnés (utilisateurs)
-DELIMITER $$
+
 CREATE PROCEDURE `obtenirUtilisateurAbo`(IN `emailUtilisateur` VARCHAR(150))
 select u.nomUt, u.prenomUt, u.username, u.dateInscription
 from EtreAboUtilisateur aUt inner join Utilisateur u on aUt.emailUt=u.emailUt
 where aUt.emailUtAbo = emailUtilisateur
-ORDER BY u.username
-$$
-DELIMITER ;
+ORDER BY u.username;
+
 
 -- Liste des touites qu’un utilisateur a publié :
-DELIMITER $$
+
 CREATE PROCEDURE `obtenirTouitesUtilisateur`(IN `emailUtilisateur` VARCHAR(150))
 select t.texte, t.date, t.notePertinence, t.nbLike, t.nbDislike, t.nbRetouite, t.nbVue
 from Utilisateur u inner join PublierPar p on u.emailUt=p.emailUt
                    inner join Touite t on p.idTouite=t.idTouite
 where u.emailUt like emailUtilisateur
-ORDER BY t.date DESC$$
-DELIMITER ;
+ORDER BY t.date DESC;
+
 
 -- Liste des meilleurs touites d'aujourd'hui (HOME PAGE)
-DELIMITER $$
+
 CREATE PROCEDURE `obtenirMeilleursTouites`()
 select t.texte, t.date, t.notePertinence, t.nbLike, t.nbDislike, t.nbRetouite, t.nbVue
 from Touite t
-ORDER BY t.notePertinence DESC, t.date DESC$$
-DELIMITER ;
+ORDER BY t.notePertinence DESC, t.date DESC;
+
 
 -- Ajout d'un touite
 DELIMITER //
@@ -156,16 +163,20 @@ BEGIN
 END;
 
 -- Compter likes
-CREATE PROCEDURE compterLikes(v_idTouite INT)
+CREATE FUNCTION compterLikes(v_idTouite INT) RETURNS INT
 BEGIN
-    select IFNULL(SUM(vote=1), 0) as nbLike from AvoirVote where idTouite=v_idTouite;
+    DECLARE nbLikeCount INT;
+    SELECT IFNULL(SUM(vote=1), 0) INTO nbLikeCount FROM AvoirVote WHERE idTouite = v_idTouite;
+    RETURN nbLikeCount;
 END;
 
 
 -- Compter dislikes
-CREATE PROCEDURE compterDislikes(v_idTouite INT)
+CREATE FUNCTION compterDislikes(v_idTouite INT) RETURNS INT
 BEGIN
-    select IFNULL(SUM(vote=-1), 0) as nbDiike from AvoirVote where idTouite=v_idTouite;
+    DECLARE nbDislikeCount INT;
+    SELECT IFNULL(SUM(vote=-1), 0) INTO nbDislikeCount FROM AvoirVote WHERE idTouite = v_idTouite;
+    RETURN nbDislikeCount;
 END;
 
 
@@ -191,11 +202,11 @@ BEGIN
     END IF;
 END;
 
--- Annuler Like/Dislike
+-- Annuler GestionLike/Dislike
 CREATE PROCEDURE annulerLikeDislike(v_idTouite INT, v_email TEXT)
 BEGIN
-    DELETE FROM AvoirVote
-    WHERE idTouite = v_idTouite and emailUt=v_email;
+    DELETE FROM AvoirVote WHERE idTouite=v_idTouite and emailUt=v_email;
+
     UPDATE Touite
     SET nbLike = (select compterLikes(v_idTouite)),
         nbDislike = (select compterDislikes(v_idTouite)),
@@ -553,7 +564,7 @@ BEGIN
     SELECT vote from AvoirVote where emailUt=v_mail and idTouite=v_idTouite;
 end;
 
-call etreVote(0, 'bob.smith@example.com');
+call etreVote(1, 'bob.smith@example.com');
 
 
 

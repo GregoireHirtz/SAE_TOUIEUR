@@ -24,7 +24,7 @@ class RenderTouite{
 		$idTouite = $this->t->getId();
 
 		$db = ConnectionFactory::makeConnection();
-		$st=$db->prepare("CALL ajouterVue($idTouite)")->execute();
+		//$st=$db->prepare("CALL ajouterVue($idTouite)")->execute();
 
 		$header = $this->genererTouitSimpleHeader();
 		$main = $this->genererTouitSimpleMain();
@@ -101,18 +101,33 @@ HTML;
 		$pertinence = $this->t->getPertinence();
 		$vue = $this->t->getNbVue();
 
-		$db = ConnectionFactory::makeConnection();
-		$i = $this->t->getId();
-		$em = User::loadUserFromUsername($_SESSION["username"])->email;
-		//$st = $db->prepare("CALL etreVote($i, \"$em\")")->execute();
+		$type = 0;
+		if (!empty($_SESSION)){
+			$db = ConnectionFactory::makeConnection();
+			$i = $this->t->getId();
+			$em = User::loadUserFromUsername($_SESSION["username"])->email;
+			$st = $db->prepare("CALL etreVote($i, \"$em\")");
+			$st->execute();
+			$result = $st->fetch(PDO::FETCH_ASSOC);
+
+			if ($result !== false){$type = $result["vote"];}
+		}
+
+		$srcL = "src/vue/images/heart_empty.svg";
+		$srcDL = "src/vue/images/heart-crack_empty.svg";
+		if ($type===1){
+			$srcL = "src/vue/images/heart_full.svg";
+		}elseif ($type===-1) {
+			$srcDL = "src/vue/images/heart-crack_full.svg";
+		}
 
 
 		$like = <<<HTML
-				<input name="like" type="image" src="src/vue/images/heart_empty.svg" alt="Like">
+				<input name="like" type="image" src={$srcL} alt="GestionLike">
 HTML;
 
 		$dislike = <<<HTML
-				<input name="dislike" type="image" src="src/vue/images/heart-crack_empty.svg" alt="Dislike">
+				<input name="dislike" type="image" src={$srcDL} alt="Dislike">
 HTML;
 
 
