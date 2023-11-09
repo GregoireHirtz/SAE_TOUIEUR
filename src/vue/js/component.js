@@ -25,6 +25,7 @@ window.addEventListener('load', () => {
 		});
 	});
 
+	/*
 	let abonne_button = document.querySelectorAll('.sabonner');
 	abonne_button.forEach(button => {
 		button.addEventListener('click', () => {
@@ -37,7 +38,9 @@ window.addEventListener('load', () => {
 			}
 		});
 	});
+	*/
 
+	/*
 	let vote_buttons = document.querySelectorAll('article > footer > :first-child > img');
 	vote_buttons.forEach(button => {
 		button.addEventListener('click', () => {
@@ -52,6 +55,7 @@ window.addEventListener('load', () => {
 			}
 		});
 	});
+	*/
 
 	// get url "data" and "tag" get parameters
 	let url = new URL(window.location.href);
