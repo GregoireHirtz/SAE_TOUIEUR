@@ -2,7 +2,6 @@ window.addEventListener('load', () => {
 	if (document.title === 'Touiteur - Login' && localStorage.getItem('shown_form') === 'signin')
 		switchLogMethod(document.querySelector('form.login'), 'signin');
 
-
 	let inputs = document.querySelectorAll('.input > input');
 	inputs.forEach(input => {
 		input.addEventListener('input', () => {
@@ -26,6 +25,7 @@ window.addEventListener('load', () => {
 		});
 	});
 
+	/*
 	let abonne_button = document.querySelectorAll('.sabonner');
 	abonne_button.forEach(button => {
 		button.addEventListener('click', () => {
@@ -38,7 +38,9 @@ window.addEventListener('load', () => {
 			}
 		});
 	});
+	*/
 
+	/*
 	let vote_buttons = document.querySelectorAll('article > footer > :first-child > img');
 	vote_buttons.forEach(button => {
 		button.addEventListener('click', () => {
@@ -53,6 +55,17 @@ window.addEventListener('load', () => {
 			}
 		});
 	});
+	*/
+
+	// get url "data" and "tag" get parameters
+	let url = new URL(window.location.href);
+	let params = new URLSearchParams(url.search);
+	let data = params.get('data');
+	let el = document.getElementById(data);
+	if (el) {
+		document.getElementsByClassName("selected")[0].classList.remove("selected");
+		el.classList.add("selected");
+	}
 });
 
 
