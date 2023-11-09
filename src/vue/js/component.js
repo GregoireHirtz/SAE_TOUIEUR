@@ -1,4 +1,10 @@
+let dialog;
+// TODO split en deux fichiers
+// TODO attribuer les fonctions js aux bonnes pages uniquement
+
 window.addEventListener('load', () => {
+	dialog = document.querySelector('dialog')
+
 	if (document.title === 'Touiteur - Login' && localStorage.getItem('shown_form') === 'signin')
 		switchLogMethod(document.querySelector('form.login'), 'signin');
 
@@ -66,6 +72,17 @@ window.addEventListener('load', () => {
 		document.getElementsByClassName("selected")[0].classList.remove("selected");
 		el.classList.add("selected");
 	}
+
+	document.addEventListener('mousedown', (event) => {
+		//target is dialog
+		if (event.target !== dialog)
+			return;
+
+		// close if click outside dialog
+		let bounding = dialog.getBoundingClientRect();
+		if (event.clientX < bounding.left || event.clientX > bounding.right || event.clientY < bounding.top || event.clientY > bounding.bottom)
+			dialog.close();
+	});
 });
 
 
@@ -78,4 +95,13 @@ function switchLogMethod(form, switchTo) {
 		form.nextElementSibling.style.display = 'flex';
 		localStorage.setItem('shown_form', 'signin');
 	}
+}
+
+function openDialog() {
+	dialog.showModal();
+}
+
+function textAreaAdjust(element) {
+	element.style.height = "1px";
+	element.style.height = `calc(var(--default-size) * .5 + ${element.scrollHeight}px)`;
 }
