@@ -5,6 +5,7 @@ namespace touiteur\render;
 use touiteur\classe\Tag;
 use touiteur\classe\User;
 use DateTime;
+use touiteur\db\ConnectionFactory;
 
 class RenderAbonnement{
 
@@ -54,14 +55,36 @@ HTML;
     private function genererUserHeader(): String{
         $dateAbonnement = date_format($this->d, "d/m/y");
         $heureAbonnement = date_format($this->d, "H:i");
+
+		$username = $this->u->username;
+		$etreAbonne = false;
+		// SI UTILISATEUR LOGGER
+		if (!empty($_SESSION)){
+			// VERIFICATION SI ABONNE A L'AUTEUR DU TOUITE
+			$db = ConnectionFactory::makeConnection();
+			$nb_ligne = 0;
+			$st = $db->prepare("CALL verifierUsernameInAbonnement(\"{$_SESSION["username"]}\", \"{$username}\")");
+			$st->execute();
+			if ($st->fetch()['nb_ligne'] != 0){
+				$etreAbonne = true;
+			}
+		}
+
+		if ($etreAbonne){
+			$bouton = "<input class=\"bouton\" type=\"submit\" value=\"Se désabonner\">";
+		}else{
+			$bouton = "<input class=\"bouton\" type=\"submit\" value=\"S'abonner\">";
+		}
+
+
         $html = <<<HTML
 		<header>
 			<a href="#" class="photo_profil"><img src="src/vue/images/user.svg" alt="Photo Profil"></a>
 			<a href="{$this->u->username}" class="pseudo">{$this->u->username}</a>
 			<p>Abonné le $dateAbonnement à $heureAbonnement </p>
-			<div>
-				<button class="sabonner">S'abonner</button>
-			</div>
+			<form action="/abonnement?username={$username}" method="post">
+				{$bouton}
+			</form>
 		</header>
 HTML;
         return $html;

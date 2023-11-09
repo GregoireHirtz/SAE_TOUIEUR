@@ -63,7 +63,7 @@ HTML;
 			<a href="#" class="photo_profil"><img src="src/vue/images/user.svg" alt="PP"></a>
 			<a href="{$username}" class="pseudo">{$username}</a>
 			<p>{$dateJ} à {$dateH}</p>
-			<form action="abonnement?username={$username}" method="post">
+			<form action="/abonnement?username={$username}" method="post">
 				{$bouton}
 			</form>
 		</header>

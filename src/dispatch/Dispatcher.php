@@ -106,6 +106,7 @@ class Dispatcher{
 
 			case TYPE_PAGE_ABONNEMENT:
 
+				// verification URL valide
 				if (!in_array("username", array_keys($_GET))) {
 					header("Location: /");
 				}
@@ -117,6 +118,19 @@ class Dispatcher{
 
 				$cible = $_GET["username"];
 				$username = $_SESSION["username"];
+
+				//verification username donne valide
+				$db = ConnectionFactory::makeConnection();
+				$st = $db->prepare("CALL EtreUserValide(\"{$cible}\")");
+				$st->execute();
+				$row = $st->fetch();
+
+				$cibleValide = $row["nb_ligne"];
+				if ($cibleValide==0){
+					header("Location: /");
+					break;
+				}
+
 
 				$db = ConnectionFactory::makeConnection();
 				$st = $db->prepare("CALL verifierUsernameInAbonnement(\"{$username}\", \"{$cible}\")");
@@ -136,11 +150,17 @@ class Dispatcher{
 					$db->prepare("CALL sabonnerUtilisateur(\"{$email}\", \"{$emailCible}\")")->execute();
 				}
 
-				header("Location: /");
+				header("Location: ./");
 				break;
 
 			default:
 				throw new InvalideTypePage($page);
 		}
+	}
+
+	private function redirection(String $url){
+		global $parts;
+		var_dump($parts);
+		header("Location {$url}");
 	}
 }
