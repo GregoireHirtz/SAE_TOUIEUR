@@ -109,11 +109,11 @@ HTML;
 		$p = PREFIXE;
 		$html = <<<HTML
 		 <footer>
-			<form action="like?data=l" method="post">
+			<form action="like?data=l&id={$this->t->getId()}" method="post">
 				{$like}
 			</form>
 			<p>{$pertinence}</p>
-			<form action="like?data=dl" method="post">
+			<form action="like?data=dl&id={$this->t->getId()}" method="post">
 				{$dislike}
 			</form>
 			<div>
