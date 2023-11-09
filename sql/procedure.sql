@@ -527,3 +527,5 @@ BEGIN
     WHERE ut.idTouite LIKE idTouite;
 end;
 
+CALL obtenirTagTouite(4)
+

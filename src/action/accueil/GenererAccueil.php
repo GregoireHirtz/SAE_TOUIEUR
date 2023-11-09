@@ -19,6 +19,7 @@ class GenererAccueil extends Action{
 		$st = $db->prepare("CALL obtenirTouiteGénérale(1, 20)");
 		$st->execute();
 
+
 		foreach ($st->fetchAll() as $touite){
 			$touite = new Touite($touite['idTouite'], $touite['texte'], new DateTime($touite['date']), $touite['username'], $touite['notePertinence'], $touite['nbLike'], $touite['nbDislike'], $touite['nbRetouite'], $touite['nbVue'], array());
 			$rT = new RenderTouite($touite);

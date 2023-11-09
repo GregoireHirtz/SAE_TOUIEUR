@@ -91,14 +91,8 @@ HTML;
 		$m = $this->t->getTexte();
 		$lT = $this->t->getListeTag();
 
-		$tags="";
-		foreach ($lT as $tag){
-			$tags .= "<a href=\"#\">#{$tag} </a>";
-		}
-
 		$pertinence = $this->t->getPertinence();
 		$vue = $this->t->getNbVue();
-
 
 		$like = <<<HTML
 				<input type="image" src="src/vue/images/heart_empty.svg" alt="Like">
@@ -118,7 +112,6 @@ HTML;
 				<p>{$vue}</p>
 				<img src="src/vue/images/view.svg" alt="Vue">
 			</div>
-			<p>{$tags}</p>
     </footer>
 HTML;
 		return $html;

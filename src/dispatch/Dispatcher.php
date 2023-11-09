@@ -51,6 +51,11 @@ class Dispatcher{
 						break;
 
 					case "tag":
+
+						if (empty($_SESSION)){
+							Dispatcher::redirection("login");
+							break;
+						}
 						$htmlHeader = GenererHeader::execute();
 						$htmlMain = GenererAccueilTag::execute();
 						$htmlFooter = GenererFooter::execute();
