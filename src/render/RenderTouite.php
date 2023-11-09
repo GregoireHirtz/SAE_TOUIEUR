@@ -109,13 +109,15 @@ HTML;
 		$p = PREFIXE;
 		$html = <<<HTML
 		 <footer>
-			<form action="like?data=l" method="post">
-				{$like}
-			</form>
-			<p>{$pertinence}</p>
-			<form action="like?data=dl" method="post">
-				{$dislike}
-			</form>
+			<div>
+				<form action="like?data=l" method="post">
+					{$like}
+				</form>
+				<p>{$pertinence}</p>
+				<form action="like?data=dl" method="post">
+					{$dislike}
+				</form>
+			</div>
 			<div>
 				<p>{$vue}</p>
 				<img src="src/vue/images/view.svg" alt="Vue">

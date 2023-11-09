@@ -341,14 +341,17 @@ article > footer > * > p {
 	font-weight: bold;
 	color: var(--texte);
 }
-article > footer > form > p {
+article > footer > div:nth-child(1) > p {
 	text-align: center;
 }
-article > footer > div > p {
+article > footer > div:nth-child(2) > p {
 	text-align: right;
 }
-
-
+article > footer > div > form {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 article > footer > p > a {
 	font-size: calc(var(--default-size) * 0.35);
 	color: var(--accent);
