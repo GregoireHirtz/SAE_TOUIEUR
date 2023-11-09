@@ -212,6 +212,20 @@ class Dispatcher{
                 // header("Location: /");
                 break;
 
+            case TYPE_PAGE_INFLUENCEURS:
+
+                if (!empty($_SESSION)){
+                    // redirection vers accueil
+                    Dispatcher::redirection("login");
+                }
+                else {
+                    $htmlHeader = GenererHeader::execute();
+                    $htmlMain = GenererInfluenceurs::execute();
+                    $htmlFooter = GenererFooter::execute();
+                    include("src/vue/influenceurs.html");
+                }
+                break;
+
 			default:
 				throw new InvalideTypePage($page);
 		}
