@@ -11,6 +11,7 @@ use touiteur\action\accueil\GenererInfluenceurs;
 use touiteur\action\accueil\GenererProfil;
 use touiteur\action\GestionLike;
 use touiteur\action\login\ActionLogin;
+use touiteur\action\login\ActionNouveauTouit;
 use touiteur\action\login\ActionSignin;
 use touiteur\auth\Auth;
 use touiteur\auth\Session;
@@ -206,6 +207,14 @@ class Dispatcher{
             case TYPE_PAGE_PUBLIER:
                 // TODO Reprendre le chemin de l'utilisateur pour le renvoyer là où il était déjà (actualisation)
                 // header("Location: /");
+
+				if (empty($_SESSION))
+					Dispatcher::redirection("login");
+
+				ActionNouveauTouit::execute();
+
+				$redirection = $_POST["redirect"];
+				Dispatcher::redirection($redirection);
                 break;
 
             case TYPE_PAGE_INFLUENCEURS:

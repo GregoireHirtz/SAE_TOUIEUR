@@ -7,9 +7,11 @@ use touiteur\action\Action;
 class GenererFooter extends Action{
 
 	static public function execute(?string $username = null){
+		$p = PREFIXE;
+		$url_actuel = str_replace("/".$p, "", $_SERVER['REQUEST_URI']);
 		return <<<HTML
 <dialog>
-    <form action="?action=publier" method="post">
+    <form action="{$p}publier" method="post">
         <header>
             <a href="#" class="photo_profil"><img src="src/vue/images/hashtag.svg" alt="Photo Profil"></a>
             <a href="#" class="pseudo">Votre touit</a>
@@ -19,12 +21,13 @@ class GenererFooter extends Action{
         <div class="texte_touit">
             <fieldset>
                 <legend>Entrer votre texte</legend>
-                <textarea oninput="textAreaAdjust(this)" maxlength="234" id="publier_touit" required></textarea>
+                <textarea name="texte" oninput="textAreaAdjust(this)" maxlength="235" id="publier_touit" required></textarea>
             </fieldset>
-            <label class="compteur" for="publier_touit">xxx/234</label>
+            <label class="compteur" for="publier_touit">xxx/235</label>
         </div>
-        <input id="input_file" hidden type="file" placeholder="Ajouter une image">
+        <input name="image" id="input_file" hidden type="file" placeholder="Ajouter une image">
         <label for="input_file">Ajouter une image</label>
+        <input name="redirect" hidden value="{$url_actuel}">
         <div class="inline">
             <input type="submit" class="bouton" value="Publier">
             <input type="reset" class="bouton secondaire" value="Annuler" onclick="this.closest('dialog').close()">
