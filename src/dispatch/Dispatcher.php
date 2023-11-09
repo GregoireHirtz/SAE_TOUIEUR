@@ -58,7 +58,7 @@ class Dispatcher{
 							break;
 						}
 						$htmlHeader = GenererHeader::execute();
-						$htmlMain = GenererAccueilTag::execute();
+						$htmlMain = GenererAccueilTag::execute($_SESSION["username"]);
 						$htmlFooter = GenererFooter::execute();
 						include 'src/vue/accueil.html';
 						break;
@@ -70,7 +70,7 @@ class Dispatcher{
 							break;
 						}
 						$htmlHeader = GenererHeader::execute();
-						$htmlMain = GenererAccueilAbonne::execute();
+						$htmlMain = GenererAccueilAbonne::execute($_SESSION["username"]);
 						$htmlFooter = GenererFooter::execute();
 						include 'src/vue/accueil.html';
 						break;
@@ -146,14 +146,36 @@ class Dispatcher{
 			case TYPE_PAGE_LIKE:
 				// SI SESSION VIDE, RENVOYER VERS LOGIN
 				if (empty($_SESSION)){
-					Dispatcher::redirection("login");
+					//Dispatcher::redirection("login");
 					break;
 				}
 
+				// si GET data pas définie
+				if (!in_array("data", array_keys($_GET)) || ($_GET["data"]!="l" && $_GET["data"]!="dl")){
+					Dispatcher::redirection("");
+				}
+
+				switch ($_GET["data"]){
+					// appuie sur like
+					case "l":
+						//$db = ConnectionFactory::makeConnection();
+						//$email = User::loadUserFromUsername($_SESSION["username"])->email;
+						//$idT = $_GET["id"];
+						//$db->prepare("CALL voter(\"$email\", $idT, 1)")->execute();
+						break;
+
+						// appuie sur dislike
+					case "dl":
+						break;
+				}
+
+				Dispatcher::redirection("accueil");
 
 
 
-				Dispatcher::redirection("");
+
+
+				//Dispatcher::redirection("");
 				break;
 
 			case TYPE_PAGE_ABONNEMENT:

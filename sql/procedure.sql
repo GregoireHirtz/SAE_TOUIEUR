@@ -393,18 +393,6 @@ BEGIN
     end if;
 end;
 
--- etreVote (idtouite, user)
-CREATE FUNCTION etreVote(v_idTouite INT, v_mail TEXT) RETURNS bool
-BEGIN
-    DECLARE v_etreVote date;
-    select vote into v_etreVote from AvoirVote where emailUt=v_mail and idTouite=v_idTouite;
-    IF (v_etreVote) IS NULL THEN
-        return false;
-    ELSE
-        return true;
-    end if;
-end;
-
 
 -- obtenir utilisateur avec touite
 CREATE PROCEDURE obtenirUsername(v_idtouite INT)
@@ -482,7 +470,7 @@ BEGIN
         INNER JOIN Utilisateur u ON pp.emailUt=u.emailUt
         INNER JOIN UtiliserTag ut ON ut.idTouite=t.idTouite
     WHERE ut.idTag IN
-        (SELECT idTag FROM EtreAboTag eat INNER JOIN Utilisateur u ON u.emailUt= eat.emailUt WHERE u.username LIKE 'a')
+        (SELECT idTag FROM EtreAboTag eat INNER JOIN Utilisateur u ON u.emailUt= eat.emailUt WHERE u.username LIKE username)
     ORDER BY t.notePertinence DESC
     LIMIT nbTouiteParPage OFFSET inf;
 end;
@@ -527,5 +515,47 @@ BEGIN
     WHERE ut.idTouite LIKE idTouite;
 end;
 
-CALL obtenirTagTouite(4)
+
+
+
+DROP PROCEDURE IF EXISTS ajouterVue;
+CREATE PROCEDURE ajouterVue(IN idTouite INT)
+BEGIN
+    UPDATE Touite t SET ajouterVue.t.nbVue=ajouterVue.t.nbVue+1 WHERE ajouterVue.t.idTouite=t.idTouite;
+end;
+
+
+
+DROP PROCEDURE IF EXISTS obtenirTouiteAbonne;
+CREATE PROCEDURE obtenirTouiteAbonne(IN username VARCHAR(50), IN page INT, IN nbTouiteParPage INT)
+BEGIN
+    DECLARE inf INT;
+    SET inf = nbTouiteParPage*(page-1);
+
+    SELECT DISTINCT ut.idTag, t.*, u.emailUt, u.username FROM Touite t
+        INNER JOIN PublierPar pp ON t.idTouite=pp.idTouite
+        INNER JOIN Utilisateur u ON pp.emailUt=u.emailUt
+        INNER JOIN UtiliserTag ut ON ut.idTouite=t.idTouite
+    WHERE u.username IN
+        (SELECT u2.username FROM EtreAboUtilisateur eau
+            INNER JOIN Utilisateur u1 ON u1.emailUt=eau.emailUt
+            INNER JOIN Utilisateur u2 ON u2.emailUt=eau.emailUtAbo
+        WHERE u1.username LIKE username)
+    ORDER BY t.notePertinence DESC
+    LIMIT nbTouiteParPage OFFSET inf;
+end;
+
+
+
+DROP PROCEDURE IF EXISTS etreVote;
+CREATE PROCEDURE etreVote(in v_idTouite int, in v_mail text)
+BEGIN
+    SELECT vote from AvoirVote where emailUt=v_mail and idTouite=v_idTouite;
+end;
+
+call etreVote(0, 'bob.smith@example.com');
+
+
+
+
 

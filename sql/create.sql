@@ -12,11 +12,11 @@ DROP TABLE IF EXISTS Image;
 DROP TABLE IF EXISTS Tag;
 DROP TABLE IF EXISTS Utilisateur;
 
--- Structure
+-- Structure;
 CREATE TABLE Utilisateur (
                              emailUt VARCHAR(150) PRIMARY KEY,
-                             nomUt VARCHAR(50) DEFAULT NULL,
-                             prenomUt VARCHAR(50) DEFAULT NULL,
+                             nomUt VARCHAR(50) DEFAULT 'Inconnu',
+                             prenomUt VARCHAR(50) DEFAULT 'Inconnu',
                              username VARCHAR(50) UNIQUE NOT NULL,
                              mdp VARCHAR(100) NOT NULL,
                              dateInscription DATETIME NOT NULL,

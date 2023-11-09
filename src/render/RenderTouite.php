@@ -2,8 +2,10 @@
 declare(strict_types=1);
 namespace touiteur\render;
 
+use PDO;
 use touiteur\classe\Tag;
 use touiteur\classe\Touite;
+use touiteur\classe\User;
 use touiteur\db\ConnectionFactory;
 
 class RenderTouite{
@@ -20,6 +22,9 @@ class RenderTouite{
 	public function genererTouitSimple(): String{
 
 		$idTouite = $this->t->getId();
+
+		$db = ConnectionFactory::makeConnection();
+		$st=$db->prepare("CALL ajouterVue($idTouite)")->execute();
 
 		$header = $this->genererTouitSimpleHeader();
 		$main = $this->genererTouitSimpleMain();
@@ -96,6 +101,12 @@ HTML;
 		$pertinence = $this->t->getPertinence();
 		$vue = $this->t->getNbVue();
 
+		$db = ConnectionFactory::makeConnection();
+		$i = $this->t->getId();
+		$em = User::loadUserFromUsername($_SESSION["username"])->email;
+		//$st = $db->prepare("CALL etreVote($i, \"$em\")")->execute();
+
+
 		$like = <<<HTML
 				<input name="like" type="image" src="src/vue/images/heart_empty.svg" alt="Like">
 HTML;
@@ -110,11 +121,11 @@ HTML;
 		$html = <<<HTML
 		 <footer>
 			<div>
-				<form action="like?data=l" method="post">
+				<form action="like?data=l&id={$this->t->getId()}" method="post">
 					{$like}
 				</form>
 				<p>{$pertinence}</p>
-				<form action="like?data=dl" method="post">
+				<form action="like?data=dl&id={$this->t->getId()}" method="post">
 					{$dislike}
 				</form>
 			</div>

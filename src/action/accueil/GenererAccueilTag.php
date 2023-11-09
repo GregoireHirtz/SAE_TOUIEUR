@@ -16,7 +16,7 @@ class GenererAccueilTag extends Action{
 		$html = "";
 
 		$db = ConnectionFactory::makeConnection();
-		$st = $db->prepare("CALL obtenirTouiteTag(\"{$username}\", 1, 20)");
+		$st = $db->prepare("CALL obtenirTouiteTag(\"$username\", 1, 20)");
 		$st->execute();
 
 		foreach ($st->fetchAll() as $touite){

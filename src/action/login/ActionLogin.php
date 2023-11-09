@@ -26,7 +26,7 @@ class ActionLogin extends Action{
 		}
 		// sinon message erreur dans $message
 		else{
-			$message = '<p>Login ou mot de passe incorrect</p>';
+			$message = '<ul><li>Login ou mot de passe incorrect</li></ul>';
 		}
 
 		return $message;
