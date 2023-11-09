@@ -56,9 +56,11 @@ HTML;
 		}
 
 		if ($etreAbonne){
-			$bouton = "<input class=\"bouton\" type=\"submit\" value=\"Se désabonner\">";
+			$bouton = "<input type=\"submit\" value=\"Se désabonner\">";
+			$classe = "de sabonner";
 		}else{
-			$bouton = "<input class=\"bouton\" type=\"submit\" value=\"S'abonner\">";
+			$bouton = "<input type=\"submit\" value=\"S'abonner\">";
+			$classe = "sabonner";
 		}
 
 		$p = PREFIXE;
@@ -67,7 +69,7 @@ HTML;
 			<a href="#" class="photo_profil"><img src="src/vue/images/user.svg" alt="PP"></a>
 			<a href="{$username}" class="pseudo">{$username}</a>
 			<p>{$dateJ} à {$dateH}</p>
-			<form action="{$p}abonnement?username={$username}" method="post">
+			<form class="{$classe}" action="{$p}abonnement?username={$username}" method="post">
 				{$bouton}
 			</form>
 		</header>
