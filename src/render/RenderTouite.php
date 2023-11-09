@@ -97,9 +97,11 @@ HTML;
 		$vue = $this->t->getNbVue();
 
 		$like = <<<HTML
-				<input type="image" src="src/vue/images/heart_empty.svg" alt="Like">
-				<p>{$pertinence}</p>
-				<input type="image" src="src/vue/images/heart-crack_empty.svg" alt="Dislike">
+				<input name="like" type="image" src="src/vue/images/heart_empty.svg" alt="Like">
+HTML;
+
+		$dislike = <<<HTML
+				<input name="dislike" type="image" src="src/vue/images/heart-crack_empty.svg" alt="Dislike">
 HTML;
 
 
@@ -107,8 +109,12 @@ HTML;
 		$p = PREFIXE;
 		$html = <<<HTML
 		 <footer>
-			<form action="{$p}like?a=1" method="post">
+			<form action="like?data=l" method="post">
 				{$like}
+			</form>
+			<p>{$pertinence}</p>
+			<form action="like?data=dl" method="post">
+				{$dislike}
 			</form>
 			<div>
 				<p>{$vue}</p>
