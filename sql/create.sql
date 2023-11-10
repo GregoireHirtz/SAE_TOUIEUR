@@ -46,6 +46,7 @@ CREATE TABLE Touite (
     notePertinence INT DEFAULT 0,
     nbLike INT DEFAULT 0,
     nbDislike INT DEFAULT 0,
+    nbRetouite INT DEFAULT 0,
     nbVue INT DEFAULT 0
 );
 
