@@ -119,9 +119,9 @@ INSERT INTO Tag (idTag, libelle, descriptionTag, dateCreation) VALUES (1, 'Touit
 INSERT INTO Tag (idTag, libelle, descriptionTag, dateCreation) VALUES (2, 'Nouveau', 'Un tag pour les nouveaux touites', '2023-03-02');
 INSERT INTO Tag (idTag, libelle, descriptionTag, dateCreation) VALUES (3, 'Ancien', 'Un tag pour les anciens touites', '2023-03-03');
 
-INSERT INTO Touite (idTouite, texte, date) VALUES (1, 'Bonjour Touiteur !', '2023-11-06');
-INSERT INTO Touite (idTouite, texte, date) VALUES (2, 'Salut Touiteur !', '2023-11-07');
-INSERT INTO Touite (idTouite, texte, date) VALUES (3, 'Bonjour à tous sur Touiteur !', '2023-11-08');
+INSERT INTO Touite (idTouite, texte, date, notePertinence, nbLike, nbDislike) VALUES (1, 'Bonjour Touiteur !', '2023-11-06', 1, 2, 1);
+INSERT INTO Touite (idTouite, texte, date, notePertinence, nbLike, nbDislike) VALUES (2, 'Salut Touiteur !', '2023-11-07', -1, 0, 1);
+INSERT INTO Touite (idTouite, texte, date, notePertinence, nbLike, nbDislike) VALUES (3, 'Bonjour à tous sur Touiteur !', '2023-11-08', 1, 1, 0);
 INSERT INTO Touite (idTouite, texte, date) VALUES (4, 'Bonne nuit, Touiteur !', '2023-11-09');
 INSERT INTO Touite (idTouite, texte, date) VALUES (5, 'Salut tout le monde sur Touiteur !', '2023-11-10');
 
