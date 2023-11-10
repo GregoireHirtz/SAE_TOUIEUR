@@ -11,7 +11,7 @@ class GenererFooter extends Action{
 		$url_actuel = str_replace("/".$p, "", $_SERVER['REQUEST_URI']);
 		return <<<HTML
 <dialog>
-    <form action="{$p}publier" method="post">
+    <form action="{$p}publier" method="post" enctype="multipart/form-data">
         <header>
             <a href="#" class="photo_profil"><img src="src/vue/images/hashtag.svg" alt="Photo Profil"></a>
             <a href="#" class="pseudo">Votre touit</a>

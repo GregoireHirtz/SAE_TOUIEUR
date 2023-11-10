@@ -30,7 +30,7 @@ DROP FUNCTION IF EXISTS ajoutImage;
 DROP PROCEDURE IF EXISTS ajoutPublier;
 DROP PROCEDURE IF EXISTS ajoutRecherche;
 DROP FUNCTION IF EXISTS `ajoutTag`;
-DROP FUNCTION IF EXISTS `ajoutTouite`;
+DROP PROCEDURE IF EXISTS `ajoutTouite`;
 DROP PROCEDURE IF EXISTS ajoutUtilisateur;
 DROP PROCEDURE IF EXISTS ajoutUtiliserImage;
 DROP PROCEDURE IF EXISTS `ajoutUtiliserTag`;
@@ -149,11 +149,14 @@ ORDER BY t.notePertinence DESC, t.date DESC;
 
 
 -- Ajout d'un touite
-CREATE FUNCTION ajoutTouite(nouvTexte TEXT) RETURNS INT
+CREATE FUNCTION ajoutTouite(nouvTexte TEXT, email TEXT) RETURNS INT
 BEGIN
     DECLARE v_idTouite INT;
     SELECT COALESCE(MAX(idTouite), 0) + 1 INTO v_idTouite FROM Touite;
+
     INSERT INTO Touite (idTouite, texte, date) VALUES (v_idTouite, nouvTexte, NOW());
+    INSERT INTO PublierPar (idTouite, emailUt) VALUES (v_idTouite, email);
+
     RETURN v_idTouite;
 END;
 
@@ -171,7 +174,7 @@ END;
 CREATE FUNCTION ajoutImage(nouvDescription TEXT, src TEXT) RETURNS INT
 BEGIN
     DECLARE v_idImage INT;
-    SELECT COALESCE(MAX(idTag), 0) + 1 INTO v_idImage FROM Tag;
+    SELECT COALESCE(MAX(idImage), 0) + 1 INTO v_idImage FROM Image;
     INSERT INTO Image (idImage, descriptionImg, cheminSrc) VALUES (v_idImage, nouvDescription, src);
     RETURN v_idImage;
 END;

@@ -135,10 +135,6 @@ INSERT INTO Tag (idTag, libelle, descriptionTag, dateCreation) VALUES (1, 'Touit
 INSERT INTO Tag (idTag, libelle, descriptionTag, dateCreation) VALUES (2, 'Nouveau', 'Un tag pour les nouveaux touites', '2023-03-02');
 INSERT INTO Tag (idTag, libelle, descriptionTag, dateCreation) VALUES (3, 'Ancien', 'Un tag pour les anciens touites', '2023-03-03');
 
-INSERT INTO Image (idImage, descriptionImg, cheminSrc) VALUES (1, 'Une image de profil', '/chemin/vers/image.jpg');
-INSERT INTO Image (idImage, descriptionImg, cheminSrc) VALUES (2, 'Une autre image de profil', '/chemin/vers/autre_image.jpg');
-INSERT INTO Image (idImage, descriptionImg, cheminSrc) VALUES (3, 'Une image de paysage', '/chemin/vers/paysage.jpg');
-
 INSERT INTO Touite (idTouite, texte, date) VALUES (1, 'Bonjour Touiteur !', '2023-11-06');
 INSERT INTO Touite (idTouite, texte, date) VALUES (2, 'Salut Touiteur !', '2023-11-07');
 INSERT INTO Touite (idTouite, texte, date) VALUES (3, 'Bonjour à tous sur Touiteur !', '2023-11-08');
@@ -160,12 +156,6 @@ INSERT INTO EtreAboTag (emailUt, idTag, dateAboTag) VALUES ('jane.doe@example.co
 INSERT INTO EtreAboTag (emailUt, idTag, dateAboTag) VALUES ('bob.smith@example.com', 1, '2023-04-03');
 INSERT INTO EtreAboTag (emailUt, idTag, dateAboTag) VALUES ('alice.johnson@example.com', 3, '2023-04-04');
 INSERT INTO EtreAboTag (emailUt, idTag, dateAboTag) VALUES ('charlie.brown@example.com', 2, '2023-04-05');
-
-INSERT INTO UtiliserImage (idTouite, idImage) VALUES (1, 1);
-INSERT INTO UtiliserImage (idTouite, idImage) VALUES (2, 2);
-INSERT INTO UtiliserImage (idTouite, idImage) VALUES (3, 1);
-INSERT INTO UtiliserImage (idTouite, idImage) VALUES (4, 3);
-INSERT INTO UtiliserImage (idTouite, idImage) VALUES (5, 2);
 
 INSERT INTO UtiliserTag (idTouite, idTag) VALUES (1, 1);
 INSERT INTO UtiliserTag (idTouite, idTag) VALUES (2, 2);
