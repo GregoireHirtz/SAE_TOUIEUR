@@ -1,7 +1,6 @@
 -- DROP des procédures
 
 DROP PROCEDURE IF EXISTS afficherHistoriqueUtilisateur;
-
 DROP PROCEDURE IF EXISTS `obtenirAbonnementUtilisateur`;
 DROP PROCEDURE IF EXISTS `obtenirAbonnementTag`;
 DROP PROCEDURE IF EXISTS `obtenirTouitesUtilisateur`;
@@ -72,6 +71,7 @@ DROP PROCEDURE IF EXISTS etreAboUtilisateur;
 DROP FUNCTION IF EXISTS etreAboUtilisateur;
 DROP PROCEDURE IF EXISTS etreAboTag;
 DROP FUNCTION IF EXISTS ajoutRecherche;
+DROP PROCEDURE IF EXISTS afficherTouite;
 
 
 -- Créations des PROCEDURES
@@ -83,25 +83,6 @@ BEGIN
     FROM Historique h inner join Recherche r on h.idRecherche=r.idRecherche
     where emailUt=v_email;
 end;
-
--- Affichage pour touite
-CREATE PROCEDURE afficherTouite(v_idTouite INT)
-BEGIN
-    SELECT tou.texte, DATE_FORMAT(tou.date, '%d-%m-%Y à %H:%i') as formatted_date, tou.notePertinence,
-           tou.nbLike, tou.nbDislike, tou.nbVue, u.username
-    FROM Utilisateur u  INNER JOIN PublierPar p ON u.emailUt = p.emailUt
-                        INNER JOIN Touite tou ON p.idTouite = tou.idTouite
-    WHERE tou.idTouite = v_idTouite;
-END;
-
--- Affichage des chemins des images d'un touite
-create procedure afficherTouiteImages(IN v_idTouite int)
-BEGIN
-    SELECT im.cheminSrc
-    FROM Touite tou INNER JOIN UtiliserImage ui ON tou.idTouite = ui.idTouite
-                    INNER JOIN Image im ON ui.idImage=im.idImage
-    WHERE tou.idTouite = v_idTouite;
-END;
 
 
 -- Liste des abonnements (utilisateurs)
@@ -159,15 +140,59 @@ ORDER BY t.notePertinence DESC, t.date DESC;
 
 
 -- Ajout d'un touite
-CREATE FUNCTION ajoutTouite(nouvTexte TEXT, email TEXT) RETURNS INT
+create procedure ajoutTouite(IN nouvTexte varchar(235), IN emailUtilisateur varchar(150))
 BEGIN
+
     DECLARE v_idTouite INT;
-    SELECT COALESCE(MAX(idTouite), 0) + 1 INTO v_idTouite FROM Touite;
+    DECLARE startPos INT;
+    DECLARE endPos INT;
+    DECLARE tag VARCHAR(50);
+    DECLARE v_idTag INT;
+    DECLARE v_nouvIdTag INT;
+    IF(nouvTexte IS NULL) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Le texte du touite ne peut pas être NULL';
+    ELSEIF(LENGTH(nouvTexte) > 235) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Le texte du touite ne peut pas dépasser 235 caractères';
+    ELSEIF(emailUtilisateur IS NULL) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'L\'email de l''utilisateur ne peut pas être NULL';
+    ELSEIF(NOT EXISTS(SELECT * FROM Utilisateur WHERE emailUt = emailUtilisateur)) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'L\'email de l''utilisateur n\'existe pas';
+    ELSE
+        SELECT COALESCE(MAX(idTouite), 0) + 1 INTO v_idTouite FROM Touite;
+        INSERT INTO Touite (idTouite, texte, date) VALUES (v_idTouite, nouvTexte, NOW());
+        INSERT INTO PublierPar (idTouite, emailUt) VALUES (v_idTouite, emailUtilisateur);
 
-    INSERT INTO Touite (idTouite, texte, date) VALUES (v_idTouite, nouvTexte, NOW());
-    INSERT INTO PublierPar (idTouite, emailUt) VALUES (v_idTouite, email);
+        -- Initialisation de la position de départ à 1
+        SET startPos = 1;
 
-    RETURN v_idTouite;
+        -- Boucle principale parcourant la chaîne de caractères
+        WHILE startPos <= LENGTH(nouvTexte) DO
+                -- Recherche de la position du prochain espace à partir de la position de départ
+                SET endPos = LOCATE(' ', nouvTexte, startPos);
+
+                -- Si aucun espace n'est trouvé, on fixe la position de fin à la longueur totale du texte + 1
+                IF endPos = 0 THEN
+                    SET endPos = LENGTH(nouvTexte) + 1;
+                END IF;
+
+                -- Extraction du tag entre la position de départ et la position de fin
+                SET tag = SUBSTRING(nouvTexte, startPos, endPos - startPos);
+
+                -- Si le tag commence par '#', on l'ajoute à la table temporaire en retirant le '#' du début
+                IF LEFT(tag, 1) = '#' THEN
+                    SET tag = SUBSTRING(tag, 2);
+                    IF(NOT EXISTS(SELECT * from Tag where libelle = tag)) THEN
+                        SELECT COALESCE(MAX(idTag), 0) + 1 INTO v_nouvIdTag FROM Tag;
+                        INSERT INTO Tag (idTag, libelle) VALUES (v_nouvIdTag, tag);
+                    END IF;
+                    SELECT idTag INTO v_idTag FROM Tag WHERE libelle = tag;
+                    INSERT INTO UtiliserTag (idTouite, idTag) VALUES (v_idTouite, v_idTag);
+                END IF;
+
+                -- Mise à jour de la position de départ pour la prochaine itération
+                SET startPos = endPos + 1;
+            END WHILE;
+    END IF;
 END;
 
 -- Ajout d'un tag
@@ -346,6 +371,7 @@ BEGIN
     WHERE tou.idTouite = v_idTouite;
 END;
 
+
 -- Affichage des tags pour un touite
 CREATE PROCEDURE afficherTouiteTags(v_idTouite INT)
 BEGIN
@@ -365,13 +391,7 @@ BEGIN
 END;
 
 
--- afficherHistoriqueUtilisateur
-CREATE PROCEDURE afficherHistoriqueUtilisateur (v_email TEXT)
-BEGIN
-    SELECT r.recherche, r.dateRecherche
-    FROM Historique h inner join Recherche r on h.idRecherche=r.idRecherche
-    where emailUt=v_email;
-end;
+
 
 
 
