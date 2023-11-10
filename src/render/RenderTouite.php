@@ -33,6 +33,15 @@ class RenderTouite{
 	 * @return String le touit sous forme html pour accueil
 	 */
 	public function genererTouitSimple(): String{
+
+		//ajouter une vue au touite
+		$bd = ConnectionFactory::makeConnection();
+		$st = $bd->prepare("CALL ajouterVue(?)");
+		$id = $this->t->id;
+		$st->bindParam(1, $id, PDO::PARAM_INT);
+		$st->execute();
+
+
 		return BaseFactory::baseTouite($this->t)->render();
 	}
 
