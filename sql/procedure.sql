@@ -162,8 +162,8 @@ BEGIN
     ELSEIF(NOT EXISTS(SELECT * FROM Utilisateur WHERE emailUt = emailUtilisateur)) THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'L\'email de l''utilisateur n\'existe pas';
     ELSE
-        SELECT COALESCE(MAX(idTouite), 0) + 1 INTO v_idTouite FROM Touite;
-        INSERT INTO Touite (idTouite, texte, date) VALUES (v_idTouite, nouvTexte, NOW());
+        INSERT INTO Touite (texte, date) VALUES (nouvTexte, NOW());
+        SET v_idTouite = LAST_INSERT_ID();
         INSERT INTO PublierPar (idTouite, emailUt) VALUES (v_idTouite, emailUtilisateur);
 
         -- Initialisation de la position de départ à 1
@@ -186,8 +186,8 @@ BEGIN
                 IF LEFT(tag, 1) = '#' THEN
                     SET tag = SUBSTRING(tag, 2);
                     IF(NOT EXISTS(SELECT * from Tag where libelle = tag)) THEN
-                        SELECT COALESCE(MAX(idTag), 0) + 1 INTO v_nouvIdTag FROM Tag;
-                        INSERT INTO Tag (idTag, libelle) VALUES (v_nouvIdTag, tag);
+                        INSERT INTO Tag (libelle) VALUES (tag);
+                        SET v_nouvIdTag = LAST_INSERT_ID();
                     END IF;
                     SELECT idTag INTO v_idTag FROM Tag WHERE libelle = tag;
                     INSERT INTO UtiliserTag (idTouite, idTag) VALUES (v_idTouite, v_idTag);
