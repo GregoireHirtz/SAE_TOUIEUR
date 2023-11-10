@@ -2,7 +2,7 @@
 
 namespace touiteur\render\base;
 
-interface Renderable
-{
+interface Renderable{
+
 	function render(): string;
 }

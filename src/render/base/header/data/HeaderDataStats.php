@@ -10,19 +10,19 @@ class HeaderDataStats extends HeaderData
 {
 	private User $user;
 
-	public function __construct(Touite $touit)
+	public function __construct(Touite $touit, String $p="")
 	{
 		$db = ConnectionFactory::makeConnection();
 		$st = $db->prepare("CALL obtenirAuteur(\"{$touit->id}\")");
 		$st->execute();
 		$auteur = $st->fetch()['username'];
+		$this->prefixe = $p;
 
 		$this->user = User::loadUserFromUsername($auteur);
 	}
 
 	function render(): string
 	{
-		// TODO implementer l'affichage en stat (abbonement · vue · abonnes)
 		$db = ConnectionFactory::makeConnection();
 		$st = $db->prepare("CALL compterStat(\"{$this->user->email}\")");
 		$st->execute();

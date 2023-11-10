@@ -4,6 +4,7 @@ namespace touiteur\render\base\footer;
 
 use touiteur\render\base\Renderable;
 
-abstract class Footer implements Renderable
-{
+abstract class Footer implements Renderable{
+
+	protected String $prefixe;
 }

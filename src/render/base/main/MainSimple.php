@@ -10,7 +10,7 @@ class MainSimple extends Main
 		return <<<HTML
 		<main>
 			<p>{$this->texteConverter()}</p>
-			<a href="/touit/{$this->touit->id}">Afficher plus...</a>
+			<a href="touit/{$this->touit->id}">Afficher plus...</a>
 		</main>	
 HTML;
 	}

@@ -15,6 +15,7 @@ use touiteur\render\base\header\image\HeaderImageDefault;
 use touiteur\render\base\header\image\HeaderImageHashtag;
 use touiteur\render\base\header\nom\HeaderNomPseudo;
 use touiteur\render\base\header\nom\HeaderNomTag;
+use touiteur\render\base\main\MainComplet;
 use touiteur\render\base\main\MainSimple;
 use touiteur\render\base\main\MainVide;
 
@@ -29,18 +30,26 @@ class BaseFactory
 	public static function baseTouite(Touite $touit): Base
 	{
 		$user = $_SESSION['username'] ?? null;
-		if ($user == $touit->user)
-			$header = new Header(new HeaderImageDefault(), new HeaderNomPseudo($touit), new HeaderDataStats($touit), new HeaderActionSupprimer($touit));
-		else
-			$header = new Header(new HeaderImageDefault(), new HeaderNomPseudo($touit), new HeaderDataStats($touit), new HeaderActionAbonner($touit));
 
 		global $parts;
-		if ($parts[1] == "touit")
+		if ($parts[1] == "touit") {
 			$main = new MainComplet($touit);
-		else
+			$footer = new FooterClassique($touit, "../");
+			$headerImage = new HeaderImageDefault("../");
+		}
+		else{
 			$main = new MainSimple($touit);
+			$footer = new FooterClassique($touit);
+			$headerImage = new HeaderImageDefault();
+		}
 
-		$footer = new FooterClassique($touit);
+		if ($user == $touit->user)
+			$header = new Header($headerImage, new HeaderNomPseudo($touit), new HeaderDataStats($touit), new HeaderActionSupprimer($touit));
+		else
+			$header = new Header($headerImage, new HeaderNomPseudo($touit), new HeaderDataStats($touit), new HeaderActionAbonner($touit));
+
+
+
 
 		return new Base($header, $main, $footer);
 	}

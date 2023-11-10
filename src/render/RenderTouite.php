@@ -23,13 +23,10 @@ class RenderTouite{
 
 	private Touite $t;
 
-	public String $prefixe;
 
 
-
-	public function __construct(Touite $touite, String $p=""){
+	public function __construct(Touite $touite){
 		$this->t = $touite;
-		$this->prefixe = $p;
 	}
 
 	/**
@@ -174,12 +171,7 @@ HTML;
 	 * @return String le touit sous forme html pour accueil
 	 */
 	public function genererTouitComplet(): String{
-		$header = new Header(new HeaderImageDefault(), new HeaderNomPseudo($this->t), new HeaderDataDate($this->t), new HeaderActionAbonner($this->t));
-		$main = new MainComplet($this->t);
-		$footer = new FooterClassique($this->t);
-		$base = new Base($header, $main, $footer);
-
-		return $base->render();
+		return BaseFactory::baseTouite($this->t)->render();
 	}
 
 }
