@@ -24,6 +24,8 @@ define("TYPE_PAGE_PUBLIER", "publier");
 define("TYPE_PAGE_INFLUENCEURS", "influenceurs");
 define("TYPE_PAGE_SUPPRIMER", "supprimer");
 
+define("NB_TOUITE_PAGE", 1);
+
 
 // ---- AUTO-LOADER ---- //
 

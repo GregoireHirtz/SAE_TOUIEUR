@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace touiteur\dispatch;
 
 use PDO;
+use touiteur\action\accueil\GenererPagination;
 use touiteur\action\accueil\GenererTouit;
 use touiteur\action\touit\ActionNouveauTouit;
 use touiteur\action\touit\ActionSupprimerTouit;
@@ -38,13 +39,17 @@ class Dispatcher{
      */
 	public function run(string $page): void{
 		switch ($page){
-
 			// afficher les touite decroissant
 			case TYPE_PAGE_ACCUEIL:
 
 				if (!in_array("data", array_keys($_GET))) {
 					$_GET["data"] = "accueil";
 				}
+				if (!in_array("page", array_keys($_GET))) {
+					Dispatcher::redirection("accueil?page=1");
+				}
+
+
 
 				$htmlHeader = GenererHeader::execute();
 				$htmlFooter = GenererFooter::execute();
@@ -81,7 +86,9 @@ class Dispatcher{
 					default:
 						Dispatcher::redirection("accueil");
 						break;
+
 				}
+				$htmlPagination = GenererPagination::execute();
 				include 'src/vue/accueil.html';
 				break;
 
