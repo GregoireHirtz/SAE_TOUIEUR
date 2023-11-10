@@ -140,7 +140,7 @@ create function ajoutTag(nouvLibelle text) returns int
 BEGIN
     DECLARE v_idTag INT;
     SELECT COALESCE(MAX(idTag), 0) + 1 INTO v_idTag FROM Tag;
-    INSERT INTO Tag (idTag, libelle) VALUES (v_idTag, nouvLibelle);
+    INSERT INTO Tag (idTag, libelle, dateCreation) VALUES (v_idTag, nouvLibelle, now());
     RETURN v_idTag;
 END;
 
@@ -444,7 +444,7 @@ BEGIN
 end;
 
 -- obtenirTouiteAbonne renvoie les touites des abonnés de l'utilisateur
-create procedure obtenirTouiteAbonne(IN username varchar(50), IN page int, IN nbTouiteParPage int)
+create procedure obtenirTouiteAbonne(IN v_username varchar(50), IN page int, IN nbTouiteParPage int)
 BEGIN
     DECLARE inf INT;
     SET inf = nbTouiteParPage*(page-1);
@@ -457,7 +457,7 @@ BEGIN
           (SELECT u2.username FROM EtreAboUtilisateur eau
                                        INNER JOIN Utilisateur u1 ON u1.emailUt=eau.emailUt
                                        INNER JOIN Utilisateur u2 ON u2.emailUt=eau.emailUtAbo
-           WHERE u1.username LIKE username)
+           WHERE u1.username LIKE v_username)
     ORDER BY t.notePertinence DESC
     LIMIT nbTouiteParPage OFFSET inf;
 end;
@@ -566,12 +566,12 @@ BEGIN
 END;
 
 -- verifierUsernameInAbonnement pareil que etreAboUtilisateur mais en username
-create procedure verifierUsernameInAbonnement(IN username varchar(150), IN usernameCible varchar(150))
+create procedure verifierUsernameInAbonnement(IN v_username varchar(150), IN usernameCible varchar(150))
 BEGIN
     SELECT COUNT(*) AS nb_ligne FROM EtreAboUtilisateur ea
                                          INNER JOIN Utilisateur u ON u.emailUt=ea.emailUt
                                          INNER JOIN Utilisateur uC ON uC.emailUt=ea.emailUtAbo
-    WHERE u.username=username AND uC.username=usernameCible;
+    WHERE u.username=v_username AND uC.username=usernameCible;
 end;
 
 -- voir permet d'incrémenter le nombre de vue d'un touite
