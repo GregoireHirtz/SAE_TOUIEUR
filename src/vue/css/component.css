@@ -218,13 +218,14 @@
 }
 
 /* ===== BOUTON ACTION TOUIT ===== */
-.sabonner, .delete {
+.sabonner, .delete, .publier {
 	position: relative;
 }
 
-.sabonner > input, .delete > input {
+.sabonner > input, .delete > input, .publier > input {
 	width: fit-content;
 	height: fit-content;
+	outline: none;
 
 	z-index: 1;
 	border: none;
@@ -243,7 +244,7 @@
 }
 */
 
-.sabonner::after, .delete::after {
+.sabonner::after, .delete::after, .publier::after {
 	content: "";
 	background: url("../images/suivre_empty.svg") no-repeat center;
 	width: calc(var(--default-size) * 0.57);
@@ -257,6 +258,10 @@
 
 .delete::after {
 	background: url("../images/delete.svg") no-repeat center;
+}
+
+.publier::after{
+	background: url("../images/plus.svg") no-repeat center;
 }
 
 .de.sabonner::after {
@@ -314,6 +319,11 @@ article > main > p {
 	margin: 0;
 	font-size: calc(var(--default-size) * 0.45);
 	text-align: justify;
+}
+article > main > a {
+	font-size: calc(var(--default-size) * 0.4);
+	color: var(--primaire);
+	text-decoration: none;
 }
 article > footer {
 	display: flex;
