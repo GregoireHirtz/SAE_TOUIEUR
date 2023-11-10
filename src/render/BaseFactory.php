@@ -33,7 +33,7 @@ class BaseFactory
 	{
 
 		global $parts;
-		if ($parts[1] == "touit") {
+		if ($parts[1] == "touit" || $parts[1] == "tag") {
 			$main = new MainComplet($touit);
 			$footer = new FooterClassique($touit, "../");
 			$headerImage = new HeaderImageDefault("../");
