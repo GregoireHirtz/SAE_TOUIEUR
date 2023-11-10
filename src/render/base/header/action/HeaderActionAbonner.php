@@ -2,26 +2,34 @@
 
 namespace touiteur\render\base\header\action;
 
+use touiteur\classe\Tag;
 use touiteur\classe\Touite;
+use touiteur\classe\User;
 use touiteur\db\ConnectionFactory;
 
 class HeaderActionAbonner extends HeaderAction
 {
-	private Touite $touit;
+	private User|Tag $element;
 
-	public function __construct(Touite $touit)
+	public function __construct(User|Tag $element)
 	{
-		$this->touit = $touit;
+		$this->element = $element;
 	}
 
 	function render(): string
 	{
 		if (!empty($_SESSION)) {
 			$db = ConnectionFactory::makeConnection();
-			$st = $db->prepare("CALL verifierUsernameInAbonnement(\"{$_SESSION["username"]}\", \"{$this->touit->user}\")");
+			if ($this->element instanceof User) {
+				$st = $db->prepare("SELECT etreAboUtilisateur(\"{$_SESSION["username"]}\", \"{$this->element->username}\")");
+				$abonne = $this->element->username;
+			} else {
+				$st = $db->prepare("SELECT etreAboTag(\"{$_SESSION["username"]}\", \"{$this->element->id}\")");
+				$abonne = $this->element->id;
+			}
 			$st->execute();
 
-			$etreAbonne = $st->fetch()['nb_ligne'] != 0;
+			$etreAbonne = $st->fetch() != 0;
 			$st->closeCursor();
 		} else {
 			$etreAbonne = false;
@@ -39,7 +47,7 @@ class HeaderActionAbonner extends HeaderAction
 		$url_actuel = str_replace("/".$p, "", $_SERVER['REQUEST_URI']);
 
 		return <<<HTML
-<form class="{$classe}" action="{$p}abonnement?username={$this->touit->user}&redirect={$url_actuel}" method="post">
+<form class="{$classe}" action="{$p}abonnement?username={$abonne}&redirect={$url_actuel}" method="post">
 	{$bouton}
 </form>
 HTML;

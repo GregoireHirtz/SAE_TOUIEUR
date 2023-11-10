@@ -18,9 +18,9 @@ class FooterClassique extends Footer
 	{
 		$vote = 0;
 		if (isset($_SESSION['username']))
-			$vote = $this->touit->getVote($_SESSION['username']);
+			$vote = $this->touit->getVote($this->touit, $_SESSION['username']);
 
-		$like = $vote == 1 ? "{$this->prefixe}src/vue/images/heart_full.svg" : "{$this->prefixe}src/vue/images/heart_empty.svg";
+		$like = $vote==1 ? "{$this->prefixe}src/vue/images/heart_full.svg" : "{$this->prefixe}src/vue/images/heart_empty.svg";
 		$dislike = $vote == -1 ? "{$this->prefixe}src/vue/images/heart-crack_full.svg" : "{$this->prefixe}src/vue/images/heart-crack_empty.svg";
 
 		$url = URL;

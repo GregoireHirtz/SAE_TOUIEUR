@@ -4,6 +4,7 @@ namespace touiteur\action\accueil;
 
 use Cassandra\Function_;
 use DateTime;
+use PDO;
 use touiteur\action\Action;
 use touiteur\classe\Tag;
 use touiteur\classe\Touite;
@@ -16,7 +17,10 @@ class GenererAccueilAbonne extends Action{
 		$html = "";
 
 		$db = ConnectionFactory::makeConnection();
-		$st = $db->prepare("CALL obtenirTouiteAbonne(\"{$username}\", 1, 20)");
+		$st = $db->prepare("CALL obtenirTouiteAbonne(\"{$username}\", ?, ?)");
+		$st->bindParam(1, $_GET["page"], PDO::PARAM_INT);
+		$ngp = NB_TOUITE_PAGE;
+		$st->bindParam(2, $ngp, PDO::PARAM_INT);
 		$st->execute();
 
 		foreach ($st->fetchAll() as $touite){

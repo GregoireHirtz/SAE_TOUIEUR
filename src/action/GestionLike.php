@@ -10,7 +10,7 @@ class GestionLike extends Action{
 
 	static public function execute(?string $username = null){
 		$bd = ConnectionFactory::makeConnection();
-		$st = $bd->prepare("CALL etreVote(?, ?)");
+		$st = $bd->prepare("CALL etreVoter(?, ?)");
 		$st->bindParam(1, $_GET["id"], PDO::PARAM_INT);
 		$st->bindParam(2, $_SESSION["email"]);
 		$st->execute();

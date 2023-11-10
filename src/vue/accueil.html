@@ -13,13 +13,14 @@
     <main>
         <nav class="navigation">
             <ul>
-                <li id="tag"><a href="accueil?data=tag">Mes tags</a></li>
+                <li id="tag"><a href="accueil?data=tag&page=1">Mes tags</a></li>
                 <li class="selected"><a href=".">Explorer</a></li>
-                <li id="abonne"><a href="accueil?data=abonne">Mes abonnements</a></li>
+                <li id="abonne"><a href="accueil?data=abonne&page=1">Mes abonnements</a></li>
 
             </ul>
         </nav>
         <?php echo $htmlMain ?>
+        <?php echo $htmlPagination ?>
     </main>
 
     <?php echo $htmlFooter ?>
