@@ -3,6 +3,7 @@
 namespace touiteur\render;
 
 use touiteur\classe\User;
+use touiteur\render\base\header\data\HeaderDataDate;
 use touiteur\render\base\header\data\HeaderDataDateAbonnement;
 use touiteur\classe\Tag;
 use touiteur\classe\Touite;
@@ -46,9 +47,9 @@ class BaseFactory
 		$user = $_SESSION['username'] ?? null;
 		$username = User::loadUserFromUsername($touit->user);
 		if ($user == $touit->user)
-			$header = new Header($headerImage, new HeaderNomTitre($touit), new HeaderDataStats($touit), new HeaderActionSupprimer($touit));
+			$header = new Header($headerImage, new HeaderNomTitre($touit), new HeaderDataDate($touit), new HeaderActionSupprimer($touit));
 		else
-			$header = new Header($headerImage, new HeaderNomTitre($touit), new HeaderDataStats($touit), new HeaderActionAbonner($username));
+			$header = new Header($headerImage, new HeaderNomTitre($touit), new HeaderDataDate($touit), new HeaderActionAbonner($username));
 
 		return new Base($header, $main, $footer);
 	}

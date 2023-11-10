@@ -2,12 +2,12 @@
 
 namespace touiteur\render\base\header;
 
+use touiteur\render\Renderable;
+use touiteur\classe\Touite;
 use touiteur\render\base\header\action\HeaderAction;
 use touiteur\render\base\header\data\HeaderData;
 use touiteur\render\base\header\image\HeaderImage;
 use touiteur\render\base\header\nom\HeaderNom;
-use touiteur\classe\Touite;
-use touiteur\render\base\Renderable;
 
 class Header implements Renderable
 {

@@ -18,15 +18,19 @@ class HeaderActionAbonner extends HeaderAction
 
 	function render(): string
 	{
+		if ($this->element instanceof User)
+			$abonne = $this->element->username;
+		else
+			$abonne = $this->element->id;
+
+
 		if (!empty($_SESSION)) {
 			$db = ConnectionFactory::makeConnection();
-			if ($this->element instanceof User) {
+			if ($this->element instanceof User)
 				$st = $db->prepare("SELECT etreAboUtilisateur(\"{$_SESSION["username"]}\", \"{$this->element->username}\")");
-				$abonne = $this->element->username;
-			} else {
+			else
 				$st = $db->prepare("SELECT etreAboTag(\"{$_SESSION["username"]}\", \"{$this->element->id}\")");
-				$abonne = $this->element->id;
-			}
+
 			$st->execute();
 
 			$etreAbonne = $st->fetch() != 0;

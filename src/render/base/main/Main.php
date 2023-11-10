@@ -2,7 +2,7 @@
 
 namespace touiteur\render\base\main;
 
-use touiteur\render\base\Renderable;
+use touiteur\render\Renderable;
 use touiteur\classe\Touite;
 
 abstract class Main implements Renderable

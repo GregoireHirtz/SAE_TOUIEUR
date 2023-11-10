@@ -1,6 +1,6 @@
 <?php
 
-namespace touiteur\render\base;
+namespace touiteur\render;
 
 interface Renderable{
 

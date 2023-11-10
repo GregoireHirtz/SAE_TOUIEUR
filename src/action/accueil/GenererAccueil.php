@@ -25,7 +25,7 @@ class GenererAccueil extends Action{
 
 
 		foreach ($st->fetchAll() as $touite){
-			$touite = new Touite($touite['idTouite'], $touite['texte'], new DateTime($touite['date']), $touite['username'], $touite['notePertinence'], $touite['nbLike'], $touite['nbDislike'], $touite['nbRetouite'], $touite['nbVue'], array());
+			$touite = new Touite($touite['idTouite'], $touite['texte'], new DateTime($touite['date']), $touite['username'], $touite['notePertinence'], $touite['nbLike'], $touite['nbDislike'], 0, $touite['nbVue'], array());
 			$rT = new RenderTouite($touite);
 			$html .= $rT->genererTouitSimple();
 		}

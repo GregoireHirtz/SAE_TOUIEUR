@@ -2,7 +2,7 @@
 
 namespace touiteur\render\base\footer;
 
-use touiteur\render\base\Renderable;
+use touiteur\render\Renderable;
 
 abstract class Footer implements Renderable{
 

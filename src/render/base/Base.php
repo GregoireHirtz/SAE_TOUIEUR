@@ -2,6 +2,7 @@
 
 namespace touiteur\render\base;
 
+use touiteur\render\Renderable;
 use touiteur\render\base\footer\Footer;
 use touiteur\render\base\header\Header;
 use touiteur\render\base\main\Main;
