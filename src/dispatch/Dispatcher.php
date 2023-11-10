@@ -104,6 +104,7 @@ class Dispatcher{
 				break;
 
 			case TYPE_PAGE_TOUIT:
+				Dispatcher::redirection("login");
 				break;
 
 			case TYPE_PAGE_LOGIN:
@@ -151,7 +152,8 @@ class Dispatcher{
 					break;
 				}
 				GestionLike::execute();
-				Dispatcher::redirection("");
+				$redirection = $_GET["redirect"];
+				Dispatcher::redirection($redirection);
 				break;
 
 			case TYPE_PAGE_ABONNEMENT:
@@ -216,7 +218,6 @@ class Dispatcher{
                 break;
 
             case TYPE_PAGE_INFLUENCEURS:
-
                 if (!empty($_SESSION)){
                     // redirection vers accueil
                     Dispatcher::redirection("login");
@@ -237,6 +238,10 @@ class Dispatcher{
 
 				$redirection = $_GET["redirect"];
 				Dispatcher::redirection($redirection);
+				break;
+
+			case TYPE_PAGE_TAG:
+
 				break;
 
 			default:

@@ -85,7 +85,10 @@ if (count($parts)==2) {
 }
 
 if (count($parts)==3) {
-    $type = TYPE_PAGE_TOUIT;
+	if ($parts[1] == TYPE_PAGE_TAG)
+		$type = TYPE_PAGE_TAG;
+	else
+    	$type = TYPE_PAGE_TOUIT;
 }
 
 

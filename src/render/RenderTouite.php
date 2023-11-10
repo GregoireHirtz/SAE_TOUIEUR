@@ -59,21 +59,23 @@ HTML;
 			if ($st->fetch()['nb_ligne'] != 0) {
 				$etreAbonne = true;
 			}
+			if ($username === $_SESSION["username"]) {
+				$bouton = "<input type=\"submit\" value=\"Supprimer\">";
+				$classe = "delete";
+				$action = "supprimer?id={$this->t->getId()}";
+			}
 		}
 
 		$p = PREFIXE;
 		$url_actuel = str_replace("/".$p, "", $_SERVER['REQUEST_URI']);
-		if ($username === $_SESSION["username"]) {
-			$bouton = "<input type=\"submit\" value=\"Supprimer\">";
-			$classe = "delete";
-			$action = "supprimer?id={$this->t->getId()}";
-		}else if ($etreAbonne){
-			$bouton = "<input type=\"submit\" value=\"Se désabonner\">";
-			$classe = "de sabonner";
-			$action = "{$p}abonnement?username={$username}";
-		}else{
-			$bouton = "<input type=\"submit\" value=\"S'abonner\">";
-			$classe = "sabonner";
+		if (!isset($bouton)) {
+			if ($etreAbonne) {
+				$bouton = "<input type=\"submit\" value=\"Se désabonner\">";
+				$classe = "de sabonner";
+			} else {
+				$bouton = "<input type=\"submit\" value=\"S'abonner\">";
+				$classe = "sabonner";
+			}
 			$action = "{$p}abonnement?username={$username}";
 		}
 		$action .= "&redirect={$url_actuel}";
@@ -95,6 +97,9 @@ HTML;
 
 	private function genererTouitSimpleMain(): String{
 		$m = $this->t->getTexte();
+		// realise un regex qui cherche les # dans $m et les emglobes dans des balises <a>
+		$m = preg_replace("/#([a-zA-Z0-9]+)/", "<a href=\"tag/$1\">#$1</a>", $m);
+
 		$html = <<<HTML
 		 <main>
 			<p>{$m}</p>
@@ -142,14 +147,15 @@ HTML;
 
 
 		$p = PREFIXE;
+		$url_actuel = str_replace("/".$p, "", $_SERVER['REQUEST_URI']);
 		$html = <<<HTML
 		 <footer>
 			<div>
-				<form action="like?data=l&id={$this->t->getId()}" method="post">
+				<form action="like?data=l&id={$this->t->getId()}&redirect=$url_actuel" method="post">
 					{$like}
 				</form>
 				<p>{$pertinence}</p>
-				<form action="like?data=dl&id={$this->t->getId()}" method="post">
+				<form action="like?data=dl&id={$this->t->getId()}&redirect=$url_actuel" method="post">
 					{$dislike}
 				</form>
 			</div>
