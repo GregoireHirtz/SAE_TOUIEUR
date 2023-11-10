@@ -40,7 +40,8 @@ HTML;
 		return $html;
 	}
 
-	private function genererTouitSimpleHeader(): String{
+	private function genererTouitSimpleHeader(): String
+	{
 		$username = $this->t->getUsername();
 
 		$date = $this->t->getDate();
@@ -49,32 +50,40 @@ HTML;
 
 		$etreAbonne = false;
 		// SI UTILISATEUR LOGGER
-		if (!empty($_SESSION)){
+		if (!empty($_SESSION)) {
 			// VERIFICATION SI ABONNE A L'AUTEUR DU TOUITE
 			$db = ConnectionFactory::makeConnection();
 			$nb_ligne = 0;
 			$st = $db->prepare("CALL verifierUsernameInAbonnement(\"{$_SESSION["username"]}\", \"{$username}\")");
 			$st->execute();
-			if ($st->fetch()['nb_ligne'] != 0){
+			if ($st->fetch()['nb_ligne'] != 0) {
 				$etreAbonne = true;
 			}
 		}
 
-		if ($etreAbonne){
+		$p = PREFIXE;
+		$url_actuel = str_replace("/".$p, "", $_SERVER['REQUEST_URI']);
+		if ($username === $_SESSION["username"]) {
+			$bouton = "<input type=\"submit\" value=\"Supprimer\">";
+			$classe = "delete";
+			$action = "supprimer?id={$this->t->getId()}";
+		}else if ($etreAbonne){
 			$bouton = "<input type=\"submit\" value=\"Se désabonner\">";
 			$classe = "de sabonner";
+			$action = "{$p}abonnement?username={$username}";
 		}else{
 			$bouton = "<input type=\"submit\" value=\"S'abonner\">";
 			$classe = "sabonner";
+			$action = "{$p}abonnement?username={$username}";
 		}
+		$action .= "&redirect={$url_actuel}";
 
-		$p = PREFIXE;
 		$html = <<<HTML
 		<header>
 			<a href="#" class="photo_profil"><img src="src/vue/images/user.svg" alt="PP"></a>
 			<a href="{$username}" class="pseudo">{$username}</a>
 			<p>{$dateJ} à {$dateH}</p>
-			<form class="{$classe}" action="{$p}abonnement?username={$username}" method="post">
+			<form class="{$classe}" action="{$action}" method="post">
 				{$bouton}
 			</form>
 		</header>

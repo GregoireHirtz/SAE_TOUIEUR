@@ -2,6 +2,8 @@
 declare(strict_types=1);
 namespace touiteur\dispatch;
 
+use touiteur\action\touit\ActionNouveauTouit;
+use touiteur\action\touit\ActionSupprimerTouit;
 use touiteur\action\accueil\GenererAccueil;
 use touiteur\action\accueil\GenererAccueilAbonne;
 use touiteur\action\accueil\GenererAccueilTag;
@@ -11,7 +13,6 @@ use touiteur\action\accueil\GenererInfluenceurs;
 use touiteur\action\accueil\GenererProfil;
 use touiteur\action\GestionLike;
 use touiteur\action\login\ActionLogin;
-use touiteur\action\login\ActionNouveauTouit;
 use touiteur\action\login\ActionSignin;
 use touiteur\auth\Auth;
 use touiteur\auth\Session;
@@ -205,9 +206,6 @@ class Dispatcher{
 				break;
 
             case TYPE_PAGE_PUBLIER:
-                // TODO Reprendre le chemin de l'utilisateur pour le renvoyer là où il était déjà (actualisation)
-                // header("Location: /");
-
 				if (empty($_SESSION))
 					Dispatcher::redirection("login");
 
@@ -230,6 +228,16 @@ class Dispatcher{
                     include("src/vue/influenceurs.html");
                 }
                 break;
+
+			case TYPE_PAGE_SUPPRIMER:
+				if (empty($_SESSION))
+					Dispatcher::redirection("login");
+
+				ActionSupprimerTouit::execute();
+
+				$redirection = $_GET["redirect"];
+				Dispatcher::redirection($redirection);
+				break;
 
 			default:
 				throw new InvalideTypePage($page);

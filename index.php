@@ -21,6 +21,7 @@ define("TYPE_PAGE_LIKE", "like");
 define("TYPE_PAGE_TAG", "tag");
 define("TYPE_PAGE_PUBLIER", "publier");
 define("TYPE_PAGE_INFLUENCEURS", "influenceurs");
+define("TYPE_PAGE_SUPPRIMER", "supprimer");
 
 
 // ---- AUTO-LOADER ---- //
@@ -74,6 +75,9 @@ if (count($parts)==2) {
     elseif ($parts[1] == TYPE_PAGE_PUBLIER){
         $type = TYPE_PAGE_PUBLIER;
     }
+	elseif ($parts[1] == TYPE_PAGE_SUPPRIMER){
+		$type = TYPE_PAGE_SUPPRIMER;
+	}
 
 	else{
         $type = TYPE_PAGE_PROFIL;
