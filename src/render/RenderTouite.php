@@ -12,6 +12,7 @@ use touiteur\render\base\footer\FooterClassique;
 use touiteur\render\base\header\action\HeaderActionAbonner;
 use touiteur\render\base\header\action\HeaderActionSupprimer;
 use touiteur\render\base\header\data\HeaderDataDate;
+use touiteur\render\base\header\data\HeaderDataStats;
 use touiteur\render\base\header\Header;
 use touiteur\render\base\header\image\HeaderImageDefault;
 use touiteur\render\base\header\nom\HeaderNomPseudo;
@@ -35,7 +36,7 @@ class RenderTouite{
 	 * @return String le touit sous forme html pour accueil
 	 */
 	public function genererTouitSimple(): String{
-		$header = new Header(new HeaderImageDefault(), new HeaderNomPseudo($this->t), new HeaderDataDate($this->t), new HeaderActionSupprimer($this->t));
+		$header = new Header(new HeaderImageDefault(), new HeaderNomPseudo($this->t), new HeaderDataStats($this->t), new HeaderActionAbonner($this->t));
 		$main = new MainSimple($this->t);
 		$footer = new FooterClassique($this->t);
 		$base = new Base($header, $main, $footer);
