@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Touiteur - Accueil</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="src/vue/css/main.css">
+    <link rel="stylesheet" href="src/vue/css/component.css">
+    <script src="src/vue/js/component.js"></script>
+</head>
+<body>
+    <?php echo $htmlHeader ?>
+    <main>
+        <nav class="navigation">
+            <ul>
+                <li id="tag"><a href="accueil?data=tag">Mes tags</a></li>
+                <li class="selected"><a href=".">Explorer</a></li>
+                <li id="abonne"><a href="accueil?data=abonne">Mes abonnements</a></li>
+
+            </ul>
+        </nav>
+        <?php echo $htmlMain ?>
+    </main>
+
+    <?php echo $htmlFooter ?>
+</body>
+</html>

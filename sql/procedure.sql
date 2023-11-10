@@ -140,6 +140,16 @@ where u.emailUt like emailUtilisateur
 ORDER BY t.date DESC;
 
 
+-- Liste des touites qu’un utilisateur a publié :
+DROP PROCEDURE IF EXISTS `obtenirIdTouitesUtilisateur`;
+CREATE PROCEDURE `obtenirIdTouitesUtilisateur`(IN `emailUtilisateur` VARCHAR(150))
+select t.idTouite
+from Utilisateur u inner join PublierPar p on u.emailUt=p.emailUt
+                   inner join Touite t on p.idTouite=t.idTouite
+where u.emailUt like emailUtilisateur
+ORDER BY t.date DESC;
+
+
 -- Liste des meilleurs touites d'aujourd'hui (HOME PAGE)
 
 CREATE PROCEDURE `obtenirMeilleursTouites`()
@@ -616,6 +626,16 @@ DROP PROCEDURE IF EXISTS etreVote;
 CREATE PROCEDURE etreVote(in v_idTouite int, in v_mail text)
 BEGIN
     SELECT vote from AvoirVote where emailUt=v_mail and idTouite=v_idTouite;
+end;
+
+
+DROP PROCEDURE IF EXISTS obtenirTouit;
+CREATE PROCEDURE obtenirTouit(in v_idTouite int)
+BEGIN
+    SELECT t.*, u.emailUt, u.username FROM Touite t
+        INNER JOIN PublierPar pp ON t.idTouite=pp.idTouite
+        INNER JOIN Utilisateur u ON pp.emailUt=u.emailUt
+        WHERE t.idTouite=v_idTouite;
 end;
 
 
