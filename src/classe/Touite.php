@@ -37,17 +37,17 @@ class Touite{
 		$this->listeTag = $lT;
 	}
 
-	public function getVote(?string $username = null): int {
+	public function getVote(Touite $t, ?string $username = null): int {
 		if (!isset($username))
 			return 0;
-
-		$user = User::loadUserFromUsername($username);
-
-
+		$user = User::loadUserFromUsername($username)->email;
 
 		$db = ConnectionFactory::makeConnection();
-		$st = $db->prepare("SELECT etreVote({$this->id}, \"{$user->email}\")");
+		$st = $db->prepare("SELECT etreVote(?, ?)");
+		$st->bindParam(1, $t->id, PDO::PARAM_INT);
+		$st->bindParam(2, $user);
 		$st->execute();
-		return $st->fetch() ? 1 : 0;
+		$row = $st->fetch();
+		return $row[0];
 	}
 }
