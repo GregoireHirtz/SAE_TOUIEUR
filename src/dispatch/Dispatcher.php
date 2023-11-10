@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace touiteur\dispatch;
 
+use DateTime;
 use PDO;
 use touiteur\action\accueil\GenererPagination;
 use touiteur\action\accueil\GenererTouit;
@@ -273,17 +274,41 @@ class Dispatcher{
                 $st = $db->prepare($query);
                 $st->bindParam(1, $libelleTag, PDO::PARAM_STR);
                 $st->execute();
-                $db=null;
 
                 $row = $st->fetch(PDO::FETCH_ASSOC);
                 $nb_ligne = $row['NB_LIGNE'];
 
                 // Si le tag existe bien, on affiche la page du tag
                 if ($nb_ligne == 1) {
-                    $base = BaseFactory::baseProfil(new Tag($row['idTag'], $row['libelle'], $row['descriptionTag']));
+                    $idTag = $row["idTag"];
+                    $libelleTag = $row["libelle"];
+                    $descriptionTag = $row["descriptionTag"];
+                    $base = BaseFactory::baseProfil(new Tag($idTag, $libelleTag, $descriptionTag));
+
                     $htmlHeader = GenererHeader::execute();
                     $htmlMain = $base->render();
                     $htmlFooter = GenererFooter::execute();
+
+                    $query = 'SELECT DISTINCT t.*, u.idTag, ut.username from UtiliserTag u inner join Touite t on u.idTag = t.idTouite inner join PublierPar p on t.idTouite = p.idTouite inner join Utilisateur ut on p.emailUt = ut.emailUt where idTag = ?';
+                    $st = $db->prepare($query);
+                    $st->bindParam(1, $idTag, PDO::PARAM_STR);
+                    $st->execute();
+
+                    $row = $st->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($row as $touite){
+                        $idTouite = $touite["idTouite"];
+                        $texte = $touite["texte"];
+                        $date = new DateTime($touite["date"]);
+                        $user = $touite["username"];
+                        $notePertinence = $touite["notePertinence"];
+                        $nbLike = $touite["nbLike"];
+                        $nbDisLike = $touite["nbDislike"];
+                        $nbTouite = $touite["nbRetouite"];
+                        $nbVue = $touite["nbVue"];
+                        $base = BaseFactory::baseTouite(new Touite($idTouite, $texte, $date, $user, $notePertinence, $nbLike, $nbDisLike, $nbTouite, $nbVue));
+                        $htmlMain .= $base->render();
+                    }
+                    $db = null;
                 }
                 else{
                     // Si ce n'est pas le cas, on le redirige vers l'accueil

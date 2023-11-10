@@ -27,20 +27,20 @@ CREATE TABLE Utilisateur (
 );
 
 CREATE TABLE Tag (
-    idTag INT PRIMARY KEY,
+    idTag INT PRIMARY KEY AUTO_INCREMENT,
     libelle VARCHAR(50) UNIQUE NOT NULL,
     descriptionTag VARCHAR(500) DEFAULT 'Pas de description.',
     dateCreation DATETIME NOT NULL
 );
 
 CREATE TABLE Image (
-    idImage INT PRIMARY KEY,
+    idImage INT PRIMARY KEY AUTO_INCREMENT,
     descriptionImg VARCHAR(500),
     cheminSrc VARCHAR(250) NOT NULL
 );
 
 CREATE TABLE Touite (
-    idTouite INT PRIMARY KEY,
+    idTouite INT PRIMARY KEY AUTO_INCREMENT,
     texte VARCHAR(235),-- Un Touite est limité à 235 caractères selon l'énoncé
     date DATETIME NOT NULL,
     notePertinence INT DEFAULT 0,

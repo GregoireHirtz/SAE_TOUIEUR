@@ -124,8 +124,8 @@ end;
 create function ajoutImage(nouvDescription text, src text) returns int
 BEGIN
     DECLARE v_idImage INT;
-    SELECT COALESCE(MAX(idImage), 0) + 1 INTO v_idImage FROM Image;
-    INSERT INTO Image (idImage, descriptionImg, cheminSrc) VALUES (v_idImage, nouvDescription, src);
+    INSERT INTO Image (descriptionImg, cheminSrc) VALUES (nouvDescription, src);
+    SET v_idImage = LAST_INSERT_ID();
     RETURN v_idImage;
 END;
 
@@ -139,8 +139,8 @@ END;
 create function ajoutTag(nouvLibelle text) returns int
 BEGIN
     DECLARE v_idTag INT;
-    SELECT COALESCE(MAX(idTag), 0) + 1 INTO v_idTag FROM Tag;
-    INSERT INTO Tag (idTag, libelle, dateCreation) VALUES (v_idTag, nouvLibelle, now());
+    INSERT INTO Tag (libelle, dateCreation) VALUES (nouvLibelle, now());
+    SET v_idTag = LAST_INSERT_ID();
     RETURN v_idTag;
 END;
 
