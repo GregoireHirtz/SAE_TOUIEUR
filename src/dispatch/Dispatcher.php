@@ -289,7 +289,27 @@ class Dispatcher{
                     $htmlMain = $base->render();
                     $htmlFooter = GenererFooter::execute();
 
-                    $query = 'SELECT DISTINCT t.*, u.idTag, ut.username from UtiliserTag u inner join Touite t on u.idTag = t.idTouite inner join PublierPar p on t.idTouite = p.idTouite inner join Utilisateur ut on p.emailUt = ut.emailUt where idTag = ?';
+                    $query = 'SELECT
+    Touite.idTouite,
+    Touite.texte,
+    Touite.date,
+    Touite.notePertinence,
+    Touite.nbLike,
+    Touite.nbDislike,
+    Touite.nbRetouite,
+    Touite.nbVue,
+    Utilisateur.emailUt AS emailUtilisateur,
+    Utilisateur.nomUt,
+    Utilisateur.prenomUt,
+    Utilisateur.username
+FROM
+    UtiliserTag
+JOIN Touite ON UtiliserTag.idTouite = Touite.idTouite
+JOIN PublierPar ON Touite.idTouite = PublierPar.idTouite
+JOIN Utilisateur ON PublierPar.emailUt = Utilisateur.emailUt
+WHERE
+    UtiliserTag.idTag = ?;
+';
                     $st = $db->prepare($query);
                     $st->bindParam(1, $idTag, PDO::PARAM_STR);
                     $st->execute();
