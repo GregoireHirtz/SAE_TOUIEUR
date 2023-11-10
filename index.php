@@ -40,6 +40,7 @@ session_start();
 define("PREFIXE", "SAE_TOUITEUR/");
 
 $url = $_SERVER['REQUEST_URI'];
+define("URL", str_replace("/".PREFIXE, "", $url));
 $url = str_replace(PREFIXE, "", $url);
 // Supprimer le "/" à la fin de la chaîne si elle existe
 $url = rtrim($url, '/');

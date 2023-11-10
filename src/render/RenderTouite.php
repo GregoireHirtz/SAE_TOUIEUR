@@ -7,6 +7,14 @@ use touiteur\classe\Tag;
 use touiteur\classe\Touite;
 use touiteur\classe\User;
 use touiteur\db\ConnectionFactory;
+use touiteur\render\base\Base;
+use touiteur\render\base\footer\FooterClassique;
+use touiteur\render\base\header\action\HeaderActionSupprimer;
+use touiteur\render\base\header\data\HeaderDataDate;
+use touiteur\render\base\header\Header;
+use touiteur\render\base\header\image\HeaderImageDefault;
+use touiteur\render\base\header\nom\HeaderNomPseudo;
+use touiteur\render\base\main\MainSimple;
 
 class RenderTouite{
 
@@ -20,24 +28,12 @@ class RenderTouite{
 	 * @return String le touit sous forme html pour accueil
 	 */
 	public function genererTouitSimple(): String{
-
-		$idTouite = $this->t->getId();
-
-		$db = ConnectionFactory::makeConnection();
-		//$st=$db->prepare("CALL ajouterVue($idTouite)")->execute();
-
-		$header = $this->genererTouitSimpleHeader();
-		$main = $this->genererTouitSimpleMain();
-		$footer = $this->genererTouitSimpleFooter();
-
-		$html = <<<HTML
-	<article id="{$idTouite}">
-		{$header}
-		{$main}
-		{$footer}
-	</article>
-HTML;
-		return $html;
+		$header = new Header(new HeaderImageDefault(), new HeaderNomPseudo($this->t), new HeaderDataDate($this->t), new HeaderActionSupprimer($this->t));
+		$main = new MainSimple($this->t);
+		$footer = new FooterClassique($this->t);
+		$base = new Base($header, $main, $footer);
+		
+		return $base->render();
 	}
 
 	private function genererTouitSimpleHeader(): String

@@ -17,8 +17,12 @@ class Touite{
 	private int $nbRetouite;
 	private int $nbVue;
 	private array $listeTag;
-	private String $user;
+	private string $user;
 
+	public function __get(string $nom): mixed
+	{
+		return $this->$nom;
+	}
 
 	public function __construct(int $i, String $t, DateTime $d, String $u, int $nP=0, int $nL=0, int $nDL=0, int $nR=0, int $nV=0, array $lT=array()){
 		$this->id = $i;
@@ -33,31 +37,17 @@ class Touite{
 		$this->listeTag = $lT;
 	}
 
-	public function getTexte(): String{
-		return $this->texte;
-	}
+	public function getVote(?string $username = null): int {
+		if (!isset($username))
+			return 0;
 
-	public function getListeTag(): array{
-		return $this->listeTag;
-	}
+		$user = User::loadUserFromUsername($username);
 
-	public function getUsername(): String{
-		return $this->user;
-	}
 
-	public function getDate(): DateTime{
-		return $this->date;
-	}
 
-	public function getPertinence(): int{
-		return $this->notePertinence;
-	}
-
-	public function getNbVue(): int{
-		return $this->nbVue;
-	}
-
-	public function getId(): int{
-		return $this->id;
+		$db = ConnectionFactory::makeConnection();
+		$st = $db->prepare("CALL etreVote({$this->id}, \"{$user->email}\")");
+		$st->execute();
+		return $st->fetch() ? 1 : 0;
 	}
 }
