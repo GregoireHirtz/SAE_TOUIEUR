@@ -36,12 +36,7 @@ class RenderTouite{
 	 * @return String le touit sous forme html pour accueil
 	 */
 	public function genererTouitSimple(): String{
-		$header = new Header(new HeaderImageDefault(), new HeaderNomPseudo($this->t), new HeaderDataStats($this->t), new HeaderActionAbonner($this->t));
-		$main = new MainSimple($this->t);
-		$footer = new FooterClassique($this->t);
-		$base = new Base($header, $main, $footer);
-		
-		return $base->render();
+		return BaseFactory::baseTouite($this->t)->render();
 	}
 
 	private function genererTouitSimpleHeader(): String

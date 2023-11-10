@@ -1,13 +1,17 @@
 <?php
 
-namespace touiteur\render\base\header\data;
+namespace touiteur\render\base\header\nom;
 
 use touiteur\classe\Tag;
-use touiteur\render\base\header\nom\HeaderNom;
 
 class HeaderNomTag extends HeaderNom
 {
 	private Tag $tag;
+
+	public function __construct(Tag $tag)
+	{
+		$this->tag = $tag;
+	}
 
 	function render(): string
 	{
