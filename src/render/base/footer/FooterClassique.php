@@ -2,10 +2,9 @@
 
 namespace touiteur\render\base\footer;
 
-use touiteur\render\base\Renderable;
 use touiteur\classe\Touite;
 
-class FooterClassique implements Renderable
+class FooterClassique extends Footer
 {
 	private Touite $touit;
 

@@ -2,7 +2,7 @@
 
 namespace touiteur\render\base;
 
-use touiteur\render\base\footer\FooterClassique;
+use touiteur\render\base\footer\Footer;
 use touiteur\render\base\header\Header;
 use touiteur\render\base\main\Main;
 
@@ -10,14 +10,14 @@ class Base implements Renderable
 {
 	private Header $header;
 	private Main $main;
-	private FooterClassique $footer;
+	private Footer $footer;
 
 	/**
 	 * @param Header $header
 	 * @param Main $main
-	 * @param FooterClassique $footer
+	 * @param Footer $footer
 	 */
-	public function __construct(Header $header, Main $main, FooterClassique $footer)
+	public function __construct(Header $header, Main $main, Footer $footer)
 	{
 		$this->header = $header;
 		$this->main = $main;
