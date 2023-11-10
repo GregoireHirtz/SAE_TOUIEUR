@@ -9,19 +9,26 @@ use touiteur\classe\User;
 use touiteur\db\ConnectionFactory;
 use touiteur\render\base\Base;
 use touiteur\render\base\footer\FooterClassique;
+use touiteur\render\base\header\action\HeaderActionAbonner;
 use touiteur\render\base\header\action\HeaderActionSupprimer;
 use touiteur\render\base\header\data\HeaderDataDate;
 use touiteur\render\base\header\Header;
 use touiteur\render\base\header\image\HeaderImageDefault;
 use touiteur\render\base\header\nom\HeaderNomPseudo;
+use touiteur\render\base\main\MainComplet;
 use touiteur\render\base\main\MainSimple;
 
 class RenderTouite{
 
 	private Touite $t;
 
-	public function __construct(Touite $touite){
+	public String $prefixe;
+
+
+
+	public function __construct(Touite $touite, String $p=""){
 		$this->t = $touite;
+		$this->prefixe = $p;
 	}
 
 	/**
@@ -162,6 +169,21 @@ HTML;
     </footer>
 HTML;
 		return $html;
+	}
+
+
+
+
+	/**
+	 * @return String le touit sous forme html pour accueil
+	 */
+	public function genererTouitComplet(): String{
+		$header = new Header(new HeaderImageDefault(), new HeaderNomPseudo($this->t), new HeaderDataDate($this->t), new HeaderActionAbonner($this->t));
+		$main = new MainComplet($this->t);
+		$footer = new FooterClassique($this->t);
+		$base = new Base($header, $main, $footer);
+
+		return $base->render();
 	}
 
 }
