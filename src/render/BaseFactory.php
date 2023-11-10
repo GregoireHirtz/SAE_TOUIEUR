@@ -60,7 +60,9 @@ class BaseFactory
 
 		$headerAction = new HeaderActionAbonner($element);
 		if ($element instanceof Tag) {
-			$headerImage = new HeaderImageHashtag();
+            global $parts;
+            if ($parts[1] == "tag")
+			    $headerImage = new HeaderImageHashtag();
 		} else {
 			$headerImage = new HeaderImageDefault();
 		}
