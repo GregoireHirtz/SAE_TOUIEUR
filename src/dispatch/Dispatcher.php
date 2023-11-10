@@ -283,8 +283,11 @@ class Dispatcher{
 
                 // Si le tag existe bien, on affiche la page du tag
                 if ($nb_ligne == 1) {
+                    var_dump($row);
                     $base = BaseFactory::baseProfil(new Tag($row['idTag'], $row['libelle'], $row['descriptionTag']));
-                    $base->render();
+                    $htmlHeader = GenererHeader::execute();
+                    $htmlMain = $base->render();
+                    $htmlFooter = GenererFooter::execute();
                 }
                 else{
                     // Si ce n'est pas le cas, on le redirige vers l'accueil
