@@ -55,34 +55,35 @@ if (count($parts)==1) {
 }
 
 if (count($parts)==2) {
-    if ($parts[1] == TYPE_PAGE_LOGIN){
-        $type = TYPE_PAGE_LOGIN;
+    switch ($parts[1]) {
+        case TYPE_PAGE_LOGIN:
+            $type = TYPE_PAGE_LOGIN;
+            break;
+        case TYPE_PAGE_UNLOGIN:
+            $type = TYPE_PAGE_UNLOGIN;
+            break;
+        case TYPE_PAGE_NOTFOUND:
+            $type = TYPE_PAGE_NOTFOUND;
+            break;
+        case TYPE_PAGE_ABONNEMENT:
+            $type = TYPE_PAGE_ABONNEMENT;
+            break;
+        case TYPE_PAGE_LIKE:
+            $type = TYPE_PAGE_LIKE;
+            break;
+        case TYPE_PAGE_ACCUEIL:
+            $type = TYPE_PAGE_ACCUEIL;
+            break;
+        case TYPE_PAGE_PUBLIER:
+            $type = TYPE_PAGE_PUBLIER;
+            break;
+        case TYPE_PAGE_SUPPRIMER:
+            $type = TYPE_PAGE_SUPPRIMER;
+            break;
+        default:
+            $type = TYPE_PAGE_PROFIL;
     }
-	elseif ($parts[1] == TYPE_PAGE_UNLOGIN){
-		$type = TYPE_PAGE_UNLOGIN;
-	}
-	elseif ($parts[1] == TYPE_PAGE_NOTFOUND){
-		$type = TYPE_PAGE_NOTFOUND;
-	}
-	elseif ($parts[1] == TYPE_PAGE_ABONNEMENT){
-		$type = TYPE_PAGE_ABONNEMENT;
-	}
-	elseif ($parts[1] == TYPE_PAGE_LIKE){
-		$type = TYPE_PAGE_LIKE;
-	}
-	elseif ($parts[1] == TYPE_PAGE_ACCUEIL){
-		$type = TYPE_PAGE_ACCUEIL;
-	}
-    elseif ($parts[1] == TYPE_PAGE_PUBLIER){
-        $type = TYPE_PAGE_PUBLIER;
-    }
-	elseif ($parts[1] == TYPE_PAGE_SUPPRIMER){
-		$type = TYPE_PAGE_SUPPRIMER;
-	}
 
-	else{
-        $type = TYPE_PAGE_PROFIL;
-    }
 }
 
 if (count($parts)==3) {
