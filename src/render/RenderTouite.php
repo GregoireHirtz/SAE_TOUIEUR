@@ -15,7 +15,7 @@ use touiteur\render\base\header\data\HeaderDataDate;
 use touiteur\render\base\header\data\HeaderDataStats;
 use touiteur\render\base\header\Header;
 use touiteur\render\base\header\image\HeaderImageDefault;
-use touiteur\render\base\header\nom\HeaderNomPseudo;
+use touiteur\render\base\header\nom\HeaderNomTitre;
 use touiteur\render\base\main\MainComplet;
 use touiteur\render\base\main\MainSimple;
 

@@ -8,6 +8,7 @@ use touiteur\action\Action;
 use touiteur\classe\Tag;
 use touiteur\classe\Touite;
 use touiteur\db\ConnectionFactory;
+use touiteur\render\BaseFactory;
 use touiteur\render\RenderAbonnement;
 use touiteur\classe\User;
 use touiteur\render\RenderTouite;
@@ -55,7 +56,7 @@ class GenererProfil extends Action{
                     // On utilise la classe RenderAbonnement pour générer le html de chaque user
                     $rT = new RenderAbonnement($user, $date);
                     // On ajoute le html généré à la variable finale pour faire un affichage de tous les abonnements
-                    $html .= $rT->genererAffichageUser();
+                    $html .= BaseFactory::baseProfil($user)->render();
                 }
                 break;
             case "abonnes":
@@ -68,7 +69,7 @@ class GenererProfil extends Action{
                     // On utilise la classe RenderAbonnement pour générer le html de chaque user
                     $rT = new RenderAbonnement($user, $date);
                     // On ajoute le html généré à la variable finale pour faire un affichage de tous les abonnés
-                    $html .= $rT->genererAffichageUser();
+                    $html .= BaseFactory::baseProfil($user)->render();
                 }
                 break;
             default:

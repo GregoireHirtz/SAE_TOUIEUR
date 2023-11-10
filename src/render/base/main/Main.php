@@ -7,7 +7,7 @@ use touiteur\classe\Touite;
 
 abstract class Main implements Renderable
 {
-	protected Touite $touit;
+	protected ?Touite $touit;
 
 	public function __construct(?Touite $touit = null)
 	{
