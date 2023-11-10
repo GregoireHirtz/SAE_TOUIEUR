@@ -46,7 +46,7 @@ class Touite{
 
 
 		$db = ConnectionFactory::makeConnection();
-		$st = $db->prepare("CALL etreVote({$this->id}, \"{$user->email}\")");
+		$st = $db->prepare("SELECT etreVote({$this->id}, \"{$user->email}\")");
 		$st->execute();
 		return $st->fetch() ? 1 : 0;
 	}

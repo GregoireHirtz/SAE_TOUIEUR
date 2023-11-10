@@ -2,15 +2,31 @@
 
 namespace touiteur\render\base\main;
 
+use PDO;
+use touiteur\db\ConnectionFactory;
+
 class MainComplet extends Main
 {
 
-	function render(): string
-	{
+	function render(): string{
+		global $parts;
+		$img = "";
+		$bd = ConnectionFactory::makeConnection();
+		$st = $bd->prepare("CALL obtenirImage(?)");
+		$st->bindParam(1, $parts[2], PDO::PARAM_INT);
+		$st->execute();
+
+		$row = $st->fetch();
+		if (!empty($row)){
+			$nom = $row[1];
+			$nom = explode('/', $nom);
+			$img = "<img src='../src/action/touit/img/{$nom[9]}'></img>";
+		}
+
 		return <<<HTML
 		<main>
 			<p>{$this->texteConverter()}</p>
-			<a href="touit/{$this->touit->id}">Afficher plus...</a>
+			{$img}
 		</main>	
 HTML;
 	}

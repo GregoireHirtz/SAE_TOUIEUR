@@ -9,9 +9,10 @@ class HeaderDataDate extends HeaderData
 {
 	private Touite $touit;
 
-	public function __construct(Touite $touit)
+	public function __construct(Touite $touit, String $p="")
 	{
 		$this->touit = $touit;
+		$this->prefixe = $p;
 	}
 
 	function render(): string

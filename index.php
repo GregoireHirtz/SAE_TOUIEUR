@@ -7,6 +7,7 @@ declare(strict_types=1);
 use touiteur\db\ConnectionFactory;
 use \touiteur\dispatch\Dispatcher;
 use \touiteur\auth\Session;
+use touiteur\exception\InvalideTypePage;
 
 // ---- CONSTANTES ---- //
 

@@ -2,6 +2,8 @@
 declare(strict_types=1);
 namespace touiteur\dispatch;
 
+use PDO;
+use touiteur\action\accueil\GenererTouit;
 use touiteur\action\touit\ActionNouveauTouit;
 use touiteur\action\touit\ActionSupprimerTouit;
 use touiteur\action\accueil\GenererAccueil;
@@ -16,9 +18,11 @@ use touiteur\action\login\ActionLogin;
 use touiteur\action\login\ActionSignin;
 use touiteur\auth\Auth;
 use touiteur\auth\Session;
+use touiteur\classe\Touite;
 use touiteur\classe\User;
 use touiteur\db\ConnectionFactory;
 use touiteur\exception\InvalideTypePage;
+use touiteur\render\RenderTouite;
 
 
 /**
@@ -49,7 +53,6 @@ class Dispatcher{
 						$htmlHeader = GenererHeader::execute();
 						$htmlMain = GenererAccueil::execute();
 						$htmlFooter = GenererFooter::execute();
-						include 'src/vue/accueil.html';
 						break;
 
 					case "tag":
@@ -61,7 +64,6 @@ class Dispatcher{
 						$htmlHeader = GenererHeader::execute();
 						$htmlMain = GenererAccueilTag::execute($_SESSION["username"]);
 						$htmlFooter = GenererFooter::execute();
-						include 'src/vue/accueil.html';
 						break;
 
 
@@ -73,7 +75,6 @@ class Dispatcher{
 						$htmlHeader = GenererHeader::execute();
 						$htmlMain = GenererAccueilAbonne::execute($_SESSION["username"]);
 						$htmlFooter = GenererFooter::execute();
-						include 'src/vue/accueil.html';
 						break;
 
 
@@ -81,6 +82,7 @@ class Dispatcher{
 						Dispatcher::redirection("accueil");
 						break;
 				}
+				include 'src/vue/accueil.html';
 				break;
 
 			case TYPE_PAGE_PROFIL:
@@ -104,7 +106,11 @@ class Dispatcher{
 				break;
 
 			case TYPE_PAGE_TOUIT:
-				Dispatcher::redirection("login");
+				$htmlHeader = GenererHeader::execute();
+				$htmlFooter = "";
+				$htmlMain = GenererTouit::execute();
+
+				include 'src/vue/touit.html';
 				break;
 
 			case TYPE_PAGE_LOGIN:
