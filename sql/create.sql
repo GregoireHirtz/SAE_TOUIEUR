@@ -16,111 +16,111 @@ DROP TABLE IF EXISTS Image;
 
 -- Structure;
 CREATE TABLE Utilisateur (
-                             emailUt VARCHAR(150) PRIMARY KEY,
-                             nomUt VARCHAR(50) DEFAULT 'Inconnu',
-                             prenomUt VARCHAR(50) DEFAULT 'Inconnu',
-                             username VARCHAR(50) UNIQUE NOT NULL,
-                             mdp VARCHAR(100) NOT NULL,
-                             dateInscription DATETIME NOT NULL,
-                             permissions INT DEFAULT 0 -- registered 0, admin 1
+    emailUt VARCHAR(150) PRIMARY KEY,
+    nomUt VARCHAR(50) DEFAULT 'Inconnu',
+    prenomUt VARCHAR(50) DEFAULT 'Inconnu',
+    username VARCHAR(50) UNIQUE NOT NULL,
+    mdp VARCHAR(100) NOT NULL,
+    dateInscription DATETIME NOT NULL,
+    permissions INT DEFAULT 0 -- registered 0, admin 1
 );
 
 CREATE TABLE Tag (
-                     idTag INT PRIMARY KEY,
-                     libelle VARCHAR(50) NOT NULL,
-                     descriptionTag VARCHAR(500) DEFAULT 'Pas de description.',
-                     dateCreation DATETIME NOT NULL
+    idTag INT PRIMARY KEY,
+    libelle VARCHAR(50) NOT NULL,
+    descriptionTag VARCHAR(500) DEFAULT 'Pas de description.',
+    dateCreation DATETIME NOT NULL
 );
 
 CREATE TABLE Image (
-                       idImage INT PRIMARY KEY,
-                       descriptionImg VARCHAR(500),
-                       cheminSrc VARCHAR(250) NOT NULL
+    idImage INT PRIMARY KEY,
+    descriptionImg VARCHAR(500),
+    cheminSrc VARCHAR(250) NOT NULL
 );
 
 CREATE TABLE Touite (
-                        idTouite INT PRIMARY KEY,
-                        texte VARCHAR(235),-- Un Touite est limité à 235 caractères selon l'énoncé
-                        date DATETIME NOT NULL,
-                        notePertinence INT DEFAULT 0,
-                        nbLike INT DEFAULT 0,
-                        nbDislike INT DEFAULT 0,
-                        nbRetouite INT DEFAULT 0,
-                        nbVue INT DEFAULT 0
+    idTouite INT PRIMARY KEY,
+    texte VARCHAR(235),-- Un Touite est limité à 235 caractères selon l'énoncé
+    date DATETIME NOT NULL,
+    notePertinence INT DEFAULT 0,
+    nbLike INT DEFAULT 0,
+    nbDislike INT DEFAULT 0,
+    nbRetouite INT DEFAULT 0,
+    nbVue INT DEFAULT 0
 );
 
 CREATE TABLE Recherche (
-                           idRecherche INT PRIMARY KEY,
-                           recherche VARCHAR(50) NOT NULL,
-                           dateRecherche DATETIME NOT NULL
+    idRecherche INT PRIMARY KEY,
+    recherche VARCHAR(50) NOT NULL,
+    dateRecherche DATETIME NOT NULL
 );
 
 CREATE TABLE EtreAboUtilisateur (
-                                    emailUt VARCHAR(150),
-                                    emailUtAbo VARCHAR(150),
-                                    dateAboUt DATETIME NOT NULL,
-                                    PRIMARY KEY (emailUt, emailUtAbo),
-                                    FOREIGN KEY (emailUt) REFERENCES Utilisateur(emailUt),
-                                    FOREIGN KEY (emailUtAbo) REFERENCES Utilisateur(emailUt)
+    emailUt VARCHAR(150),
+    emailUtAbo VARCHAR(150),
+    dateAboUt DATETIME NOT NULL,
+    PRIMARY KEY (emailUt, emailUtAbo),
+    FOREIGN KEY (emailUt) REFERENCES Utilisateur(emailUt),
+    FOREIGN KEY (emailUtAbo) REFERENCES Utilisateur(emailUt)
 );
 
 CREATE TABLE EtreAboTag (
-                            emailUt VARCHAR(150),
-                            idTag INT,
-                            dateAboTag DATETIME NOT NULL,
-                            PRIMARY KEY (emailUt, idTag),
-                            FOREIGN KEY (emailUt) REFERENCES Utilisateur(emailUt),
-                            FOREIGN KEY (idTag) REFERENCES Tag(idTag)
+    emailUt VARCHAR(150),
+    idTag INT,
+    dateAboTag DATETIME NOT NULL,
+    PRIMARY KEY (emailUt, idTag),
+    FOREIGN KEY (emailUt) REFERENCES Utilisateur(emailUt),
+    FOREIGN KEY (idTag) REFERENCES Tag(idTag)
 );
 
 CREATE TABLE UtiliserImage (
-                               idTouite INT,
-                               idImage INT,
-                               PRIMARY KEY (idTouite, idImage),
-                               FOREIGN KEY (idTouite) REFERENCES Touite(idTouite),
-                               FOREIGN KEY (idImage) REFERENCES Image(idImage)
+    idTouite INT,
+    idImage INT,
+    PRIMARY KEY (idTouite, idImage),
+    FOREIGN KEY (idTouite) REFERENCES Touite(idTouite),
+    FOREIGN KEY (idImage) REFERENCES Image(idImage)
 );
 
 CREATE TABLE UtiliserPP(
-                           emailUt VARCHAR(150),
-                           idImage INT,
-                           PRIMARY KEY (emailUt, idImage),
-                           FOREIGN KEY (emailUt) REFERENCES Utilisateur(emailUt),
-                           FOREIGN KEY (idImage) REFERENCES Image(idImage)
+    emailUt VARCHAR(150),
+    idImage INT,
+    PRIMARY KEY (emailUt, idImage),
+    FOREIGN KEY (emailUt) REFERENCES Utilisateur(emailUt),
+    FOREIGN KEY (idImage) REFERENCES Image(idImage)
 );
 
 CREATE TABLE UtiliserTag (
-                             idTouite INT,
-                             idTag INT,
-                             PRIMARY KEY (idTouite, idTag),
-                             FOREIGN KEY (idTouite) REFERENCES Touite(idTouite),
-                             FOREIGN KEY (idTag) REFERENCES Tag(idTag)
+    idTouite INT,
+    idTag INT,
+    PRIMARY KEY (idTouite, idTag),
+    FOREIGN KEY (idTouite) REFERENCES Touite(idTouite),
+    FOREIGN KEY (idTag) REFERENCES Tag(idTag)
 );
 
 CREATE TABLE PublierPar (
-                            idTouite INT,
-                            emailUt VARCHAR(150),
-                            PRIMARY KEY (idTouite, emailUt),
-                            FOREIGN KEY (idTouite) REFERENCES Touite(idTouite),
-                            FOREIGN KEY (emailUt) REFERENCES Utilisateur(emailUt)
+    idTouite INT,
+    emailUt VARCHAR(150),
+    PRIMARY KEY (idTouite, emailUt),
+    FOREIGN KEY (idTouite) REFERENCES Touite(idTouite),
+    FOREIGN KEY (emailUt) REFERENCES Utilisateur(emailUt)
 );
 
 CREATE TABLE Historique (
-                            emailUt VARCHAR(150),
-                            idRecherche INT,
-                            PRIMARY KEY (emailUt, idRecherche),
-                            FOREIGN KEY (emailUt) REFERENCES Utilisateur(emailUt),
-                            FOREIGN KEY (idRecherche) REFERENCES Recherche(idRecherche)
+    emailUt VARCHAR(150),
+    idRecherche INT,
+    PRIMARY KEY (emailUt, idRecherche),
+    FOREIGN KEY (emailUt) REFERENCES Utilisateur(emailUt),
+    FOREIGN KEY (idRecherche) REFERENCES Recherche(idRecherche)
 );
 
 CREATE TABLE AvoirVote (
-                           emailUt  VARCHAR(150),
-                           idTouite INT,
-                           vote     INT,
-                           CHECK (vote = 1 OR vote = -1),
-                           PRIMARY KEY (emailUt, idTouite),
-                           FOREIGN KEY (emailUt) REFERENCES Utilisateur (emailUt),
-                           FOREIGN KEY (idTouite) REFERENCES Touite (idTouite)
+    emailUt  VARCHAR(150),
+    idTouite INT,
+    vote     INT,
+    CHECK (vote = 1 OR vote = -1),
+    PRIMARY KEY (emailUt, idTouite),
+    FOREIGN KEY (emailUt) REFERENCES Utilisateur (emailUt),
+    FOREIGN KEY (idTouite) REFERENCES Touite (idTouite)
 );
 
 

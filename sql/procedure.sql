@@ -34,22 +34,19 @@ DROP PROCEDURE IF EXISTS annulerAbonnementTag;
 DROP PROCEDURE IF EXISTS ajoutHistorique;
 DROP PROCEDURE IF EXISTS afficherTouitesAboUtilisateur;
 DROP PROCEDURE IF EXISTS afficherTouitesAboTag;
-DROP PROCEDURE IF EXISTS etreAboTag;
+DROP FUNCTION IF EXISTS etreAboTag;
 DROP PROCEDURE IF EXISTS obtenirUsername;
 DROP PROCEDURE IF EXISTS etreAboUtilisateur;
+DROP FUNCTION IF EXISTS etreAboUtilisateur;
 DROP PROCEDURE IF EXISTS etreAboTag;
-
-
-
 DROP FUNCTION IF EXISTS ajoutRecherche;
 
 
 -- Créations des PROCEDURES
 
 -- Liste des abonnements (utilisateurs)
-
 CREATE PROCEDURE `obtenirAbonnementUtilisateur`(IN `emailUtilisateur` VARCHAR(150))
-select u.emailUt, u.nomUt, u.prenomUt, u.username, u.dateInscription
+select u.emailUt, u.nomUt, u.prenomUt, u.username, u.dateInscription, u.permissions, aUt.dateAboUt
 from EtreAboUtilisateur aUt inner join Utilisateur u on aUt.emailUtAbo=u.emailUt
 where aUt.emailUt = emailUtilisateur
 ORDER BY u.username;
@@ -66,18 +63,17 @@ ORDER BY t.libelle;
 
 
 -- Liste des abonnés (utilisateurs)
-
 CREATE PROCEDURE `obtenirUtilisateurAbo`(IN `emailUtilisateur` VARCHAR(150))
-select u.nomUt, u.prenomUt, u.username, u.dateInscription
+select u.nomUt, u.prenomUt, u.username, u.dateInscription, u.emailUt, u.permissions, aUt.dateAboUt
 from EtreAboUtilisateur aUt inner join Utilisateur u on aUt.emailUt=u.emailUt
 where aUt.emailUtAbo = emailUtilisateur
 ORDER BY u.username;
 
 
 -- Liste des touites qu’un utilisateur a publié :
-
+DROP PROCEDURE IF EXISTS `obtenirTouitesUtilisateur`;
 CREATE PROCEDURE `obtenirTouitesUtilisateur`(IN `emailUtilisateur` VARCHAR(150))
-select t.texte, t.date, t.notePertinence, t.nbLike, t.nbDislike, t.nbRetouite, t.nbVue
+select t.idTouite, t.texte, t.date, u.username, t.notePertinence, t.nbLike, t.nbDislike, t.nbRetouite, t.nbVue
 from Utilisateur u inner join PublierPar p on u.emailUt=p.emailUt
                    inner join Touite t on p.idTouite=t.idTouite
 where u.emailUt like emailUtilisateur
@@ -93,7 +89,6 @@ ORDER BY t.notePertinence DESC, t.date DESC;
 
 
 -- Ajout d'un touite
-DELIMITER //
 CREATE FUNCTION ajoutTouite(nouvTexte TEXT) RETURNS INT
 BEGIN
     DECLARE v_idTouite INT;
@@ -101,11 +96,8 @@ BEGIN
     INSERT INTO Touite (idTouite, texte, date) VALUES (v_idTouite, nouvTexte, NOW());
     RETURN v_idTouite;
 END;
-//
-DELIMITER ;
 
 -- Ajout d'un tag
-DELIMITER //
 CREATE FUNCTION ajoutTag(nouvLibelle TEXT) RETURNS INT
 BEGIN
     DECLARE v_idTag INT;
@@ -113,11 +105,9 @@ BEGIN
     INSERT INTO Tag (idTag, libelle) VALUES (v_idTag, nouvLibelle);
     RETURN v_idTag;
 END;
-//
-DELIMITER ;
+
 
 -- Ajout d'une image
-DELIMITER //
 CREATE FUNCTION ajoutImage(nouvDescription TEXT, src TEXT) RETURNS INT
 BEGIN
     DECLARE v_idImage INT;
@@ -125,35 +115,30 @@ BEGIN
     INSERT INTO Image (idImage, descriptionImg, cheminSrc) VALUES (v_idImage, nouvDescription, src);
     RETURN v_idImage;
 END;
-//
-DELIMITER ;
 
 -- Ajout d'un lien touite/tag
-DELIMITER //
+
 CREATE PROCEDURE ajoutUtiliserTag(v_idTouite INT, v_idTag INT)
 BEGIN
     INSERT INTO UtiliserTag (idTouite, idTag) VALUES (v_idTouite, v_idTag);
 END;
-//
-DELIMITER ;
+
 
 -- Ajout d'un lien touite/image
-DELIMITER //
+
 CREATE PROCEDURE ajoutUtiliserImage(v_idTouite INT, v_idImage INT)
 BEGIN
     INSERT INTO UtiliserImage (idTouite, idImage) VALUES (v_idTouite, v_idImage);
 END;
-//
-DELIMITER ;
+
 
 -- Ajout d'un lien touite/utilisateur
-DELIMITER //
+
 CREATE PROCEDURE ajoutPublier(v_idTouite INT, v_email TEXT)
 BEGIN
     INSERT INTO PublierPar (idTouite, emailUt) VALUES (v_idTouite, v_email);
 END;
-//
-DELIMITER ;
+
 
 
 -- Ajout d'un utilisateur
@@ -448,8 +433,8 @@ BEGIN
     SET inf = nbTouiteParPage*(page-1);
 
     SELECT t.*, u.emailUt, u.username FROM Touite t
-                                               INNER JOIN PublierPar pp ON t.idTouite=pp.idTouite
-                                               INNER JOIN Utilisateur u ON pp.emailUt=u.emailUt
+        INNER JOIN PublierPar pp ON t.idTouite=pp.idTouite
+        INNER JOIN Utilisateur u ON pp.emailUt=u.emailUt
     ORDER BY t.notePertinence DESC
     LIMIT nbTouiteParPage OFFSET inf;
 end;
