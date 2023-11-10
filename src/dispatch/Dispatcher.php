@@ -5,6 +5,7 @@ namespace touiteur\dispatch;
 use PDO;
 use touiteur\action\accueil\GenererPagination;
 use touiteur\action\accueil\GenererTouit;
+use touiteur\action\accueil\GenererTag;
 use touiteur\action\touit\ActionNouveauTouit;
 use touiteur\action\touit\ActionSupprimerTouit;
 use touiteur\action\accueil\GenererAccueil;
@@ -23,7 +24,9 @@ use touiteur\classe\Touite;
 use touiteur\classe\User;
 use touiteur\db\ConnectionFactory;
 use touiteur\exception\InvalideTypePage;
+use touiteur\render\BaseFactory;
 use touiteur\render\RenderTouite;
+use touiteur\classe\Tag;
 
 
 /**
@@ -155,7 +158,13 @@ class Dispatcher{
 				break;
 
 			case TYPE_PAGE_NOTFOUND:
-				var_dump("404");
+                $p = PREFIXE;
+				echo <<<HTML
+                    <h1>404</h1>
+                    <p>La page que vous demandez n'existe pas</p>
+                    <a href="$p">Retour vers l'accueil</a>
+                HTML;
+
 				break;
 
 			case TYPE_PAGE_LIKE:
@@ -230,6 +239,7 @@ class Dispatcher{
 				Dispatcher::redirection($redirection);
                 break;
 
+            // TODO A Supprimer tout ce qui est relatif à influenceurs car c'est une applciation à part
             case TYPE_PAGE_INFLUENCEURS:
                 if (!empty($_SESSION)){
                     // redirection vers accueil
@@ -254,7 +264,35 @@ class Dispatcher{
 				break;
 
 			case TYPE_PAGE_TAG:
+                global $parts;
+                $libelleTag = $parts[2];
+                $libelleTag = filter_var($libelleTag, FILTER_SANITIZE_STRING);
+                // On vérifie que le tag demandé par l'utilisateur est bien un nombre (idTag)
 
+                $db = ConnectionFactory::makeConnection();
+
+                // On vérifie que le tag demandé par l'utilisateur existe bien dans la bd
+                $query = 'SELECT COUNT(libelle) as NB_LIGNE, libelle, idTag, descriptionTag FROM Tag WHERE libelle LIKE ?';
+                $st = $db->prepare($query);
+                $st->bindParam(1, $libelleTag, PDO::PARAM_STR);
+                $st->execute();
+                $db=null;
+
+                $row = $st->fetch(PDO::FETCH_ASSOC);
+                $nb_ligne = $row['NB_LIGNE'];
+
+                // Si le tag existe bien, on affiche la page du tag
+                if ($nb_ligne == 1) {
+                    $base = BaseFactory::baseProfil(new Tag($row['idTag'], $row['libelle'], $row['descriptionTag']));
+                    $base->render();
+                }
+                else{
+                    // Si ce n'est pas le cas, on le redirige vers l'accueil
+                    Dispatcher::redirection("/");
+                }
+
+
+                include("src/vue/tags.html");
 				break;
 
 			default:

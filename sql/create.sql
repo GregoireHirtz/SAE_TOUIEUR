@@ -27,7 +27,7 @@ CREATE TABLE Utilisateur (
 
 CREATE TABLE Tag (
     idTag INT PRIMARY KEY,
-    libelle VARCHAR(50) NOT NULL,
+    libelle VARCHAR(50) UNIQUE NOT NULL,
     descriptionTag VARCHAR(500) DEFAULT 'Pas de description.',
     dateCreation DATETIME NOT NULL
 );
