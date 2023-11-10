@@ -11,7 +11,6 @@
 	z-index: 100;
 	backdrop-filter: blur(2px);
 	border-bottom: 3px solid var(--primaire);
-	margin-left: 8px;
 }
 
 .barreNav > .logo {
@@ -173,9 +172,9 @@
 	width: 106%;
 	translate: -3%;
 	position: sticky;
-	top: calc(2 * var(--default-size) + 3px);
+	top: calc(2 * var(--default-size));
 	background-color: var(--background_transparent);
-	z-index: 100;
+	z-index: 99;
 	backdrop-filter: blur(2px);
 }
 
@@ -219,11 +218,16 @@
 }
 
 /* ===== BOUTON ACTION TOUIT ===== */
-.sabonner, .delete {
+.sabonner, .delete, .publier {
+	position: relative;
+}
+
+.sabonner > input, .delete > input, .publier > input {
 	width: fit-content;
 	height: fit-content;
+	outline: none;
 
-	position: relative;
+	z-index: 1;
 	border: none;
 	text-align: right;
 	padding-right: calc(var(--default-size) * 0.87);
@@ -240,7 +244,7 @@
 }
 */
 
-.sabonner::after, .delete::after {
+.sabonner::after, .delete::after, .publier::after {
 	content: "";
 	background: url("../images/suivre_empty.svg") no-repeat center;
 	width: calc(var(--default-size) * 0.57);
@@ -256,6 +260,10 @@
 	background: url("../images/delete.svg") no-repeat center;
 }
 
+.publier::after{
+	background: url("../images/plus.svg") no-repeat center;
+}
+
 .de.sabonner::after {
 	background: url("../images/suivre_full.svg") no-repeat center;
 }
@@ -267,11 +275,11 @@ article {
 	padding: calc(var(--default-size) * 0.5);
 	border-radius: 10px;
 }
-article > header {
+article > header, dialog header {
 	display: grid;
 	grid-template: calc(var(--default-size) * 0.75) calc(var(--default-size) * 0.75) / calc(var(--default-size) * 1.25) 1fr 1fr;
 }
-article > header > .photo_profil > img {
+article > header > .photo_profil > img, dialog header > .photo_profil > img {
 	grid-row: 1 / 3;
 	grid-column: 1;
 	width: calc(.75 * var(--default-size));
@@ -282,7 +290,7 @@ article > header > .photo_profil > img {
 	align-items: center;
 }
 
-article > header > .pseudo {
+article > header > .pseudo, dialog header > .pseudo {
 	text-decoration: none;
 	width: fit-content;
 	grid-row: 1;
@@ -293,34 +301,36 @@ article > header > .pseudo {
 	align-self: center;
 }
 
-article > header > div {
+article > header > form {
 	grid-row: 1/3;
 	grid-column: 3;
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
 }
-
-article > header > p {
+article > header > p, dialog header > p {
 	font-size: calc(var(--default-size) * 0.35);
 	color: var(--accent);
 	grid-row: 2;
 	grid-column: 2;
 	margin: 0;
 }
-
 article > main > p {
 	margin: 0;
 	font-size: calc(var(--default-size) * 0.45);
 	text-align: justify;
 }
-
+article > main > a {
+	font-size: calc(var(--default-size) * 0.4);
+	color: var(--primaire);
+	text-decoration: none;
+}
 article > footer {
 	display: flex;
 	align-items: center;
 	gap: calc(var(--default-size) * 0.5);
 }
-article > footer img {
+article > footer img, article > footer input[type="image"] {
 	width: calc(var(--default-size) * 0.62);
 }
 
@@ -328,29 +338,136 @@ article > footer > :nth-child(1) {
 	display: flex;
 	gap: 3px;
 }
-article > footer > :nth-child(1) > p {
-	width: var(--default-size);
-	text-align: center;
-	font-weight: bold;
-	color: var(--texte);
-}
-article > footer > :nth-child(1) > img {
-	cursor: pointer;
-}
-
 article > footer > :nth-child(2) {
 	flex-grow: 1;
 	display: flex;
 	gap: calc(var(--default-size) * 0.12);
 }
-article > footer > :nth-child(2) > p {
+article > footer > * > p {
 	width: var(--default-size);
-	text-align: right;
 	font-weight: bold;
 	color: var(--texte);
+}
+article > footer > div:nth-child(1) > p {
+	text-align: center;
+}
+article > footer > div:nth-child(2) > p {
+	text-align: right;
+}
+article > footer > div > form {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 article > footer > p > a {
 	font-size: calc(var(--default-size) * 0.35);
 	color: var(--accent);
 	text-decoration: none;
+}
+
+/* ===== POPUP AJOUT TOUIT ===== */
+dialog {
+	width: calc(var(--page-width) * 1.1);
+	background-color: rgba(219, 205, 236, 0.1);
+	backdrop-filter: blur(3px);
+	border: none;
+	border-radius: 10px;
+	box-shadow: 0 0 5px var(--secondaire);
+}
+dialog > form {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--default-size) * 0.5);
+	padding: calc(var(--default-size) * 0.5);
+}
+dialog div > textarea {
+	width: 100%;
+	box-sizing: border-box;
+	height: 100%;
+	resize: none;
+	border: none;
+	outline: none;
+	background-color: transparent;
+	padding: 5px 10px;
+	text-align: justify;
+	border-radius: 5px;
+	font-size: calc(var(--default-size) * 0.5);
+	font-family: "Lato", sans-serif;
+	color: var(--texte);
+}
+dialog label[for="input_file"] {
+	cursor:pointer;
+	box-shadow: inset 0 0 5px var(--texte);
+	width: 100%;
+	height: calc(var(--default-size) * 2.5);
+	border-radius: 5px;
+	font-weight: bold;
+	color: var(--texte);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+dialog label[for="input_file"]::before {
+	content: "";
+	padding-right: 30px;
+	aspect-ratio: 1;
+	width: calc(var(--default-size) * .6);
+	background: url("../images/upload.svg") no-repeat center;
+}
+
+
+dialog::backdrop {
+	background-color: transparent;
+}
+dialog .texte_touit {
+	position: relative;
+}
+dialog .texte_touit > fieldset {
+	height: fit-content;
+	color: var(--texte);
+	border: 2px solid var(--texte);
+	overflow: auto;
+	padding: 0 5px;
+	outline: none;
+}
+dialog .texte_touit > fieldset > textarea {
+	width: 100%;
+	min-height: calc(var(--default-size) * 2.8);
+	height: fit-content;
+	resize: none;
+	border: none;
+	font-size: calc(var(--default-size) * 0.55);
+	font-family: "Lato", sans-serif;
+	padding: 0;
+	background-color: transparent;
+	outline: none;
+}
+dialog .texte_touit > label {
+	position: absolute;
+}
+dialog .texte_touit > .compteur {
+	font-size: calc(var(--default-size) * 0.5);
+	color: var(--accent);
+	bottom: 5px;
+	right: 5px;
+}
+dialog .texte_touit > :not(.compteur) {
+	top: calc(var(--default-size) * -0.3);
+	font-size: calc(var(--default-size) * .4);
+	color: var(--texte);
+}
+dialog .inline {
+	display: flex;
+	gap: 50px;
+}
+
+#openDialog {
+	position: fixed;
+	height: var(--default-size);
+	cursor: pointer;
+	aspect-ratio: 1;
+	border: none;
+	bottom: var(--default-size);
+	left: var(--default-size);
+	background: url("../images/plus.svg") no-repeat center;
 }

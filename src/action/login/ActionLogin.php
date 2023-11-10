@@ -5,10 +5,11 @@ namespace touiteur\action\login;
 use touiteur\action\Action;
 use touiteur\auth\Auth;
 use touiteur\auth\Session;
+use touiteur\dispatch\Dispatcher;
 
 class ActionLogin extends Action{
 
-	static public function execute(): string{
+	static public function execute(?string $username = null): string{
 		$message = '';
 
 		// filtrage saisie user
@@ -20,11 +21,12 @@ class ActionLogin extends Action{
 		if ($valide){
 			Session::loadSession($username);
 			// redirection vers accueil
-			header("Location: /");
+			//header("Location: /");
+			Dispatcher::redirection("");
 		}
 		// sinon message erreur dans $message
 		else{
-			$message = '<p>Login ou mot de passe incorrect</p>';
+			$message = '<ul><li>Login ou mot de passe incorrect</li></ul>';
 		}
 
 		return $message;

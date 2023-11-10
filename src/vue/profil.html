@@ -8,17 +8,22 @@
 	<link rel="stylesheet" href="src/vue/css/component.css">
 </head>
 <body>
+
+<?php echo $htmlHeader; ?>
+
 <main id="profil">
 	<h3>Profil de !________!</h3>
 	<nav class="navigation">
 		<ul>
-			<li><a href="?data=abonnement">Abonnements</a></li>
+			<li id="abonnement"><a href="?data=abonnement">Abonnements</a></li>
 			<li class="selected"><a href="?data=publication">Publications</a></li>
-			<li><a href="?data=abonnes">Abonn&eacute;s</a></li>
+			<li id="abonnes"><a href="?data=abonnes">Abonn&eacute;s</a></li>
 		</ul>
 	</nav>
 	<?php echo $htmlMain; ?>
 </main>
+
+<?php echo $htmlFooter ?>
 
 <script src="src/vue/js/component.js"></script>
 </body>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<title>Touiteur - NavBar</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/component.css">
+</head>
+<body>
+<main>
+	<article>
+		<header>
+			<a href="#" class="photo_profil"><img src="images/user.svg" alt="PP"></a>
+			<a href="{$username}" class="pseudo">{$username}</a>
+			<p>{$dateJ} à {$dateH}</p>
+			<form class="publier" action="{$action}" method="post">
+					<input id="test" onclick="openDialog()" value="Publier">
+				<label for="test">
+				</label>
+			</form>
+		</header>
+		<main>
+			<p>{$m}</p>
+			<a href="/touit/{$id}" class="more">Afficher plus...</a>
+		</main>
+		<footer>
+			<div>
+				<form action="like?data=l&id={$this->t->getId()}&redirect={$url_actuel}" method="post">
+					<input name="like" type="image" src="images/heart_empty.svg" alt="GestionLike">
+				</form>
+				<p>222</p>
+				<form action="like?data=dl&id={$this->t->getId()}&redirect={$url_actuel}" method="post">
+					<input name="dislike" type="image" src="images/heart-crack_empty.svg" alt="GestionLike">
+				</form>
+			</div>
+			<div>
+				<p>432</p>
+				<img src="images/view.svg" alt="Vue">
+			</div>
+		</footer>
+	</article>
+</main>
+
+<script>
+	/*
+	document.addEventListener('click', function (e) {
+		if (e.target.tagName !== 'DIALOG')
+			return;
+
+		let rect = e.target.getBoundingClientRect();
+		if (rect.top > e.clientY || e.clientY > rect.top + rect.height || rect.left > e.clientX || e.clientX > rect.left + rect.width)
+			e.target.close();
+	});
+	*/
+</script>
+<script src="js/component.js"></script>
+</body>
+</html>

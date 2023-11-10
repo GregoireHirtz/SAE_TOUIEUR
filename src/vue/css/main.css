@@ -5,23 +5,20 @@
 	--default-size: 30px;
 
 	/* === COULEUR === */
+
+	/* Theme sombre */
 /*
 	--texte: #BCC0D2;
 	--accent: #8C99B1;
 	--primaire: #5A28C8;
 	--secondaire: #221434;
 	--background: #01000A;
+	--background_transparent: #01000A33;
 */
 
+	/* Theme clair */
 	--texte: #2D3142;
 	--accent: #4F5D75;
-/*
-	--primaire: #EF8354;
-	--secondaire: #ECD7CD;
-	--background: #FFF8F5;
-*/
-
-
 	--primaire: #6B37D8;
 	--secondaire: #DBCDEC;
 	--background: #F6F5FF;
@@ -41,8 +38,6 @@ body {
 * {
 	scrollbar-width: thin;
 	scrollbar-color: var(--texte) transparent;
-
-	scrollbar-gutter: stable;
 }
 *::-webkit-scrollbar {
 	height: 8px;
@@ -59,25 +54,40 @@ body {
 }
 
 /* ===== DEFAULT ===== */
+.login-logo {
+	height: calc(1.5 * var(--page-width));
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
 #login {
+	--page-width: 40%;
 	display: flex;
 	gap: calc(var(--default-size) * 2.5);
 }
 
 body > main {
 	width: var(--page-width);
-	margin: calc(var(--default-size) * 0.75) auto auto;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 25px;
 }
 
 #login > form {
 	flex-grow: 1;
-	background-color: rgba(191, 192, 192, 0.05);
+	background-color: rgba(191, 192, 192, 0.07);
 	padding: calc(var(--default-size) * 0.5);
 	border-radius: 10px;
-	height: fit-content;
+	height: 60vh;
+	margin-top: calc(20vh - var(--default-size) * 0.5);
+	backdrop-filter: blur(3px);
 
 	display: flex;
 	flex-direction: column;
+	justify-content: space-between;
 	gap: calc(var(--default-size) * 0.37);
 }
 

@@ -5,10 +5,11 @@ namespace touiteur\action\login;
 use touiteur\action\Action;
 use touiteur\auth\Auth;
 use touiteur\auth\Session;
+use touiteur\dispatch\Dispatcher;
 
 class ActionSignin extends Action{
 
-	static public function execute(): string{
+	static public function execute(?string $username = null): string{
 		$message = '';
 
 		// filtrage saisie user
@@ -55,7 +56,8 @@ class ActionSignin extends Action{
 		if ($valide){
 			Auth::register($email, $username, $password);
 			Session::loadSession($username);
-			header("Location: /");
+			Dispatcher::redirection("");
+			//header("Location: /");
 		}
 		return $message;
 	}

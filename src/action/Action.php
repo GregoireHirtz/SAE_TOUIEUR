@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace touiteur\action;
 
 abstract class Action {
-
-	abstract static public function execute();
+    // Paramètre username pour les actions qui en ont besoin (lister les publications d'UN utilisateur par exemple)
+	abstract static public function execute(?string $username = null);
 
 }

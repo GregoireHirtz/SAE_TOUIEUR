@@ -33,24 +33,6 @@ class Touite{
 		$this->listeTag = $lT;
 	}
 
-	/**
-	 * @return bool true si le touite a été ajouté, false sinon
-	 * ajoute un touite dans la base de donnée + mise a jour PublierPar + UtiliserTag
-	 */
-	public function publierTouite(User $u): bool{
-
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function supprimerTouite(): bool{
-
-	}
-
-
-
-
 	public function getTexte(): String{
 		return $this->texte;
 	}
@@ -73,5 +55,9 @@ class Touite{
 
 	public function getNbVue(): int{
 		return $this->nbVue;
+	}
+
+	public function getId(): int{
+		return $this->id;
 	}
 }

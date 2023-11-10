@@ -16,6 +16,13 @@ define("TYPE_PAGE_TOUIT", "touit");
 define("TYPE_PAGE_LOGIN", "login");
 define("TYPE_PAGE_UNLOGIN", "unlogin");
 define("TYPE_PAGE_NOTFOUND", "notfound");
+define("TYPE_PAGE_ABONNEMENT", "abonnement");
+define("TYPE_PAGE_LIKE", "like");
+define("TYPE_PAGE_TAG", "tag");
+define("TYPE_PAGE_PUBLIER", "publier");
+define("TYPE_PAGE_INFLUENCEURS", "influenceurs");
+define("TYPE_PAGE_SUPPRIMER", "supprimer");
+
 
 // ---- AUTO-LOADER ---- //
 
@@ -29,8 +36,11 @@ session_start();
 
 // ---- ROUTAGE URL ---- //
 
+
+define("PREFIXE", "SAE_TOUITEUR/");
+
 $url = $_SERVER['REQUEST_URI'];
-$url = str_replace("SAE_TOUITEUR/", "", $url);
+$url = str_replace(PREFIXE, "", $url);
 // Supprimer le "/" à la fin de la chaîne si elle existe
 $url = rtrim($url, '/');
 $parts = explode('?', $url)[0];
@@ -39,6 +49,7 @@ $parts = explode('/', $parts);
 $type = TYPE_PAGE_NOTFOUND;
 
 if (count($parts)==1) {
+	Dispatcher::redirection("accueil");
     $type = TYPE_PAGE_ACCUEIL;
 }
 
@@ -52,13 +63,32 @@ if (count($parts)==2) {
 	elseif ($parts[1] == TYPE_PAGE_NOTFOUND){
 		$type = TYPE_PAGE_NOTFOUND;
 	}
+	elseif ($parts[1] == TYPE_PAGE_ABONNEMENT){
+		$type = TYPE_PAGE_ABONNEMENT;
+	}
+	elseif ($parts[1] == TYPE_PAGE_LIKE){
+		$type = TYPE_PAGE_LIKE;
+	}
+	elseif ($parts[1] == TYPE_PAGE_ACCUEIL){
+		$type = TYPE_PAGE_ACCUEIL;
+	}
+    elseif ($parts[1] == TYPE_PAGE_PUBLIER){
+        $type = TYPE_PAGE_PUBLIER;
+    }
+	elseif ($parts[1] == TYPE_PAGE_SUPPRIMER){
+		$type = TYPE_PAGE_SUPPRIMER;
+	}
+
 	else{
         $type = TYPE_PAGE_PROFIL;
     }
 }
 
 if (count($parts)==3) {
-    $type = TYPE_PAGE_TOUIT;
+	if ($parts[1] == TYPE_PAGE_TAG)
+		$type = TYPE_PAGE_TAG;
+	else
+    	$type = TYPE_PAGE_TOUIT;
 }
 
 
