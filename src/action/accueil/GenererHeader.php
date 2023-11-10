@@ -15,6 +15,10 @@ class GenererHeader extends Action{
 			$username = $_SESSION['username'];
 			$url = $username;
 		}
+		global $parts;
+		$level = "";
+		if ($parts[1] == "touit" || $parts[1] == "tag")
+			$level = "../";
 
 		$p = PREFIXE;
 		$html = <<<HTML
@@ -22,7 +26,7 @@ class GenererHeader extends Action{
 		<a href="/{$p}" class="logo">Touiter</a>
 		<a href="/{$p}{$url}" class="compte">
 			{$username}
-			<img src="src/vue/images/user.svg" alt="PP">
+			<img src="{$level}src/vue/images/user.svg" alt="PP">
 		</a>
 </nav>
 HTML;

@@ -220,6 +220,7 @@
 /* ===== BOUTON ACTION TOUIT ===== */
 .sabonner, .delete, .publier {
 	position: relative;
+	margin: 0;
 }
 
 .sabonner > input, .delete > input, .publier > input {

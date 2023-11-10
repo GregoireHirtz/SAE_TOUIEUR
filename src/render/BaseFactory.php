@@ -62,7 +62,9 @@ class BaseFactory
 		if ($element instanceof Tag) {
             global $parts;
             if ($parts[1] == "tag")
-			    $headerImage = new HeaderImageHashtag();
+			    $headerImage = new HeaderImageHashtag("../");
+			else
+				$headerImage = new HeaderImageHashtag();
 		} else {
 			$headerImage = new HeaderImageDefault();
 		}
