@@ -1,12 +1,10 @@
 -- Tout en un (Suppression, Création, Insertion)
-DROP TABLE IF EXISTS Historique;
 DROP TABLE IF EXISTS AvoirVote;
 DROP TABLE IF EXISTS PublierPar;
 DROP TABLE IF EXISTS UtiliserTag;
 DROP TABLE IF EXISTS UtiliserImage;
 DROP TABLE IF EXISTS EtreAboTag;
 DROP TABLE IF EXISTS EtreAboUtilisateur;
-DROP TABLE IF EXISTS Recherche;
 DROP TABLE IF EXISTS Touite;
 DROP TABLE IF EXISTS UtiliserPP;
 DROP TABLE IF EXISTS Tag;
@@ -45,14 +43,7 @@ CREATE TABLE Touite (
     notePertinence INT DEFAULT 0,
     nbLike INT DEFAULT 0,
     nbDislike INT DEFAULT 0,
-    nbRetouite INT DEFAULT 0,
     nbVue INT DEFAULT 0
-);
-
-CREATE TABLE Recherche (
-    idRecherche INT PRIMARY KEY,
-    recherche VARCHAR(50) NOT NULL,
-    dateRecherche DATETIME NOT NULL
 );
 
 CREATE TABLE EtreAboUtilisateur (
@@ -105,13 +96,6 @@ CREATE TABLE PublierPar (
     FOREIGN KEY (emailUt) REFERENCES Utilisateur(emailUt)
 );
 
-CREATE TABLE Historique (
-    emailUt VARCHAR(150),
-    idRecherche INT,
-    PRIMARY KEY (emailUt, idRecherche),
-    FOREIGN KEY (emailUt) REFERENCES Utilisateur(emailUt),
-    FOREIGN KEY (idRecherche) REFERENCES Recherche(idRecherche)
-);
 
 CREATE TABLE AvoirVote (
     emailUt  VARCHAR(150),
@@ -135,15 +119,11 @@ INSERT INTO Tag (idTag, libelle, descriptionTag, dateCreation) VALUES (1, 'Touit
 INSERT INTO Tag (idTag, libelle, descriptionTag, dateCreation) VALUES (2, 'Nouveau', 'Un tag pour les nouveaux touites', '2023-03-02');
 INSERT INTO Tag (idTag, libelle, descriptionTag, dateCreation) VALUES (3, 'Ancien', 'Un tag pour les anciens touites', '2023-03-03');
 
-INSERT INTO Touite (idTouite, texte, date) VALUES (1, 'Bonjour Touiteur !', '2023-11-06');
-INSERT INTO Touite (idTouite, texte, date) VALUES (2, 'Salut Touiteur !', '2023-11-07');
-INSERT INTO Touite (idTouite, texte, date) VALUES (3, 'Bonjour à tous sur Touiteur !', '2023-11-08');
+INSERT INTO Touite (idTouite, texte, date, notePertinence, nbLike, nbDislike) VALUES (1, 'Bonjour Touiteur !', '2023-11-06', 1, 2, 1);
+INSERT INTO Touite (idTouite, texte, date, notePertinence, nbLike, nbDislike) VALUES (2, 'Salut Touiteur !', '2023-11-07', -1, 0, 1);
+INSERT INTO Touite (idTouite, texte, date, notePertinence, nbLike, nbDislike) VALUES (3, 'Bonjour à tous sur Touiteur !', '2023-11-08', 1, 1, 0);
 INSERT INTO Touite (idTouite, texte, date) VALUES (4, 'Bonne nuit, Touiteur !', '2023-11-09');
 INSERT INTO Touite (idTouite, texte, date) VALUES (5, 'Salut tout le monde sur Touiteur !', '2023-11-10');
-
-INSERT INTO Recherche (idRecherche, recherche, dateRecherche) VALUES (1, 'John', '2023-11-06');
-INSERT INTO Recherche (idRecherche, recherche, dateRecherche) VALUES (2, 'Jane Doe', '2023-11-07');
-INSERT INTO Recherche (idRecherche, recherche, dateRecherche) VALUES (3, 'Chat', '2023-11-08');
 
 INSERT INTO EtreAboUtilisateur (emailUt, emailUtAbo, dateAboUt) VALUES ('john.doe@example.com', 'jane.doe@example.com', '2023-02-01');
 INSERT INTO EtreAboUtilisateur (emailUt, emailUtAbo, dateAboUt) VALUES ('jane.doe@example.com', 'john.doe@example.com', '2023-02-02');
@@ -168,10 +148,6 @@ INSERT INTO PublierPar (idTouite, emailUt) VALUES (2, 'jane.doe@example.com');
 INSERT INTO PublierPar (idTouite, emailUt) VALUES (3, 'bob.smith@example.com');
 INSERT INTO PublierPar (idTouite, emailUt) VALUES (4, 'alice.johnson@example.com');
 INSERT INTO PublierPar (idTouite, emailUt) VALUES (5, 'charlie.brown@example.com');
-
-INSERT INTO Historique (emailUt, idRecherche) VALUES ('jane.doe@example.com', 1);
-INSERT INTO Historique (emailUt, idRecherche) VALUES ('bob.smith@example.com', 2);
-INSERT INTO Historique (emailUt, idRecherche) VALUES ('alice.johnson@example.com', 3);
 
 INSERT INTO AvoirVote (emailUt, idTouite, vote) VALUES ('bob.smith@example.com', 1, 1);
 INSERT INTO AvoirVote (emailUt, idTouite, vote) VALUES ('jane.doe@example.com', 1, 1);
