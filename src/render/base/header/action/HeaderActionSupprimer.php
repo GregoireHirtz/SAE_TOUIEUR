@@ -14,8 +14,9 @@ class HeaderActionSupprimer extends HeaderAction
 
 	function render(): string
 	{
+		$redirection = URL;
 		return <<<HTML
-<form class="delete" action="supprimer?id={$this->touit->id}" method="post">
+<form class="delete" action="supprimer?id={$this->touit->id}&redirect={$redirection}" method="post">
 	<input type="submit" value="Supprimer">
 </form>
 HTML;
