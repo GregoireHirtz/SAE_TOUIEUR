@@ -18,22 +18,30 @@ class HeaderActionAbonner extends HeaderAction
 
 	function render(): string
 	{
+		global $parts;
+		if ($parts[1] == "tag" || $parts[1] == "touit")
+			return "";
+
+
 		if ($this->element instanceof User)
-			$abonne = $this->element->username;
+			$abonne = "username=" . $this->element->username;
 		else
-			$abonne = $this->element->id;
+			$abonne = "tag=" . $this->element->id;
 
 
 		if (!empty($_SESSION)) {
 			$db = ConnectionFactory::makeConnection();
 			if ($this->element instanceof User)
-				$st = $db->prepare("SELECT etreAboUtilisateur(\"{$_SESSION["username"]}\", \"{$this->element->username}\")");
+				$st = $db->prepare("SELECT etreAboUtilisateur(\"{$_SESSION["email"]}\", \"{$this->element->email}\")");
 			else
-				$st = $db->prepare("SELECT etreAboTag(\"{$_SESSION["username"]}\", \"{$this->element->id}\")");
+				$st = $db->prepare("SELECT etreAboTag(\"{$_SESSION["email"]}\", \"{$this->element->id}\")");
 
 			$st->execute();
 
-			$etreAbonne = $st->fetch() != 0;
+			$rows = $st->fetchAll();
+			foreach ($rows as $row)
+				$etreAbonne = $row[0] == true;
+
 			$st->closeCursor();
 		} else {
 			$etreAbonne = false;
@@ -51,7 +59,7 @@ class HeaderActionAbonner extends HeaderAction
 		$url_actuel = str_replace("/".$p, "", $_SERVER['REQUEST_URI']);
 
 		return <<<HTML
-<form class="{$classe}" action="{$p}abonnement?username={$abonne}&redirect={$url_actuel}" method="post">
+<form class="{$classe}" action="abonnement?{$abonne}&redirect={$url_actuel}" method="post">
 	{$bouton}
 </form>
 HTML;

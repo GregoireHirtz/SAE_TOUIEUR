@@ -20,7 +20,7 @@ class MainComplet extends Main
 		if (!empty($row)){
 			$nom = $row[1];
 			$nom = explode('/', $nom);
-			$img = "<img src='../src/action/touit/img/{$nom[9]}'></img>";
+			$img = "<img src='../src/action/touit/img/{$nom[2]}' alt='image'>";
 		}
 
 		return <<<HTML

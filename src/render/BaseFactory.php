@@ -54,7 +54,7 @@ class BaseFactory
 		return new Base($header, $main, $footer);
 	}
 
-	public static function baseProfil(User|Tag $element): ?Base
+	public static function baseProfil(User|Tag $element, ?string $dataType = null): ?Base
 	{
 		$main = new MainVide();
 		$footer = new FooterVide();
@@ -70,7 +70,12 @@ class BaseFactory
 			$headerImage = new HeaderImageDefault();
 		}
 
-		$headerData = new HeaderDataDateAbonnement($element);
+		if ($dataType == "data")
+			$headerData = new HeaderDataStats($element);
+		else
+			$headerData = new HeaderDataDateAbonnement($element);
+
+
 		$headerNom = new HeaderNomTitre($element);
 
 		$header = new Header($headerImage, $headerNom, $headerData, $headerAction);

@@ -50,10 +50,43 @@ DROP PROCEDURE IF EXISTS sabonnerUtilisateur;
 DROP PROCEDURE IF EXISTS supprimerTouite;
 DROP PROCEDURE IF EXISTS verifierUsernameInAbonnement;
 DROP PROCEDURE IF EXISTS voir;
-DROP PROCEDURE IF EXISTS `voter`;
+DROP PROCEDURE IF EXISTS voter;
+DROP PROCEDURE IF EXISTS EtreTagValide;
+DROP PROCEDURE IF EXISTS etreAbonnerTag;
+DROP PROCEDURE IF EXISTS desabonnerTag;
 
 
 -- Créations des PROCEDURES
+
+
+-- permet de se désabonner d'un tag
+create
+definer = root@`%` procedure desabonnerTag(IN username varchar(150), IN v_idTag varchar(150))
+BEGIN
+    DELETE ea FROM EtreAboTag ea
+        INNER JOIN Utilisateur u ON u.emailUt=ea.emailUt
+        INNER JOIN Tag uC ON uC.idTag=ea.idTag
+    WHERE u.username=username AND uC.idTag=v_idTag;
+end;
+
+
+
+-- verifie un abonnement a un tag
+create
+definer = root@`%` procedure etreAbonnerTag(IN v_username varchar(150), IN v_idTag INT)
+BEGIN
+    SELECT COUNT(*) AS nb_ligne FROM EtreAboTag et
+                                         INNER JOIN Utilisateur u ON u.emailUt=et.emailUt
+                                         INNER JOIN Tag uC ON uC.idTag=et.idTag
+    WHERE u.username=v_username AND uC.idTag=v_idTag;
+end;
+
+-- verifie l'existence d'un tag
+create
+definer = root@`%` procedure EtreTagValide(IN v_id varchar(50))
+BEGIN
+    SELECT COUNT(*) AS nb_ligne FROM Tag t WHERE t.idTag LIKE v_id;
+end;
 
 
 -- afficherTouite fournit toutes les données afin d'afficher le touite de l'id passé en paramètre

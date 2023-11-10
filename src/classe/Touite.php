@@ -43,11 +43,15 @@ class Touite{
 		$user = User::loadUserFromUsername($username)->email;
 
 		$db = ConnectionFactory::makeConnection();
-		$st = $db->prepare("SELECT etreVote(?, ?)");
+		$st = $db->prepare("SELECT vote FROM AvoirVote WHERE idTouite = ? AND emailUt = ?");
 		$st->bindParam(1, $t->id, PDO::PARAM_INT);
 		$st->bindParam(2, $user);
 		$st->execute();
-		$row = $st->fetch();
-		return $row[0];
+		$row = $st->fetchAll();
+		foreach ($row as $item) {
+			$res = $item[0];
+		}
+
+		return $res ?? 0;
 	}
 }

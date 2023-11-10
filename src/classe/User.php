@@ -98,7 +98,6 @@ class User{
         $tRes = $st->fetch(PDO::FETCH_ASSOC);
 
         // Utilisation de datetime pour remettre un string en date
-		var_dump($tRes);
         $user = new User($tRes["emailUt"], $tRes["nomUt"], $tRes["prenomUt"], $tRes["username"], new DateTime($tRes["dateInscription"]), $tRes["permissions"]);
 
         $db = null;

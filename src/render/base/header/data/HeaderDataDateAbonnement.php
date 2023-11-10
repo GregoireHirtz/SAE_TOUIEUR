@@ -17,7 +17,7 @@ class HeaderDataDateAbonnement extends HeaderData
 
 	function render(): string
 	{
-		$date = "Vous n'&ecirc;tes pas abonn&eacute; &agrave; cet utilisateur";
+		$date = "Vous n'&ecirc;tes pas abonn&eacute;(e)";
 		if (isset($_SESSION['username'])) {
 			$db = ConnectionFactory::makeConnection();
 			$email = $_SESSION['email'];
@@ -26,7 +26,7 @@ class HeaderDataDateAbonnement extends HeaderData
 				$ps->execute();
 				$row = $ps->fetchAll();
 				foreach ($row as $date)
-					$date = $date[0];
+					$date = "Abonn&eacute; depuis le " . $date[0];
 			} else {
 				$ps = $db->prepare("CALL obtenirDateAbonnementTag('{$email}', '{$this->element->libelle}')");
 				$ps->execute();

@@ -4,9 +4,9 @@ namespace touiteur\dispatch;
 
 use DateTime;
 use PDO;
+use touiteur\classe\Touite;
 use touiteur\action\accueil\GenererPagination;
 use touiteur\action\accueil\GenererTouit;
-use touiteur\action\accueil\GenererTag;
 use touiteur\action\touit\ActionNouveauTouit;
 use touiteur\action\touit\ActionSupprimerTouit;
 use touiteur\action\accueil\GenererAccueil;
@@ -21,12 +21,11 @@ use touiteur\action\login\ActionLogin;
 use touiteur\action\login\ActionSignin;
 use touiteur\auth\Auth;
 use touiteur\auth\Session;
-use touiteur\classe\Touite;
 use touiteur\classe\User;
 use touiteur\db\ConnectionFactory;
 use touiteur\exception\InvalideTypePage;
 use touiteur\render\BaseFactory;
-use touiteur\render\RenderTouite;
+use touiteur\render\page\RenderPresentationProfil;
 use touiteur\classe\Tag;
 
 
@@ -106,7 +105,7 @@ class Dispatcher{
 
 					// On a bien vérifié que l'username est bon donc on peut afficher le profil de l'utilisateur demandé
 					$htmlMain = GenererProfil::execute($username);
-
+					$htmlProfil = (new RenderPresentationProfil())->render();
 					$htmlFooter = GenererFooter::execute();
 
 					include 'src/vue/profil.html';
@@ -177,16 +176,18 @@ class Dispatcher{
 				break;
 
 			case TYPE_PAGE_ABONNEMENT:
-
 				// verification URL valide
+				$redirection = $_GET["redirect"] ?? "";
 				if (!in_array("username", array_keys($_GET))) {
-					Dispatcher::redirection("");
+					Dispatcher::redirection($redirection);
+					break;
 					//header("Location: /");
 				}
 
 				// SI SESSION VIDE, RENVOYER VERS LOGIN
 				if (empty($_SESSION)){
 					Dispatcher::redirection("login");
+					break;
 					//header("Location: /login");
 				}
 
@@ -195,13 +196,14 @@ class Dispatcher{
 
 				//verification username donne valide
 				$db = ConnectionFactory::makeConnection();
+
 				$st = $db->prepare("CALL EtreUserValide(\"{$cible}\")");
 				$st->execute();
 				$row = $st->fetch();
 
 				$cibleValide = $row["nb_ligne"];
 				if ($cibleValide==0){
-					Dispatcher::redirection("");
+					Dispatcher::redirection($redirection);
 					//header("Location: /");
 					break;
 				}
@@ -222,8 +224,7 @@ class Dispatcher{
 					$db = ConnectionFactory::makeConnection();
 					$db->prepare("CALL sabonnerUtilisateur(\"{$email}\", \"{$emailCible}\")")->execute();
 				}
-
-				Dispatcher::redirection("");
+				Dispatcher::redirection($redirection);
 				//header("Location: ./");
 				break;
 
@@ -287,7 +288,7 @@ class Dispatcher{
 
                     $htmlHeader = GenererHeader::execute();
                     $htmlMain = $base->render();
-                    $htmlFooter = GenererFooter::execute();
+                    $htmlFooter = "";
 
                     $query = 'SELECT
     Touite.idTouite,

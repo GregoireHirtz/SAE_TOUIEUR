@@ -10,13 +10,18 @@ class HeaderDataStats extends HeaderData
 {
 	private User $user;
 
-	public function __construct(Touite $touit, String $p="")
+	public function __construct(Touite|User $element, String $p="")
 	{
+		$this->prefixe = $p;
+		if ($element instanceof User) {
+			$this->user = $element;
+			return;
+		}
+
 		$db = ConnectionFactory::makeConnection();
-		$st = $db->prepare("CALL obtenirAuteur(\"{$touit->id}\")");
+		$st = $db->prepare("CALL obtenirAuteur(\"{$element->id}\")");
 		$st->execute();
 		$auteur = $st->fetch()['username'];
-		$this->prefixe = $p;
 
 		$this->user = User::loadUserFromUsername($auteur);
 	}

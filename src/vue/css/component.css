@@ -326,6 +326,10 @@ article > main > a {
 	color: var(--primaire);
 	text-decoration: none;
 }
+article > main > img {
+	margin: 0 10%;
+	width: 80%;
+}
 article > footer {
 	display: flex;
 	align-items: center;
