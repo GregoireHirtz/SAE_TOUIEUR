@@ -103,6 +103,37 @@ where aTa.emailUt = emailUtilisateur
 ORDER BY t.libelle;
 
 
+-- Liste
+create procedure obtenirAuteur(IN v_idTouite int)
+BEGIN
+    SELECT u.username
+    FROM Utilisateur u inner join PublierPar pp on u.emailUt = pp.emailUt
+    WHERE pp.idTouite = v_idTouite;
+END;
+
+
+--
+
+create procedure compterStat(IN v_email text)
+BEGIN
+    SELECT 'NbAbonnement' AS Type, COUNT(*) AS Nombre
+    FROM EtreAboUtilisateur aUt
+    WHERE aUt.emailUt = v_email
+
+    UNION
+
+    SELECT 'nbAbonne' AS Type, COUNT(*) AS Nombre
+    FROM EtreAboUtilisateur aUt
+    WHERE aUt.emailUtAbo = v_email
+
+    UNION
+
+    SELECT 'noteTotal' AS Type, SUM(t.notePertinence) AS Nombre
+    FROM PublierPar pp inner join Touite t on pp.idTouite=t.idTouite
+    WHERE pp.emailUt = v_email;
+END;
+
+
 -- Liste des abonnés (utilisateurs)
 CREATE PROCEDURE `obtenirUtilisateurAbo`(IN `emailUtilisateur` VARCHAR(150))
 select u.nomUt, u.prenomUt, u.username, u.dateInscription, u.emailUt, u.permissions, aUt.dateAboUt
