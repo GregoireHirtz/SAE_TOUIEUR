@@ -1,0 +1,18 @@
+name: push CI3
+run-name: ${{ github.repository }} CI [${{ github.event_name }}]
+on: [push]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ${{ github.ref }} on ${{ runner.os }} machine
+        uses: actions/checkout@v4
+        
+      - name: "📝 Installing dependencies"
+        uses: php-actions/composer@v6
+
+      - name: PHP Code Sniffer
+        uses: php-actions/phpcs@v1
+        with:
+          extensions: php
+          path: ./src
